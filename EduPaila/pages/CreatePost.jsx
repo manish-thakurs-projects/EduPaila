@@ -108,9 +108,9 @@ export default function CreatePost() {
             }
           >
             <option value="uncategorized">Select a category</option>
-            <option value="javascript">Notes</option>
-            <option value="reactjs">Mcq</option>
-            <option value="nextjs">Numericals</option>
+            <option value="Notes">Notes</option>
+            <option value="Mcq">Mcq</option>
+            <option value="Numericals">Numericals</option>
           </Select>
         </div>
           FOR IMAGE 

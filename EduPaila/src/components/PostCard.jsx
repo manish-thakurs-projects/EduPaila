@@ -2,23 +2,34 @@ import { Link } from 'react-router-dom';
 
 export default function PostCard({ post }) {
   return (
-    <div className='group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
-      <Link to={`/post/${post.slug}`}>
-        <img
-          src={post.image}
-          alt='post cover'
-          className='h-[260px] w-full  object-cover group-hover:h-[200px] transition-all duration-300 z-20'
-        />
-      </Link>
-      <div className='p-3 flex flex-col gap-2'>
-        <p className='text-lg font-semibold line-clamp-2'>{post.title}</p>
-        <span className='italic text-sm'>{post.category}</span>
+    <div className="group relative w-full max-w-sm border border-gray-300 rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:border-teal-500 transition-all">
+      <div className="relative">
+        <Link to={`/post/${post.slug}`} className="block">
+          <img
+            src={post.image}
+            alt="post cover"
+            className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </Link>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70 group-hover:opacity-80 transition-opacity duration-300"></div>
         <Link
           to={`/post/${post.slug}`}
-          className='z-10 group-hover:bottom-0 absolute bottom-[-200px] left-0 right-0 border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white transition-all duration-300 text-center py-2 rounded-md !rounded-tl-none m-2'
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-teal-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg hover:bg-teal-600 transition-all"
         >
-          Read article
+          Learn More
         </Link>
+      </div>
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-800 group-hover:text-teal-500 transition-colors line-clamp-2">
+          {post.title}
+        </h3>
+        <p className="text-sm text-gray-500 italic mt-1">{post.category}</p>
+        {/* Conditionally render the description */}
+        {post.description && (
+          <p className="text-sm text-gray-600 mt-2 line-clamp-3">
+            {post.description}
+          </p>
+        )}
       </div>
     </div>
   );
