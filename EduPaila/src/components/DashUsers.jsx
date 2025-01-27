@@ -1,9 +1,11 @@
 import { Modal, Table, Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { FaPlus } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import '../components/user.css'
 
 export default function DashUsers() {
   const { currentUser } = useSelector((state) => state.user);
@@ -150,9 +152,16 @@ export default function DashUsers() {
           </div>
         </Modal.Body>
       </Modal>
-      <div>
-        <Link to={"/signup"}>
-        dfgdfg
+      <div className='create-usr'>
+        <Link to={"/signup"} className='spn'>
+        <span>
+          Create New User
+        </span>
+        <span>
+
+          <FaPlus />
+        </span>
+        
         </Link>
       </div>
     </div>
