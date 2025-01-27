@@ -48,7 +48,7 @@ export default function DashProfile() {
     
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET_PROFILE); // Replace with your actual Cloudinary upload preset
+    formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET_PROFILE);
 
     try {
       const response = await fetch( import.meta.env.VITE_CLOUDINARY_API_URL, {
