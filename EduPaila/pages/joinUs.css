@@ -17,28 +17,20 @@
     max-width: 1200px;
     width: 100%;
   }
-/* Apply styles globally to input and textarea */
 input, textarea {
-  background-color: rgba(255, 255, 255, 0) !important; /* Ensure faded background */
-  border: 1px solid rgba(0, 0, 0, 0); /* Faded border */
+  background-color: rgba(255, 255, 255, 0) !important;
+  border: 1px solid rgba(0, 0, 0, 0); 
   padding: 0.8rem;
   border-radius: 0.5rem;
   transition: background-color 0.3s ease, border-color 0.3s ease;
   box-sizing: border-box;
 }
 
-/* Focus effect */
 input:focus, textarea:focus {
-  background-color: rgba(255, 255, 255, 0) !important; /* More opaque background on focus */
-  border-color: #4CAF50; /* Green border on focus */
-  outline: none; /* Remove default outline */
+  background-color: rgba(255, 255, 255, 0) !important; 
+  border-color: #4CAF50; 
+  outline: none; 
 }
-
-/* Optional: Add styles for placeholder text */
-input::placeholder, textarea::placeholder {
-  color: rgba(0, 0, 0, 0); /* Faded placeholder text */
-}
-
   .joinUs-left,
   .joinUs-right {
     flex: 1;

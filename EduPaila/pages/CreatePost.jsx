@@ -102,16 +102,18 @@ export default function CreatePost() {
               setFormData({ ...formData, title: e.target.value })
             }
           />
-          <Select
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
-          >
-            <option value="uncategorized">Select a category</option>
-            <option value="Notes">Notes</option>
-            <option value="Mcq">Mcq</option>
-            <option value="Numericals">Numericals</option>
-          </Select>
+         <Select
+  value={formData.category || "uncategorized"} // Set the value to reflect current selection
+  onChange={(e) =>
+    setFormData({ ...formData, category: e.target.value })
+  }
+>
+  <option value="uncategorized">Select a category</option>
+  <option value="Notes">Notes</option>
+  <option value="Mcq">Mcq</option>
+  <option value="Numericals">Numericals</option>
+</Select>
+
         </div>
           FOR IMAGE 
         <div className="flex gap-6 items-center justify-between border-4 border-teal-500 border-dotted p-3">

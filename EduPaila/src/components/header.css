@@ -9,9 +9,9 @@
 }
 @media (max-width: 768px) {
     .responsive-search-bar input {
-      padding-left: 16px; /* Add padding to the left side */
-      padding-right: 16px; /* Add padding to the right side */
-      height: 38px; /* Adjust input height on smaller screens */
+      padding-left: 16px; 
+      padding-right: 16px; 
+      height: 38px;
     }
   
     .responsive-search-bar button {
