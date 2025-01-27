@@ -1,0 +1,26 @@
+/* Remove outline and box-shadow from all buttons and text inputs */
+.no-outline-button:focus,
+.no-outline-input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Specifically target TextInput focus styles if the class doesn't work */
+.no-outline-input input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+/* Custom responsive styles */
+@media (max-width: 768px) {
+    .responsive-search-bar input {
+      padding-left: 16px; /* Add padding to the left side */
+      padding-right: 16px; /* Add padding to the right side */
+      height: 38px; /* Adjust input height on smaller screens */
+    }
+  
+    .responsive-search-bar button {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
+  

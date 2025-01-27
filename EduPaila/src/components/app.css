@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.logo{
+    font-family: "Anton", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.search{
+    width: 70px;
+    height: 50px;
+}

@@ -1,0 +1,30 @@
+# Ignore the .env files for sensitive data
+.env
+
+# Ignore PowerShell specific files
+*.psd1
+*.psm1
+*.ps1*
+
+# Ignore build directories or output files (if you're building scripts)
+build/
+dist/
+out/
+
+# Ignore temporary files and logs
+*.log
+*.tmp
+
+# Ignore Visual Studio Code workspace settings (if used)
+.vscode/
+
+# Ignore system files (macOS, Windows, Linux)
+.DS_Store
+Thumbs.db
+
+# Ignore IDE-specific files (if applicable)
+.idea/
+.vs/
+
+# Ignore Node.js dependencies (if your project is hybrid with Node.js)
+node_modules/
