@@ -224,8 +224,9 @@ export default function DashProfile() {
           <Link to={'/createpost'}>
             <Button
               type="button"
-              gradientDuoTone="bluetoblack"
               className="w-full"
+              color='blue'
+              outline
             >
               Create a post
             </Button>
