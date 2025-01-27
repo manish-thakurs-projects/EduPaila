@@ -13,14 +13,12 @@ const passwordUppercaseValidator = (password) => /[A-Z]/.test(password);
 const passwordNumberValidator = (password) => /\d/.test(password);
 const passwordSpecialCharacterValidator = (password) => /[@$!%*?&]/.test(password);
 
-// Password generation function for Google login and signup
 const generatePassword = () => {
   const randomLower = lowerCase.charAt(Math.floor(Math.random() * lowerCase.length));
   const randomUpper = upperCase.charAt(Math.floor(Math.random() * upperCase.length));
   const randomSpecial = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
   const randomString = Math.random().toString(36).slice(-5);  // generate 5 random characters
 
-  // Combine and shuffle characters
   const password = randomLower + randomUpper + randomSpecial + randomString;
   return password.split('').sort(() => Math.random() - 0.5).join('');
 };
@@ -138,7 +136,6 @@ export const google = async (req, res, next) => {
         })
         .json(rest);
     } else {
-      // Generate a strong password
       const generatedPassword = generatePassword();
       const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
       const newUser = new User({
