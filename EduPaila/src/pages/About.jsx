@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '../src/components/logo';
+import Logo from '../components/logo';
 
 export default function About() {
   return (

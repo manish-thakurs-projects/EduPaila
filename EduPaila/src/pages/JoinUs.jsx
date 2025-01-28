@@ -1,6 +1,6 @@
 import './joinUs.css';
 import { Button } from 'flowbite-react';
-import Logo from '../src/components/logo';
+import Logo from '../components/logo';
 import { FaWhatsapp } from 'react-icons/fa';
 
 export default function JoinUs() {

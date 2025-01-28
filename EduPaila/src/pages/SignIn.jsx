@@ -2,9 +2,9 @@ import './SignIn.css';
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Logo from '../src/components/logo';
+import Logo from '../components/logo';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../src/redux/user/userSlice';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function SignIn() {
