@@ -24,7 +24,11 @@ const __dirname = path.resolve();
 const app = express();
 
 // Middleware
-app.use(cors()); // Allow cross-origin requests
+app.use(cors({
+  origin: process.env.CLIENT_URL || '*', // Allow requests from the front-end
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // If you need to handle cookies with requests
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -34,11 +38,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
-// Static Files
-app.use(express.static(path.join(__dirname, 'dist')));
+// Serve static files from the front-end
+app.use(express.static(path.join(__dirname, 'EduPaila', 'dist')));
 
+// Catch-all route to serve the front-end index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'EduPaila', 'dist', 'index.html'));
 });
 
 // Error Handling Middleware
