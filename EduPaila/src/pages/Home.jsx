@@ -14,14 +14,12 @@ export default function Home() {
     };
     fetchPosts();
   }, []);
+
   return (
     <div>
-      <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto '>
+      <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
         <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to Edupaila</h1>
-        <p className='text-gray-500 text-xs sm:text-sm'>
-          
-        </p>
-       
+        <p className='text-gray-500 text-xs sm:text-sm'></p>
       </div>
       <div className='p-3 bg-amber-100 dark:bg-slate-700'>
         <CallToAction />
@@ -31,7 +29,7 @@ export default function Home() {
         {posts && posts.length > 0 && (
           <div className='flex flex-col gap-6'>
             <h2 className='text-2xl font-semibold text-center'>Recent Uploads</h2>
-            <div className='flex gap-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center'>
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}
