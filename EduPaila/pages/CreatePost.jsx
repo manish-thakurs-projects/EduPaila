@@ -17,6 +17,7 @@ export default function CreatePost() {
 
   const navigate = useNavigate();
 
+  // Handle image upload to Cloudinary
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -49,19 +50,88 @@ export default function CreatePost() {
     }
   };
 
+  // Handle HTML file upload and extract/upload images
   const handleHtmlFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
-        const sanitizedHtml = DOMPurify.sanitize(reader.result);
-        setFormData({ ...formData, content: sanitizedHtml });
+      reader.onload = async () => {
+        let rawHtml = reader.result;
+
+        // Clean up MS Word generated HTML
+        rawHtml = cleanWordHtml(rawHtml);
+        
+        const sanitizedHtml = DOMPurify.sanitize(rawHtml);
+        const imageUrls = await uploadImagesInHtml(sanitizedHtml); // Upload the images and get their URLs
+        const updatedHtml = updateImageUrlsInHtml(sanitizedHtml, imageUrls);
+        setFormData({ ...formData, content: updatedHtml });
       };
       reader.readAsText(file);
       setHtmlFile(file.name);
     }
   };
 
+  // Clean up MS Word HTML content by removing unnecessary tags and XML
+  const cleanWordHtml = (html) => {
+    // Remove MS Word specific elements (XML, metadata, comments, etc.)
+    const cleanedHtml = html
+      .replace(/<!--.*?-->/gs, '')  // Remove all comments
+      .replace(/<xml.*?>.*?<\/xml>/gs, '')  // Remove all XML tags
+      .replace(/<meta.*?>/gs, '')  // Remove meta tags
+      .replace(/style="[^"]*"/gs, '') // Remove inline styles if needed (optional)
+      .replace(/<o:p>.*?<\/o:p>/gs, '') // Remove Office specific tags (like <o:p>)
+      .replace(/<\/?span.*?>/gs, '')  // Remove span tags that MS Word often uses
+      .replace(/<w:.*?>.*?<\/w:.*?>/gs, ''); // Remove Word-specific namespaces and tags
+    return cleanedHtml;
+  };
+
+  // Upload images found in the HTML and return their URLs
+  const uploadImagesInHtml = async (html) => {
+    const imageUrls = [];
+    const imgTags = Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll('img'));
+
+    for (const img of imgTags) {
+      const imgSrc = img.src;
+      if (imgSrc && !imgSrc.startsWith('http')) { // If it's a local image
+        try {
+          const uploadedUrl = await uploadImageToCloudinary(imgSrc); // Upload and get URL
+          imageUrls.push({ originalSrc: imgSrc, uploadedUrl });
+        } catch (error) {
+          console.error('Image upload failed:', error);
+        }
+      }
+    }
+    return imageUrls;
+  };
+
+  // Replace image `src` with uploaded URLs in the HTML content
+  const updateImageUrlsInHtml = (html, imageUrls) => {
+    let updatedHtml = html;
+    imageUrls.forEach(({ originalSrc, uploadedUrl }) => {
+      updatedHtml = updatedHtml.replace(new RegExp(originalSrc, 'g'), uploadedUrl);
+    });
+    return updatedHtml;
+  };
+
+  // Function to upload individual image to Cloudinary
+  const uploadImageToCloudinary = async (imageSrc) => {
+    const formData = new FormData();
+    formData.append('file', imageSrc); // Assuming imageSrc is a File or Blob
+    formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET);
+
+    const res = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!res.ok) {
+      throw new Error('Image upload failed');
+    }
+    const data = await res.json();
+    return data.secure_url; // Return the uploaded image URL
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -91,6 +161,7 @@ export default function CreatePost() {
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a Course</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        FOR TITLE
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -102,27 +173,25 @@ export default function CreatePost() {
               setFormData({ ...formData, title: e.target.value })
             }
           />
-         <Select
-  value={formData.category || "uncategorized"} // Set the value to reflect current selection
-  onChange={(e) =>
-    setFormData({ ...formData, category: e.target.value })
-  }
->
-  <option value="uncategorized">Select a category</option>
-  <option value="Notes">Notes</option>
-  <option value="Mcq">Mcq</option>
-  <option value="Numericals">Numericals</option>
-</Select>
-
+          <Select
+            value={formData.category || "uncategorized"}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
+            <option value="uncategorized">Select a category</option>
+            <option value="Notes">Notes</option>
+            <option value="Mcq">Mcq</option>
+            <option value="Numericals">Numericals</option>
+          </Select>
         </div>
-          FOR IMAGE 
+        FOR IMAGE
         <div className="flex gap-6 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput
             type="file"
             accept="image/*"
             onChange={(e) => setFile(e.target.files[0])}
             className='w-full'
-
           />
           <Button
             type="button"
