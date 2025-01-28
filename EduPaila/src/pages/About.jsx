@@ -3,8 +3,8 @@ import Logo from '../components/logo';
 
 export default function About() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 py-10">
-      <div className="max-w-4xl mx-auto p-6 rounded-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:rotate-2">
+    <div className="min-h-screen flex items-center justify-center py-10">
+      <div className="max-w-4xl mx-auto p-6 rounded-lg shadow-xl">
         <div className="flex justify-center mb-6">
           <Logo />
         </div>
