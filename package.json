@@ -1,12 +1,17 @@
 {
   "name": "edupaila",
   "version": "1.0.0",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon api/index.js",
     "start": "node api/index.js",
-    "build": "npm install && cd edupaila && npm run build" 
+    "build": "npm install && npm install --prefix EduPaila && npm run build --prefix EduPaila"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
@@ -14,9 +19,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
-    "mongoose": "^8.9.5"
-  },
-  "devDependencies": { 
+    "mongoose": "^8.9.5",
     "nodemon": "^3.1.9"
   }
 }
