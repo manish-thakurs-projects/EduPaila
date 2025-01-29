@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 export default function PostCard({ post }) {
   return (
     <div className="group relative w-full max-w-sm border border-gray-300 rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:border-teal-500 transition-all">
+      
+
+
+
+      <Link to={`/post/${post.slug}`}>
+
       <div className="relative">
         <Link to={`/post/${post.slug}`} className="block">
           <img
@@ -31,6 +37,8 @@ export default function PostCard({ post }) {
           </p>
         )}
       </div>
+      </Link>
+
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Footer } from "flowbite-react";
 import Logo from "./logo";
-import { FaFacebookF, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 export default function FooterCom() {
@@ -69,7 +70,7 @@ export default function FooterCom() {
           <p className="text-sm text-gray-400">&copy; {currentYear} EduPaila. All rights reserved.</p>
           <div className="flex justify-center space-x-4 mt-4">
             <a
-              href="#"
+              href="https://www.facebook.com/edupaila.np"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-blue-600"
@@ -77,7 +78,7 @@ export default function FooterCom() {
               <FaFacebookF size={24} className="hover:scale-110 transition-transform duration-150" />
             </a>
             <a
-              href="#"
+              href="https://x.com/EdupailaNp"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-black"
@@ -85,28 +86,22 @@ export default function FooterCom() {
               <FaXTwitter size={24} className="hover:scale-110 transition-transform duration-150" />
             </a>
             <a
-              href="#"
+              href="https://youtube.com/@edupaila"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-blue-700"
             >
-              <FaLinkedinIn size={24} className="hover:scale-110 transition-transform duration-150" />
+              <FaYoutube size={24} className="hover:scale-110 transition-transform duration-150" />
             </a>
             <a
-              href="#"
+              href="https://Instagram.com/edupaila"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-pink-500"
             >
               <FaInstagram size={24} className="hover:scale-110 transition-transform duration-150" />
             </a>
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-blue-500"
-            >
-            </a>
+          
           </div>
         </div>
       </div>

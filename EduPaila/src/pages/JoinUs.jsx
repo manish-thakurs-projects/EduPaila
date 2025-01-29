@@ -20,7 +20,7 @@ export default function JoinUs() {
             Prefer to chat with us? Message us on WhatsApp now!
           </p>
           <a
-            href="https://wa.me/9779801234567"
+            href="https://wa.me/9779801996736"
             target="_blank"
             rel="noopener noreferrer"
             className='wa-btn'

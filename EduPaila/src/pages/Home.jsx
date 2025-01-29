@@ -44,7 +44,8 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center px-3 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
+      <section className="relative min-h-[70vh] flex items-center px-3 bg-black/40
+       dark:bg-black/20">
         <div className="max-w-6xl mx-auto text-center text-white space-y-8">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -122,12 +123,16 @@ export default function Home() {
             animate={{ opacity: 1 }}
             className="text-center mt-12"
           >
-            <Link
-              to="/search"
-              className="btn btn-outline btn-primary group bg-gradient-to-r from-blue-600 to-purple-600 hover:blue-600 p-5 rounded-xl"
-            >
-              Explore All Content
-            </Link>
+          <Link
+  to="/search"
+  className="relative px-6 py-3 font-semibold text-white rounded-xl transition-all 
+             bg-gradient-to-r from-blue-600 to-purple-600 
+             hover:from-blue-700 hover:to-purple-700 
+             shadow-lg hover:shadow-xl active:scale-95"
+>
+  Explore All Content
+</Link>
+
           </motion.div>
         )}
       </section>
