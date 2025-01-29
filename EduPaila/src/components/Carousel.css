@@ -1,0 +1,35 @@
+.carousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  width: 100%; 
+}
+
+.carousel-item img {
+  width: 20%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .carousel-item img {
+    width: 30%; 
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-item img {
+    width: 40%;
+  }
+}

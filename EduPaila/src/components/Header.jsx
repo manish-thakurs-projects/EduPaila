@@ -109,7 +109,7 @@ export default function Header() {
               <Navbar.Link active={path === '/about'} as={'div'}>
                 <Link to="/about">About</Link>
               </Navbar.Link>
-              <Navbar.Link active={path === '/books'} as={'div'}>
+              <Navbar.Link active={path === '/discuss'} as={'div'}>
                 <Link to="/discuss">Discuss</Link>
               </Navbar.Link>
             </div>
@@ -133,7 +133,7 @@ export default function Header() {
           <Navbar.Link active={path === '/about'} as={'div'} className="text-lg">
             <Link to="/about">About</Link>
           </Navbar.Link>
-          <Navbar.Link active={path === '/books'} as={'div'} className="text-lg">
+          <Navbar.Link active={path === '/discuss'} as={'div'} className="text-lg">
             <Link to="/discuss">Discuss</Link>
           </Navbar.Link>
         </div>
