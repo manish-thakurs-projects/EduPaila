@@ -2,47 +2,158 @@ import { Link } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
+import { motion } from 'framer-motion';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch('/api/post/getPosts');
-      const data = await res.json();
-      setPosts(data.posts);
+      try {
+        const res = await fetch('/api/post/getPosts');
+        if (!res.ok) throw new Error('Failed to fetch posts');
+        const data = await res.json();
+        setPosts(data.posts);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchPosts();
   }, []);
 
-  return (
-    <div>
-      <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
-        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to Edupaila</h1>
-        <p className='text-gray-500 text-xs sm:text-sm'></p>
-      </div>
-      <div className='p-3 bg-amber-100 dark:bg-slate-700'>
-        <CallToAction />
-      </div>
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
 
-      <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7'>
-        {posts && posts.length > 0 && (
-          <div className='flex flex-col gap-6'>
-            <h2 className='text-2xl font-semibold text-center'>Recent Uploads</h2>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center'>
-              {posts.map((post) => (
-                <PostCard key={post._id} post={post} />
-              ))}
-            </div>
-            <Link
-              to={'/search'}
-              className='text-lg text-teal-500 hover:underline text-center'
-            >
-              View all posts
-            </Link>
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  };
+
+  return (
+    <div className="overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-[70vh] flex items-center px-3 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
+        <div className="max-w-6xl mx-auto text-center text-white space-y-8">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-6xl font-bold leading-tight drop-shadow-lg"
+          >
+            Unleash Your Potential with <span className="text-yellow-300">Edupaila</span>
+          </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-lg md:text-xl max-w-2xl mx-auto font-light"
+          >
+            Dive into a world of knowledge with our interactive courses, expert mentors, and vibrant community. Transform your curiosity into expertise!
+          </motion.p>
+
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+          >
+            <CallToAction />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Featured Posts Section */}
+      <section className="max-w-7xl mx-auto px-3 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            Fresh from the Oven
+          </h2>
+          <p className="text-gray-600 mt-3 max-w-lg mx-auto">
+            Explore our latest and most popular learning resources
+          </p>
+        </div>
+
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(3)].map((_, idx) => (
+              <Skeleton key={idx} height={300} className="rounded-xl" />
+            ))}
           </div>
+        ) : error ? (
+          <div className="alert alert-error max-w-md mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Error loading posts: {error}</span>
+          </div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {posts.slice(0, 6).map((post) => (
+              <motion.div key={post._id} variants={itemVariants}>
+                <PostCard 
+                  post={post}
+                  className="hover:scale-[1.02] transition-transform duration-300 shadow-lg hover:shadow-xl"
+                />
+              </motion.div>
+            ))}
+          </motion.div>
         )}
-      </div>
+
+        {!loading && !error && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center mt-12"
+          >
+            <Link
+              to="/search"
+              className="btn btn-outline btn-primary group bg-gradient-to-r from-blue-600 to-purple-600 hover:blue-600 p-5 rounded-xl"
+            >
+              Explore All Content
+            </Link>
+          </motion.div>
+        )}
+      </section>
+
+      {/* Value Proposition Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-3 grid md:grid-cols-3 gap-8">
+          <div className="text-center p-6 rounded-xl">
+            <div className="text-blue-600 text-5xl mb-4">🎓</div>
+            <h3 className="text-xl font-bold mb-2">Expert-Led Courses</h3>
+            <p className="text-gray-600">Learn from industry professionals and academic experts</p>
+          </div>
+          
+          <div className="text-center p-6 rounded-xl">
+            <div className="text-purple-600 text-5xl mb-4">⏱️</div>
+            <h3 className="text-xl font-bold mb-2">Flexible Learning</h3>
+            <p className="text-gray-600">Study at your own pace, anytime and anywhere</p>
+          </div>
+          
+          <div className="text-center p-6 rounded-xl">
+            <div className="text-pink-600 text-5xl mb-4">👥</div>
+            <h3 className="text-xl font-bold mb-2">Vibrant Community</h3>
+            <p className="text-gray-600">Connect with fellow learners and mentors</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

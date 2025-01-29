@@ -110,7 +110,7 @@ export default function Header() {
                 <Link to="/about">About</Link>
               </Navbar.Link>
               <Navbar.Link active={path === '/books'} as={'div'}>
-                <Link to="/books">Books</Link>
+                <Link to="/discuss">Discuss</Link>
               </Navbar.Link>
             </div>
           </Dropdown>
@@ -134,7 +134,7 @@ export default function Header() {
             <Link to="/about">About</Link>
           </Navbar.Link>
           <Navbar.Link active={path === '/books'} as={'div'} className="text-lg">
-            <Link to="/books">Books</Link>
+            <Link to="/discuss">Discuss</Link>
           </Navbar.Link>
         </div>
       </Navbar.Collapse>
