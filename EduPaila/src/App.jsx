@@ -3,7 +3,7 @@ import Home from '../src/pages/Home';
 import About from '../src/pages/About';
 import SignIn from '../src/pages/SignIn';
 import Dashboard from '../src/pages/Dashboard';
-import Discuss from '../src/pages/Discuss';
+import MessagePost from '../src/pages/MessagePost';
 import SignUp from '../src/pages/SignUp';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
@@ -37,7 +37,7 @@ export default function App() {
           <Route path='/createpost' element={<CreatePost />} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
-        <Route path='/discuss' element={<Discuss />} />
+        <Route path='/discuss' element={<MessagePost/>} />
         <Route element={<PrivateRoute />}>
           <Route path='/post/:postSlug' element={<PostPage />} />
         </Route>

@@ -1,26 +1,71 @@
 import Post from '../models/post.model.js';
 import { errorHandler } from '../utils/error.js';
+import multer from 'multer';
+import path from 'path';
 
+// Set up storage for uploaded files
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+// Export multer middleware for routes
+export const upload = multer({ storage: storage }).single('pdfFile');
+
+// Create post controller (no upload middleware here)
 export const create = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(errorHandler(403, 'You are not allowed to create a post'));
-  }
-  if (!req.body.title || !req.body.content) {
-    return next(errorHandler(400, 'Please provide all required fields'));
-  }
-  const slug = req.body.title
-    .split(' ')
-    .join('-')
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9-]/g, '');
-  const newPost = new Post({
-    ...req.body,
-    slug,
-    userId: req.user.id,
-  });
   try {
+    if (!req.user.isAdmin) {
+      return next(errorHandler(403, 'You are not allowed to create a post'));
+    }
+
+    if (!req.body.title || !req.body.content) {
+      return next(errorHandler(400, 'Please provide all required fields'));
+    }
+
+    const slug = req.body.title
+      .split(' ')
+      .join('-')
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9-]/g, '');
+
+    const newPost = new Post({
+      ...req.body,
+      slug,
+      userId: req.user.id,
+      pdfUrl: req.file ? req.file.path : null,
+    });
+
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update post controller
+export const updatepost = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, 'You are not allowed to update this post'));
+  }
+
+  try {
+    const updatedData = {
+      ...req.body,
+      ...(req.file && { pdfUrl: req.file.path }),
+    };
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      { $set: updatedData },
+      { new: true }
+    );
+
+    res.status(200).json(updatedPost);
   } catch (error) {
     next(error);
   }
@@ -83,25 +128,4 @@ export const deletepost = async (req, res, next) => {
   }
 };
 
-export const updatepost = async (req, res, next) => {
-  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'You are not allowed to update this post'));
-  }
-  try {
-    const updatedPost = await Post.findByIdAndUpdate(
-      req.params.postId,
-      {
-        $set: {
-          title: req.body.title,
-          content: req.body.content,
-          category: req.body.category,
-          image: req.body.image,
-        },
-      },
-      { new: true }
-    );
-    res.status(200).json(updatedPost);
-  } catch (error) {
-    next(error);
-  }
-};
+

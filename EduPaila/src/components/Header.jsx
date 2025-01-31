@@ -100,7 +100,7 @@ export default function Header() {
             >
             <Link to={'/dashboard?tab=profile'}>
 
-            <Avatar alt={currentUser.username} img={currentUser.profilePicture} rounded />
+              <Avatar alt={currentUser.username} img={currentUser.profilePicture} rounded />
             </Link>
               <span className="block text-sm capitalize">{currentUser.username}</span>
               <span className="block text-sm font-medium truncate">

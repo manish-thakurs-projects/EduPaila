@@ -1,111 +1,117 @@
-import Message from '../models/message.model.js';
-import User from '../models/user.model.js';
-import { errorHandler } from '../utils/error.js';
+import Message from "../models/message.model.js";
+import { errorHandler } from "../utils/error.js";
 
+// Create a new message
 export const createMessage = async (req, res, next) => {
-  console.log('Create message request received');
   try {
-    console.log('Authenticated User:', req.user);
-    const { content } = req.body;
-    
-    if (!content) {
-      return next(errorHandler(400, 'Message content is required'));
-    }
+    const { content, postId } = req.body;
+    const userId = req.user.id;
 
-    // Check if user exists
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return next(errorHandler(404, 'User not found'));
+    if (!content.trim()) {
+      return next(errorHandler(400, "Message content cannot be empty"));
+    }
+    if (content.length > 500) {
+      return next(errorHandler(400, "Message content cannot exceed 500 characters"));
     }
 
     const newMessage = new Message({
       content,
-      user: req.user.id,
+      postId,
+      userId,
     });
 
-    console.log('New message before save:', newMessage);
-
-    const savedMessage = await newMessage.save();
-    console.log('Message saved to DB:', savedMessage);
-
-    const populatedMessage = await savedMessage.populate('user', 'username profilePicture');
-    console.log('Populated message:', populatedMessage);
-
-    res.status(201).json(populatedMessage);
+    await newMessage.save();
+    res.status(201).json(newMessage);
   } catch (error) {
-    console.error('Create message error:', error);
     next(error);
   }
 };
 
-export const getMessages = async (req, res, next) => {
+// Get all messages for a specific post
+export const getPostMessages = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
-    const skip = (page - 1) * limit;
+    const { postId } = req.params;
+    const messages = await Message.find({ postId })
+      .sort({ createdAt: -1 })
+      .populate("userId", "username profilePicture");
 
-    const messages = await Message.find()
-      .populate('user', 'username profilePicture')
-      .sort({ createdAt: 1 }) // Changed to ascending order for chronological loading
-      .skip(skip)
-      .limit(limit)
-      .select('-__v');
-
-    const total = await Message.countDocuments();
-    
-    res.status(200).json({
-      messages,
-      currentPage: page,
-      totalPages: Math.ceil(total / limit),
-      totalMessages: total
-    });
+    res.status(200).json(messages);
   } catch (error) {
     next(error);
   }
 };
-// message.controller.js (update deleteMessage)
+
+// Like/unlike a message
+export const likeMessage = async (req, res, next) => {
+  try {
+    const { messageId } = req.params;
+    const userId = req.user.id;
+
+    const message = await Message.findById(messageId);
+    if (!message) return next(errorHandler(404, "Message not found"));
+
+    const userIndex = message.likes.indexOf(userId);
+    if (userIndex === -1) {
+      message.likes.push(userId);
+      message.numberOfLikes += 1;
+    } else {
+      message.likes.splice(userIndex, 1);
+      message.numberOfLikes -= 1;
+    }
+
+    await message.save();
+    res.status(200).json(message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Edit a message
+export const editMessage = async (req, res, next) => {
+  try {
+    const { messageId } = req.params;
+    const { content } = req.body;
+    const userId = req.user.id;
+
+    if (!content.trim()) {
+      return next(errorHandler(400, "Message content cannot be empty"));
+    }
+    if (content.length > 500) {
+      return next(errorHandler(400, "Message content cannot exceed 500 characters"));
+    }
+
+    const message = await Message.findById(messageId);
+    if (!message) return next(errorHandler(404, "Message not found"));
+
+    if (message.userId.toString() !== userId) {
+      return next(errorHandler(403, "You are not allowed to edit this message"));
+    }
+
+    message.content = content;
+    await message.save();
+
+    res.status(200).json(message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete a message
 export const deleteMessage = async (req, res, next) => {
   try {
-    const message = await Message.findById(req.params.messageId);
-    
-    if (!message) {
-      return next(errorHandler(404, 'Message not found'));
+    const { messageId } = req.params;
+    const userId = req.user.id;
+
+    const message = await Message.findById(messageId);
+    if (!message) return next(errorHandler(404, "Message not found"));
+
+    if (message.userId.toString() !== userId) {
+      return next(errorHandler(403, "You are not allowed to delete this message"));
     }
 
-    // Allow deletion if user is owner or admin
-    if (!message.user.equals(req.user.id) && !req.user.isAdmin) {
-      return next(errorHandler(403, 'Unauthorized to delete this message'));
-    }
-
-    await Message.findByIdAndDelete(req.params.messageId);
-    res.status(200).json({ success: true, message: 'Message deleted successfully' });
+    await Message.findByIdAndDelete(messageId);
+    res.status(200).json({ message: "Message has been deleted" });
   } catch (error) {
     next(error);
   }
 };
-
-// Add to message.controller.js
-export const updateMessage = async (req, res, next) => {
-  try {
-    const message = await Message.findById(req.params.messageId);
-    
-    if (!message) {
-      return next(errorHandler(404, 'Message not found'));
-    }
-
-    if (!message.user.equals(req.user.id)) {
-      return next(errorHandler(403, 'Unauthorized to edit this message'));
-    }
-
-    const updatedMessage = await Message.findByIdAndUpdate(
-      req.params.messageId,
-      { content: req.body.content },
-      { new: true, runValidators: true }
-    ).populate('user', 'username profilePicture');
-
-    res.status(200).json(updatedMessage);
-  } catch (error) {
-    next(error);
-  }
-};
-

@@ -14,6 +14,7 @@ export default function CreatePost() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -71,20 +72,6 @@ export default function CreatePost() {
     }
   };
 
-  // Clean up MS Word HTML content by removing unnecessary tags and XML
-  const cleanWordHtml = (html) => {
-    // Remove MS Word specific elements (XML, metadata, comments, etc.)
-    const cleanedHtml = html
-      .replace(/<!--.*?-->/gs, '')  // Remove all comments
-      .replace(/<xml.*?>.*?<\/xml>/gs, '')  // Remove all XML tags
-      .replace(/<meta.*?>/gs, '')  // Remove meta tags
-      .replace(/style="[^"]*"/gs, '') // Remove inline styles if needed (optional)
-      .replace(/<o:p>.*?<\/o:p>/gs, '') // Remove Office specific tags (like <o:p>)
-      .replace(/<\/?span.*?>/gs, '')  // Remove span tags that MS Word often uses
-      .replace(/<w:.*?>.*?<\/w:.*?>/gs, ''); // Remove Word-specific namespaces and tags
-    return cleanedHtml;
-  };
-
   // Upload images found in the HTML and return their URLs
   const uploadImagesInHtml = async (html) => {
     const imageUrls = [];
@@ -135,13 +122,23 @@ export default function CreatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('content', formData.content);
+      formDataToSend.append('category', formData.category);
+      formDataToSend.append('image', formData.image);
+      if (pdfFile) {
+        formDataToSend.append('pdfFile', pdfFile);
+      }
+
       const res = await fetch('/api/post/create', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
         },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
+
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
@@ -157,34 +154,11 @@ export default function CreatePost() {
     }
   };
 
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a Course</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        FOR TITLE
-        <div className="flex flex-col gap-4 sm:flex-row justify-between">
-          <TextInput
-            type="text"
-            placeholder="Title"
-            required
-            id="title"
-            className="flex-1"
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-          />
-          <Select
-            value={formData.category || "uncategorized"}
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
-          >
-            <option value="uncategorized">Select a category</option>
-            <option value="Notes">Notes</option>
-            <option value="Mcq">Mcq</option>
-            <option value="Numericals">Numericals</option>
-          </Select>
-        </div>
         FOR IMAGE
         <div className="flex gap-6 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput
@@ -222,9 +196,19 @@ export default function CreatePost() {
             className="w-full h-72 object-cover"
           />
         )}
-        
-        <div className="flex flex-col gap-4">
+          FOR PDF FILE
+         <div className="flex flex-col gap-4">
+          <FileInput 
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setPdfFile(e.target.files[0])}
+            label="Upload PDF File"
+          />
+          {pdfFile && <p>Selected PDF: {pdfFile.name}</p>}
+        </div>
+
           FOR HTML FILES
+        <div className="flex flex-col gap-4">
           <FileInput
             type="file"
             accept=".html"
@@ -232,6 +216,30 @@ export default function CreatePost() {
             label="Upload HTML File"
           />
           {htmlFile && <p>Uploaded: {htmlFile}</p>}
+        </div>
+        FOR TITLE
+        <div className="flex flex-col gap-4 sm:flex-row justify-between">
+          <TextInput
+            type="text"
+            placeholder="Title"
+            required
+            id="title"
+            className="flex-1"
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+          />
+          <Select
+            value={formData.category || "uncategorized"}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
+            <option value="uncategorized">Select a category</option>
+            <option value="Notes">Notes</option>
+            <option value="Mcq">Mcq</option>
+            <option value="Numericals">Numericals</option>
+          </Select>
         </div>
         <ReactQuill
           theme="snow"

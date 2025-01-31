@@ -1,17 +1,24 @@
 import express from 'express';
-import { 
-  createMessage, 
-  getMessages, 
-  deleteMessage, 
-  updateMessage 
-} from '../controllers/message.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
+import { create, deletepost, getposts, updatepost } from '../controllers/post.controller.js';
+import multer from 'multer';
+import path from 'path';
 
 const router = express.Router();
 
-router.post('/create', verifyToken, createMessage);
-router.get('/messages', getMessages);
-router.delete('/delete/:messageId', verifyToken, deleteMessage);
-router.put('/update/:messageId', verifyToken, updateMessage);
+// Set up storage for uploaded files
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Directory where files will be stored
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to file name
+  }
+});
+const upload = multer({ storage: storage });
+router.post('/create', verifyToken, upload.single('pdfFile'), create);
+router.get('/getposts', getposts);
+router.delete('/deletepost/:postId/:userId', verifyToken, deletepost);
+router.put('/updatepost/:postId/:userId', verifyToken, upload.single('pdfFile'), updatepost);
 
 export default router;

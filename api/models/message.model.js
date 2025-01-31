@@ -1,23 +1,41 @@
 import mongoose from 'mongoose';
 
-const messageSchema = new mongoose.Schema(
+const postSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     content: {
       type: String,
       required: true,
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    image: {
+      type: String,
+      default:
+        'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/09/how-to-write-a-blog-post.png',
+    },
+    category: {
+      type: String,
+      default: 'uncategorized',
+    },
+    slug: {
+      type: String,
       required: true,
+      unique: true,
+    },
+    pdfUrl: {
+      type: String, // This will store the URL or path to the PDF file
+      default: null, // Default value is null if no PDF is uploaded
     },
   },
   { timestamps: true }
 );
 
-const Message = mongoose.model('Message', messageSchema);
-
-export default Message;
-
-
-
+const Post = mongoose.model('Post', postSchema);
+export default Post;

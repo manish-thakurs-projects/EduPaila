@@ -12,12 +12,12 @@ import DOMPurify from 'dompurify'; // Import DOMPurify
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
   const [htmlFile, setHtmlFile] = useState(null); // State for HTML file
+  const [pdfFile, setPdfFile] = useState(null); // State for PDF file
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
   const { postId } = useParams();
-
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
 
@@ -36,13 +36,13 @@ export default function UpdatePost() {
           setFormData(data.posts[0]);
         }
       };
-
       fetchPost();
     } catch (error) {
       console.log(error.message);
     }
   }, [postId]);
 
+  // Handle image upload to Cloudinary
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -54,7 +54,6 @@ export default function UpdatePost() {
       formData.append('file', file);
       formData.append('upload_preset', 'edupaila'); // Replace with your Cloudinary upload preset
       formData.append('cloud_name', 'de1hbyhq1'); // Replace with your Cloudinary cloud name
-
       const res = await axios.post(
         'https://api.cloudinary.com/v1_1/de1hbyhq1/image/upload',
         formData,
@@ -67,7 +66,6 @@ export default function UpdatePost() {
           },
         }
       );
-
       setImageUploadProgress(null);
       setImageUploadError(null);
       setFormData({ ...formData, image: res.data.secure_url });
@@ -78,6 +76,7 @@ export default function UpdatePost() {
     }
   };
 
+  // Handle HTML file upload
   const handleHtmlFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -92,19 +91,27 @@ export default function UpdatePost() {
     }
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.title || '');
+      formDataToSend.append('content', formData.content || '');
+      formDataToSend.append('category', formData.category || 'uncategorized');
+      formDataToSend.append('image', formData.image || '');
+      if (pdfFile) {
+        formDataToSend.append('pdfFile', pdfFile); // Append the PDF file
+      }
+
       const res = await fetch(
         `/api/post/updatepost/${formData._id}/${currentUser._id}`,
         {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
+
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
@@ -122,8 +129,9 @@ export default function UpdatePost() {
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-      <h1 className="text-center text-3xl my-7 font-semibold">Update post</h1>
+      <h1 className="text-center text-3xl my-7 font-semibold">Update Post</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        {/* Title and Category */}
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -196,6 +204,17 @@ export default function UpdatePost() {
           {htmlFile && <p>Uploaded: {htmlFile}</p>}
         </div>
 
+        {/* PDF File Upload Section */}
+        <div className="flex flex-col gap-4">
+          <FileInput
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setPdfFile(e.target.files[0])}
+            label="Upload PDF File"
+          />
+          {pdfFile && <p>Selected PDF: {pdfFile.name}</p>}
+        </div>
+
         {/* Quill Editor for Content */}
         <ReactQuill
           theme="snow"
@@ -208,10 +227,10 @@ export default function UpdatePost() {
           }}
         />
 
+        {/* Submit Button */}
         <Button type="submit" gradientDuoTone="purpleToPink">
-          Update post
+          Update Post
         </Button>
-
         {publishError && (
           <Alert className="mt-5" color="failure">
             {publishError}
