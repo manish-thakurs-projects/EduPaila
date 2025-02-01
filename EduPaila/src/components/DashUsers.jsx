@@ -5,7 +5,6 @@ import { FaPlus } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import '../components/user.css'
 
 export default function DashUsers() {
   const { currentUser } = useSelector((state) => state.user);
@@ -152,18 +151,16 @@ export default function DashUsers() {
           </div>
         </Modal.Body>
       </Modal>
-      <div className='create-usr'>
-        <Link to={"/signup"} className='spn'>
-        <span>
-          Create New User
-        </span>
-        <span>
+      
+      <div className='flex justify-center items-center'>
 
-          <FaPlus />
-        </span>
-        
-        </Link>
-      </div>
+<Button className='mt-10 flex justify-center items-center w-4/5' colour='blue' pill outline>
+<Link to={"/signup"} className='flex justify-center items-center'>
+       Create New User
+       <FaPlus className='ml-4' />
+     </Link>
+</Button>
+ </div>
     </div>
   );
 }

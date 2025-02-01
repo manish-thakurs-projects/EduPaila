@@ -1,9 +1,10 @@
-import { Button, Spinner } from 'flowbite-react';
+import { Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import CommentSection from '../components/CommentSection';
 import PostCard from '../components/PostCard';
+import SkeletonPost from '../components/SkeletonPost'; // Import the Skeleton Loader
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -11,6 +12,7 @@ export default function PostPage() {
   const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   function convertToEmbedUrl(url) {
     const match = url.match(/\/d\/([^/]+)/);
@@ -19,7 +21,21 @@ export default function PostPage() {
     }
     return url;
   }
-  
+
+  const updateScrollProgress = () => {
+    const scrollTop = window.pageYOffset;
+    const docHeight = document.documentElement.scrollHeight;
+    const winHeight = window.innerHeight;
+    const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+    setScrollProgress(scrollPercent);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', updateScrollProgress);
+    return () => {
+      window.removeEventListener('scroll', updateScrollProgress);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -58,12 +74,7 @@ export default function PostPage() {
     fetchRecentPosts();
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Spinner size="xl" />
-      </div>
-    );
+  if (loading) return <SkeletonPost />; // Replace Spinner with Skeleton
 
   if (error)
     return (
@@ -74,14 +85,20 @@ export default function PostPage() {
 
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
+      {/* Scroll Progress Bar */}
+      <div
+        className="fixed top-0 left-0 w-full h-1 bg-blue-500"
+        style={{ width: `${scrollProgress}%` }}
+      ></div>
+
       {/* Post Title */}
-      <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
+      <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-5xl capitalize">
         {post && post.title}
       </h1>
 
       {/* Post Category */}
       <Link to={`/search?category=${post && post.category}`} className="self-center mt-5">
-        <Button color="gray" pill size="xs">
+        <Button color='blue' outline >
           {post && post.category}
         </Button>
       </Link>
@@ -90,7 +107,7 @@ export default function PostPage() {
       <img
         src={post && post.image}
         alt={post && post.title}
-        className="mt-10 p-3 max-h-[600px] w-full object-cover"
+        className="mt-10 p-3 max-h-[400px] w-full object-cover rounded-xl shadow-md"
       />
 
       {/* Post Metadata */}
@@ -102,36 +119,35 @@ export default function PostPage() {
       </div>
 
       {/* Post Content */}
-      <div className="p-3 max-w-2xl mx-auto w-full post-content" dangerouslySetInnerHTML={{ __html: post && post.content }}>
-      </div>
+      <div
+        className="p-3 max-w-2xl mx-auto w-full post-content"
+        dangerouslySetInnerHTML={{ __html: post && post.content }}
+      ></div>
 
       {/* PDF Preview Section */}
       {post && post.pdfUrl && (
-  <div className="p-3 max-w-2xl mx-auto w-full">
-    <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
-    <div className="aspect-w-16 aspect-h-9 border border-gray-300 rounded-lg overflow-hidden">
-      <iframe
-        src={convertToEmbedUrl(post.pdfUrl)}
-        title={post.title}
-        width="100%"
-        height="600px"
-        style={{ border: 'none' }}
-        allowFullScreen
-      >
-        <p>
-        Your browser does not support embedded PDFs. Use other browsers if possible or
-        <a href="https://wa.me/9779801996736">
-        contact us
-        </a>
-        </p>
-      </iframe>
-    </div>
-  </div>
-)}
-
+        <div className="p-3 max-w-2xl mx-auto w-full mt-10 mb-10">
+          <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
+          <div className="aspect-w-16 aspect-h-9 border border-gray-300 rounded-lg overflow-hidden">
+            <iframe
+              src={convertToEmbedUrl(post.pdfUrl)}
+              title={post.title}
+              width="100%"
+              height="600px"
+              style={{ border: 'none' }}
+              allowFullScreen
+            >
+              <p>
+                Your browser does not support embedded PDFs. Use other browsers if possible or
+                <a href="https://wa.me/9779801996736"> contact us</a>
+              </p>
+            </iframe>
+          </div>
+        </div>
+      )}
 
       {/* Call to Action */}
-      <div className="max-w-4xl mx-auto w-full">
+      <div className="max-w-4xl mx-auto w-full mt-10 mb-9">
         <CallToAction />
       </div>
 
@@ -140,7 +156,7 @@ export default function PostPage() {
 
       {/* Recent Articles */}
       <div className="flex flex-col justify-center items-center mb-5">
-        <h1 className="text-xl mt-5">Recent articles</h1>
+        <h1 className="text-xl mt-5">Recent Uploads</h1>
         <div className="flex flex-wrap gap-5 mt-5 justify-center">
           {recentPosts && recentPosts.map((p) => <PostCard key={p._id} post={p} />)}
         </div>

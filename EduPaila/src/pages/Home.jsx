@@ -5,6 +5,8 @@ import PostCard from '../components/PostCard';
 import { motion } from 'framer-motion';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { Button } from 'flowbite-react';
+import './home.css'
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -78,8 +80,8 @@ export default function Home() {
       {/* Featured Posts Section */}
       <section className="max-w-7xl mx-auto px-3 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-            Fresh from the Oven
+        <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-red-600 fire-text">
+         Fresh from the Oven
           </h2>
           <p className="text-gray-600 mt-3 max-w-lg mx-auto">
             Explore our latest and most popular learning resources
@@ -118,21 +120,21 @@ export default function Home() {
         )}
 
         {!loading && !error && (
+          
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center mt-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center mt-12 flex justify-center items-center"
           >
+              <Button color='blue' pill outline className='animate-pulse'>
           <Link
-  to="/search"
-  className="relative px-6 py-3 font-semibold text-white rounded-xl transition-all 
-             bg-gradient-to-r from-blue-600 to-purple-600 
-             hover:from-blue-700 hover:to-purple-700 
-             shadow-lg hover:shadow-xl active:scale-95"
->
-  Explore All Content
-</Link>
+         to="/search"
+         
+         >
+          Explore All Content
+          </Link>
 
+            </Button>
           </motion.div>
         )}
       </section>

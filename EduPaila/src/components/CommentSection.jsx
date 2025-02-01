@@ -138,7 +138,6 @@ export default function CommentSection({ postId }) {
       {currentUser && (
         <form
           onSubmit={handleSubmit}
-          className='border border-teal-500 rounded-md p-3'
         >
           <Textarea
             placeholder='Add a comment...'
@@ -167,10 +166,11 @@ export default function CommentSection({ postId }) {
       ) : (
         <>
           <div className='text-sm my-5 flex items-center gap-1'>
-            <p>Comments</p>
-            <div className='border border-gray-400 py-1 px-2 rounded-sm'>
-              <p>{comments.length}</p>
+            <p>Total Comments</p>
+            <div className='w-5 h-5 py-2 px-3 animate-pulse text-black bg-slate-400 rounded-full flex items-center justify-center'>
+             <p>{comments.length}</p>
             </div>
+
           </div>
           {comments.map((comment) => (
             <Comment

@@ -169,6 +169,14 @@ export default function DashPosts() {
           </div>
         </Modal.Body>
       </Modal>
+      <div className='flex justify-center items-center'>
+    
+    <Button className='mt-10 flex justify-center items-center w-4/5' colour='blue' pill outline>
+    <Link to={"/createpost"} className='flex justify-center items-center'>
+           Create Post
+         </Link>
+    </Button>
+     </div>
     </div>
   );
 }

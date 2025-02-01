@@ -212,14 +212,33 @@ export default function DashProfile() {
           placeholder="New password"
           onChange={handleChange}
         />
+        <div className='flex justify-center items-center gap-4'>
         <Button
           type="submit"
           outline
           color='green'
           disabled={loading || imageFileUploading}
-        >
+         className="cursor-pointer w-1/2"
+          >
           {loading ? 'Loading...' : 'Update'}
         </Button>
+        <Button
+         type="button"
+         color='red'
+         outline
+         onClick={handleSignout} 
+         className="cursor-pointer w-1/2"
+         >
+        Sign Out
+        </Button>
+          </div>
+        {/* <span onClick={() => setShowModal(true)} className="cursor-pointer">
+          Delete Account
+          </span> */}
+
+<h1 className='text-center animate-pulse capitalize '>
+  Shortcuts
+</h1>
         {currentUser.isAdmin && (
           <Link to={'/createpost'}>
             <Button
@@ -232,23 +251,41 @@ export default function DashProfile() {
             </Button>
           </Link>
         )}
-      </form>
-      <div className="text-red-500 flex justify-between mt-5">
-        {/* <span onClick={() => setShowModal(true)} className="cursor-pointer">
-          Delete Account
-        </span> */}
-          <Button
-          type="button"
-          color='red'
-          outline
-  onClick={handleSignout} 
-  className="cursor-pointer w-full"
-        >
-       
-    Sign Out
+    {currentUser.isAdmin && (
+          <Link to={'/signup'}>
+            <Button
+              type="button"
+              className="w-full"
+              color='blue'
+              outline
+            >
+              Create new user
             </Button>
+          </Link>
+        )}
 
-      </div>
+      </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
           {updateUserSuccess}

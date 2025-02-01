@@ -6,6 +6,7 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
 } from 'react-icons/hi';
+import { FaMoneyBillWave } from "react-icons/fa";
 import { Button, Table } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
@@ -115,6 +116,22 @@ export default function DashboardComp() {
             <span className='text-green-500 flex items-center'>
               <HiArrowNarrowUp />
               {lastMonthPosts}
+            </span>
+            <div className='text-gray-500'>Last month</div>
+          </div>
+        </div>
+        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
+          <div className='flex justify-between'>
+            <div className=''>
+              <h3 className='text-gray-500 text-md uppercase'>estimated revenue</h3>
+              <p className='text-2xl'>Rs {(totalUsers-4)*345}</p>
+            </div>
+            <FaMoneyBillWave className='bg-teal-600  text-white rounded-full text-5xl p-3 shadow-lg' />
+          </div>
+          <div className='flex  gap-2 text-sm'>
+            <span className='text-green-500 flex items-center'>
+              <HiArrowNarrowUp />
+              {(lastMonthUsers-4)*345}
             </span>
             <div className='text-gray-500'>Last month</div>
           </div>
