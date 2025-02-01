@@ -30,8 +30,8 @@ const postSchema = new mongoose.Schema(
       unique: true,
     },
     pdfUrl: {
-      type: String, // This will store the URL or path to the PDF file
-      default: null, // Default value is null if no PDF is uploaded
+      type: String,
+      default: null,
     },
   },
   { timestamps: true }

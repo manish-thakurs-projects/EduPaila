@@ -17,7 +17,7 @@ const generatePassword = () => {
   const randomLower = lowerCase.charAt(Math.floor(Math.random() * lowerCase.length));
   const randomUpper = upperCase.charAt(Math.floor(Math.random() * upperCase.length));
   const randomSpecial = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
-  const randomString = Math.random().toString(36).slice(-5);  // generate 5 random characters
+  const randomString = Math.random().toString(36).slice(-5);
 
   const password = randomLower + randomUpper + randomSpecial + randomString;
   return password.split('').sort(() => Math.random() - 0.5).join('');

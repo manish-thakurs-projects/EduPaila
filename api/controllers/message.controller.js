@@ -1,7 +1,6 @@
 import Message from "../models/message.model.js";
 import { errorHandler } from "../utils/error.js";
 
-// Create a new message
 export const createMessage = async (req, res, next) => {
   try {
     const { content, postId } = req.body;
@@ -27,7 +26,6 @@ export const createMessage = async (req, res, next) => {
   }
 };
 
-// Get all messages for a specific post
 export const getPostMessages = async (req, res, next) => {
   try {
     const { postId } = req.params;
@@ -41,7 +39,6 @@ export const getPostMessages = async (req, res, next) => {
   }
 };
 
-// Like/unlike a message
 export const likeMessage = async (req, res, next) => {
   try {
     const { messageId } = req.params;
@@ -66,7 +63,6 @@ export const likeMessage = async (req, res, next) => {
   }
 };
 
-// Edit a message
 export const editMessage = async (req, res, next) => {
   try {
     const { messageId } = req.params;
@@ -96,7 +92,6 @@ export const editMessage = async (req, res, next) => {
   }
 };
 
-// Delete a message
 export const deleteMessage = async (req, res, next) => {
   try {
     const { messageId } = req.params;

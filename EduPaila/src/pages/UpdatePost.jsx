@@ -7,12 +7,12 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import DOMPurify from 'dompurify'; // Import DOMPurify
+import DOMPurify from 'dompurify';
 
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
-  const [htmlFile, setHtmlFile] = useState(null); // State for HTML file
-  const [pdfFile, setPdfFile] = useState(null); // State for PDF file
+  const [htmlFile, setHtmlFile] = useState(null);
+  const [pdfUrlInput, setPdfUrlInput] = useState(''); // For entering the PDF URL
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
@@ -22,8 +22,8 @@ export default function UpdatePost() {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    try {
-      const fetchPost = async () => {
+    const fetchPost = async () => {
+      try {
         const res = await fetch(`/api/post/getposts?postId=${postId}`);
         const data = await res.json();
         if (!res.ok) {
@@ -31,15 +31,14 @@ export default function UpdatePost() {
           setPublishError(data.message);
           return;
         }
-        if (res.ok) {
-          setPublishError(null);
-          setFormData(data.posts[0]);
-        }
-      };
-      fetchPost();
-    } catch (error) {
-      console.log(error.message);
-    }
+        setPublishError(null);
+        setFormData(data.posts[0]);
+        setPdfUrlInput(data.posts[0].pdfUrl || '');
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchPost();
   }, [postId]);
 
   // Handle image upload to Cloudinary
@@ -50,13 +49,13 @@ export default function UpdatePost() {
         return;
       }
       setImageUploadError(null);
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'edupaila'); // Replace with your Cloudinary upload preset
-      formData.append('cloud_name', 'de1hbyhq1'); // Replace with your Cloudinary cloud name
+      const imageFormData = new FormData();
+      imageFormData.append('file', file);
+      imageFormData.append('upload_preset', 'edupaila'); // Replace with your preset
+      imageFormData.append('cloud_name', 'de1hbyhq1'); // Replace with your cloud name
       const res = await axios.post(
         'https://api.cloudinary.com/v1_1/de1hbyhq1/image/upload',
-        formData,
+        imageFormData,
         {
           onUploadProgress: (progressEvent) => {
             const progress = Math.round(
@@ -76,39 +75,40 @@ export default function UpdatePost() {
     }
   };
 
-  // Handle HTML file upload
+  // Handle HTML file upload and sanitize content
   const handleHtmlFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        // Sanitize HTML to prevent XSS attacks
         const sanitizedHtml = DOMPurify.sanitize(reader.result);
         setFormData({ ...formData, content: sanitizedHtml });
       };
       reader.readAsText(file);
-      setHtmlFile(file.name); // Set the uploaded file name
+      setHtmlFile(file.name);
     }
   };
 
-  // Handle form submission
+  // Handle form submission (sending JSON data)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title || '');
-      formDataToSend.append('content', formData.content || '');
-      formDataToSend.append('category', formData.category || 'uncategorized');
-      formDataToSend.append('image', formData.image || '');
-      if (pdfFile) {
-        formDataToSend.append('pdfFile', pdfFile); // Append the PDF file
-      }
+      const dataToSend = {
+        title: formData.title || '',
+        content: formData.content || '',
+        category: formData.category || 'uncategorized',
+        image: formData.image || '',
+        pdfUrl: pdfUrlInput || '',
+      };
 
       const res = await fetch(
         `/api/post/updatepost/${formData._id}/${currentUser._id}`,
         {
           method: 'PUT',
-          body: formDataToSend,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend),
         }
       );
 
@@ -117,11 +117,8 @@ export default function UpdatePost() {
         setPublishError(data.message);
         return;
       }
-
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/post/${data.slug}`);
-      }
+      setPublishError(null);
+      navigate(`/post/${data.slug}`);
     } catch (error) {
       setPublishError('Something went wrong');
     }
@@ -131,7 +128,7 @@ export default function UpdatePost() {
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Update Post</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        {/* Title and Category */}
+        {/* Title and Category Section */}
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -142,13 +139,13 @@ export default function UpdatePost() {
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
-            value={formData.title}
+            value={formData.title || ''}
           />
           <Select
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
-            value={formData.category}
+            value={formData.category || 'uncategorized'}
           >
             <option value="uncategorized">Select a category</option>
             <option value="javascript">JavaScript</option>
@@ -204,18 +201,17 @@ export default function UpdatePost() {
           {htmlFile && <p>Uploaded: {htmlFile}</p>}
         </div>
 
-        {/* PDF File Upload Section */}
+        {/* PDF URL Input Section */}
         <div className="flex flex-col gap-4">
-          <FileInput
-            type="file"
-            accept="application/pdf"
-            onChange={(e) => setPdfFile(e.target.files[0])}
-            label="Upload PDF File"
+          <TextInput
+            type="text"
+            placeholder="Enter PDF URL (e.g., Google Drive or Cloudinary link)"
+            value={pdfUrlInput}
+            onChange={(e) => setPdfUrlInput(e.target.value)}
           />
-          {pdfFile && <p>Selected PDF: {pdfFile.name}</p>}
         </div>
 
-        {/* Quill Editor for Content */}
+        {/* Rich Text Editor for Content */}
         <ReactQuill
           theme="snow"
           value={formData.content || ''}
@@ -226,8 +222,6 @@ export default function UpdatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-
-        {/* Submit Button */}
         <Button type="submit" gradientDuoTone="purpleToPink">
           Update Post
         </Button>

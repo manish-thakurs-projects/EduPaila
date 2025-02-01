@@ -14,7 +14,6 @@ export default function CreatePost() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-  const [pdfFile, setPdfFile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -25,16 +24,15 @@ export default function CreatePost() {
         setImageUploadError('Please select an image');
         return;
       }
-
       setImageUploadError(null);
       setImageUploadProgress(0);
 
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET);
+      const imageFormData = new FormData();
+      imageFormData.append('file', file);
+      imageFormData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET);
       const res = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
         method: 'POST',
-        body: formData,
+        body: imageFormData,
       });
 
       if (!res.ok) {
@@ -51,92 +49,39 @@ export default function CreatePost() {
     }
   };
 
-  // Handle HTML file upload and extract/upload images
+  // Handle HTML file upload and sanitize content
   const handleHtmlFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = async () => {
-        let rawHtml = reader.result;
-
-        // Clean up MS Word generated HTML
-        rawHtml = cleanWordHtml(rawHtml);
-        
-        const sanitizedHtml = DOMPurify.sanitize(rawHtml);
-        const imageUrls = await uploadImagesInHtml(sanitizedHtml); // Upload the images and get their URLs
-        const updatedHtml = updateImageUrlsInHtml(sanitizedHtml, imageUrls);
-        setFormData({ ...formData, content: updatedHtml });
+      reader.onload = () => {
+        const sanitizedHtml = DOMPurify.sanitize(reader.result);
+        setFormData({ ...formData, content: sanitizedHtml });
       };
       reader.readAsText(file);
       setHtmlFile(file.name);
     }
   };
 
-  // Upload images found in the HTML and return their URLs
-  const uploadImagesInHtml = async (html) => {
-    const imageUrls = [];
-    const imgTags = Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll('img'));
-
-    for (const img of imgTags) {
-      const imgSrc = img.src;
-      if (imgSrc && !imgSrc.startsWith('http')) { // If it's a local image
-        try {
-          const uploadedUrl = await uploadImageToCloudinary(imgSrc); // Upload and get URL
-          imageUrls.push({ originalSrc: imgSrc, uploadedUrl });
-        } catch (error) {
-          console.error('Image upload failed:', error);
-        }
-      }
-    }
-    return imageUrls;
-  };
-
-  // Replace image `src` with uploaded URLs in the HTML content
-  const updateImageUrlsInHtml = (html, imageUrls) => {
-    let updatedHtml = html;
-    imageUrls.forEach(({ originalSrc, uploadedUrl }) => {
-      updatedHtml = updatedHtml.replace(new RegExp(originalSrc, 'g'), uploadedUrl);
-    });
-    return updatedHtml;
-  };
-
-  // Function to upload individual image to Cloudinary
-  const uploadImageToCloudinary = async (imageSrc) => {
-    const formData = new FormData();
-    formData.append('file', imageSrc); // Assuming imageSrc is a File or Blob
-    formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET);
-
-    const res = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!res.ok) {
-      throw new Error('Image upload failed');
-    }
-    const data = await res.json();
-    return data.secure_url; // Return the uploaded image URL
-  };
-
-  // Handle form submission
+  // Handle form submission (using JSON now, since we’re only sending text data)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('content', formData.content);
-      formDataToSend.append('category', formData.category);
-      formDataToSend.append('image', formData.image);
-      if (pdfFile) {
-        formDataToSend.append('pdfFile', pdfFile);
-      }
+      const dataToSend = {
+        title: formData.title || '',
+        content: formData.content || '',
+        category: formData.category || 'uncategorized',
+        image: formData.image || '',
+        pdfUrl: formData.pdfUrl || '', // Use the PDF URL provided via text input
+      };
 
       const res = await fetch('/api/post/create', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
         },
-        body: formDataToSend,
+        body: JSON.stringify(dataToSend),
       });
 
       const data = await res.json();
@@ -144,28 +89,25 @@ export default function CreatePost() {
         setPublishError(data.message);
         return;
       }
-
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/post/${data.slug}`);
-      }
+      setPublishError(null);
+      navigate(`/post/${data.slug}`);
     } catch (error) {
       setPublishError('Something went wrong');
     }
   };
 
-
   return (
-    <div className="p-3 max-w-3xl mx-auto min-h-screen">
+    <div className="p-3 max-w-3xl mx-auto min-h-screen mb-12">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a Course</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        FOR IMAGE
+        {/* Image Upload Section */}
+        STEP 1 : IMAGE
         <div className="flex gap-6 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput
             type="file"
             accept="image/*"
             onChange={(e) => setFile(e.target.files[0])}
-            className='w-full'
+            className="w-full"
           />
           <Button
             type="button"
@@ -174,7 +116,7 @@ export default function CreatePost() {
             outline
             onClick={handleUploadImage}
             disabled={!!imageUploadProgress}
-            className='w-full'
+            className="w-full"
           >
             {imageUploadProgress ? (
               <div className="w-15 h-16">
@@ -196,19 +138,23 @@ export default function CreatePost() {
             className="w-full h-72 object-cover"
           />
         )}
-          FOR PDF FILE
-         <div className="flex flex-col gap-4">
-          <FileInput 
-            type="file"
-            accept="application/pdf"
-            onChange={(e) => setPdfFile(e.target.files[0])}
-            label="Upload PDF File"
+       STEP 2 : URL FOR DRIVE
+
+        {/* PDF URL Input Section */}
+        <div className="flex flex-col gap-4">
+          <TextInput
+            type="text"
+            placeholder="Enter PDF URL (e.g., Google Drive or Cloudinary link)"
+            value={formData.pdfUrl || ''}
+            onChange={(e) =>
+              setFormData({ ...formData, pdfUrl: e.target.value })
+            }
           />
-          {pdfFile && <p>Selected PDF: {pdfFile.name}</p>}
         </div>
 
-          FOR HTML FILES
+        {/* HTML File Upload Section */}
         <div className="flex flex-col gap-4">
+          OR INSERT HTML
           <FileInput
             type="file"
             accept=".html"
@@ -217,7 +163,9 @@ export default function CreatePost() {
           />
           {htmlFile && <p>Uploaded: {htmlFile}</p>}
         </div>
-        FOR TITLE
+
+        {/* Title and Category Section */}
+          STEP 3 : TITLE & CATEGORY
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -230,7 +178,7 @@ export default function CreatePost() {
             }
           />
           <Select
-            value={formData.category || "uncategorized"}
+            value={formData.category || 'uncategorized'}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
@@ -241,6 +189,9 @@ export default function CreatePost() {
             <option value="Numericals">Numericals</option>
           </Select>
         </div>
+
+        {/* Rich Text Editor for Content */}
+        FOR TEXT FILE
         <ReactQuill
           theme="snow"
           value={formData.content || ''}
@@ -251,7 +202,7 @@ export default function CreatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit" color='green'>
+        <Button type="submit" color="green">
           UPLOAD
         </Button>
         {publishError && (

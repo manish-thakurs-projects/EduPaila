@@ -1,33 +1,18 @@
 import Post from '../models/post.model.js';
 import { errorHandler } from '../utils/error.js';
-import multer from 'multer';
-import path from 'path';
 
-// Set up storage for uploaded files
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-// Export multer middleware for routes
-export const upload = multer({ storage: storage }).single('pdfFile');
-
-// Create post controller (no upload middleware here)
 export const create = async (req, res, next) => {
   try {
     if (!req.user.isAdmin) {
       return next(errorHandler(403, 'You are not allowed to create a post'));
     }
 
-    if (!req.body.title || !req.body.content) {
+    const { title, content, pdfUrl } = req.body;
+    if (!title || !content) {
       return next(errorHandler(400, 'Please provide all required fields'));
     }
 
-    const slug = req.body.title
+    const slug = title
       .split(' ')
       .join('-')
       .toLowerCase()
@@ -37,7 +22,7 @@ export const create = async (req, res, next) => {
       ...req.body,
       slug,
       userId: req.user.id,
-      pdfUrl: req.file ? req.file.path : null,
+      pdfUrl: pdfUrl || null,
     });
 
     const savedPost = await newPost.save();
@@ -47,7 +32,6 @@ export const create = async (req, res, next) => {
   }
 };
 
-// Update post controller
 export const updatepost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to update this post'));
@@ -56,7 +40,6 @@ export const updatepost = async (req, res, next) => {
   try {
     const updatedData = {
       ...req.body,
-      ...(req.file && { pdfUrl: req.file.path }),
     };
 
     const updatedPost = await Post.findByIdAndUpdate(
@@ -95,13 +78,7 @@ export const getposts = async (req, res, next) => {
     const totalPosts = await Post.countDocuments();
 
     const now = new Date();
-
-    const oneMonthAgo = new Date(
-      now.getFullYear(),
-      now.getMonth() - 1,
-      now.getDate()
-    );
-
+    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
     const lastMonthPosts = await Post.countDocuments({
       createdAt: { $gte: oneMonthAgo },
     });
@@ -127,5 +104,3 @@ export const deletepost = async (req, res, next) => {
     next(error);
   }
 };
-
-

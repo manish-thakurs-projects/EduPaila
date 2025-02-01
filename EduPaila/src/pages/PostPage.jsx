@@ -23,11 +23,9 @@ export default function PostPage() {
           setLoading(false);
           return;
         }
-        if (res.ok) {
-          setPost(data.posts[0]);
-          setLoading(false);
-          setError(false);
-        }
+        setPost(data.posts[0]);
+        setLoading(false);
+        setError(false);
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -37,18 +35,18 @@ export default function PostPage() {
   }, [postSlug]);
 
   useEffect(() => {
-    try {
-      const fetchRecentPosts = async () => {
+    const fetchRecentPosts = async () => {
+      try {
         const res = await fetch(`/api/post/getposts?limit=3`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
         }
-      };
-      fetchRecentPosts();
-    } catch (error) {
-      console.log(error.message);
-    }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchRecentPosts();
   }, []);
 
   if (loading)
@@ -73,10 +71,7 @@ export default function PostPage() {
       </h1>
 
       {/* Post Category */}
-      <Link
-        to={`/search?category=${post && post.category}`}
-        className="self-center mt-5"
-      >
+      <Link to={`/search?category=${post && post.category}`} className="self-center mt-5">
         <Button color="gray" pill size="xs">
           {post && post.category}
         </Button>
@@ -98,35 +93,32 @@ export default function PostPage() {
       </div>
 
       {/* Post Content */}
-      <div
-        className="p-3 max-w-2xl mx-auto w-full post-content"
-        dangerouslySetInnerHTML={{ __html: post && post.content }}
-      ></div>
+      <div className="p-3 max-w-2xl mx-auto w-full post-content" dangerouslySetInnerHTML={{ __html: post && post.content }}>
+      </div>
 
-{post && post.pdfUrl && (
-  <div className="p-3 max-w-2xl mx-auto w-full">
-    <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
-    <div className="aspect-w-16 aspect-h-9 border border-gray-300 rounded-lg overflow-hidden">
-      {/* Use an iframe as a more reliable alternative to <object> */}
-      <iframe
-        src={`${import.meta.env.VITE_BACKEND_URL}${post.pdfUrl}#view=fitH`}
-        title={post.title}
-        width="100%"
-        height="600px"
-        style={{ border: 'none' }}
-        allowFullScreen
-      >
-        {/* Fallback content if the browser doesn't support PDF embedding */}
-        <p>
-          Your browser does not support embedded PDFs. You can download the PDF{' '}
-          <a href={`${import.meta.env.VITE_BACKEND_URL}${post.pdfUrl}`} target="_blank" rel="noopener noreferrer">
-            here
-          </a>.
-        </p>
-      </iframe>
-    </div>
-  </div>
-)}
+      {/* PDF Preview Section */}
+      {post && post.pdfUrl && (
+        <div className="p-3 max-w-2xl mx-auto w-full">
+          <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
+          <div className="aspect-w-16 aspect-h-9 border border-gray-300 rounded-lg overflow-hidden">
+            <iframe
+              src={`${post.pdfUrl}#view=fitH`}
+              title={post.title}
+              width="100%"
+              height="600px"
+              style={{ border: 'none' }}
+              allowFullScreen
+            >
+              <p>
+                Your browser does not support embedded PDFs. You can download the PDF{' '}
+                <a href={post.pdfUrl} target="_blank" rel="noopener noreferrer">
+                  here
+                </a>.
+              </p>
+            </iframe>
+          </div>
+        </div>
+      )}
 
       {/* Call to Action */}
       <div className="max-w-4xl mx-auto w-full">
@@ -140,8 +132,7 @@ export default function PostPage() {
       <div className="flex flex-col justify-center items-center mb-5">
         <h1 className="text-xl mt-5">Recent articles</h1>
         <div className="flex flex-wrap gap-5 mt-5 justify-center">
-          {recentPosts &&
-            recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
+          {recentPosts && recentPosts.map((p) => <PostCard key={p._id} post={p} />)}
         </div>
       </div>
     </main>
