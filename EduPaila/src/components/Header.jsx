@@ -49,7 +49,7 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="border-b-2">
+    <Navbar className="border-b-2 px-3">
       <Logo size="w-14"/>
 
       <form onSubmit={handleSubmit} className="sm:flex items-center hidden">
