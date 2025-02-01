@@ -1,6 +1,7 @@
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { FaUpload } from "react-icons/fa6";
 import { useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -109,24 +110,26 @@ export default function CreatePost() {
             onChange={(e) => setFile(e.target.files[0])}
             className="w-full"
           />
-          <Button
+             <Button
             type="button"
-            color="green"
-            size="sm"
+            color='green'
             outline
             onClick={handleUploadImage}
-            disabled={!!imageUploadProgress}
-            className="w-full"
+            disabled={imageUploadProgress}
           >
             {imageUploadProgress ? (
-              <div className="w-15 h-16">
+              <div className="w-16 h-16">
                 <CircularProgressbar
                   value={imageUploadProgress}
                   text={`${imageUploadProgress || 0}%`}
                 />
               </div>
             ) : (
-              'Upload Image'
+              <div className='flex'>
+                Upload
+
+              <FaUpload className='ml-3'/>
+              </div>
             )}
           </Button>
         </div>
@@ -202,7 +205,7 @@ export default function CreatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit" color="green">
+        <Button type="submit" color="green" outline>
           UPLOAD
         </Button>
         {publishError && (

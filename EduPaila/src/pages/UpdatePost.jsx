@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { FaUpload } from "react-icons/fa6";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -147,10 +148,10 @@ export default function UpdatePost() {
             }
             value={formData.category || 'uncategorized'}
           >
-            <option value="uncategorized">Select a category</option>
-            <option value="javascript">JavaScript</option>
-            <option value="reactjs">React.js</option>
-            <option value="nextjs">Next.js</option>
+             <option value="uncategorized">Select a category</option>
+            <option value="Notes">Notes</option>
+            <option value="Mcq">Mcq</option>
+            <option value="Numericals">Numericals</option>
           </Select>
         </div>
 
@@ -163,8 +164,7 @@ export default function UpdatePost() {
           />
           <Button
             type="button"
-            gradientDuoTone="purpleToBlue"
-            size="sm"
+            color='green'
             outline
             onClick={handleUploadImage}
             disabled={imageUploadProgress}
@@ -177,7 +177,11 @@ export default function UpdatePost() {
                 />
               </div>
             ) : (
-              'Upload Image'
+              <div className='flex'>
+                Upload
+
+              <FaUpload className='ml-3'/>
+              </div>
             )}
           </Button>
         </div>
@@ -222,7 +226,7 @@ export default function UpdatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit" gradientDuoTone="purpleToPink">
+        <Button type="submit" color='green' outline>
           Update Post
         </Button>
         {publishError && (
