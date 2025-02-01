@@ -12,6 +12,15 @@ export default function PostPage() {
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState(null);
 
+  function convertToEmbedUrl(url) {
+    const match = url.match(/\/d\/([^/]+)/);
+    if (match && match[1]) {
+      return `https://drive.google.com/file/d/${match[1]}/preview`;
+    }
+    return url;
+  }
+  
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -98,27 +107,28 @@ export default function PostPage() {
 
       {/* PDF Preview Section */}
       {post && post.pdfUrl && (
-        <div className="p-3 max-w-2xl mx-auto w-full">
-          <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
-          <div className="aspect-w-16 aspect-h-9 border border-gray-300 rounded-lg overflow-hidden">
-            <iframe
-              src={`${post.pdfUrl}#view=fitH`}
-              title={post.title}
-              width="100%"
-              height="600px"
-              style={{ border: 'none' }}
-              allowFullScreen
-            >
-              <p>
-                Your browser does not support embedded PDFs. You can download the PDF{' '}
-                <a href={post.pdfUrl} target="_blank" rel="noopener noreferrer">
-                  here
-                </a>.
-              </p>
-            </iframe>
-          </div>
-        </div>
-      )}
+  <div className="p-3 max-w-2xl mx-auto w-full">
+    <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
+    <div className="aspect-w-16 aspect-h-9 border border-gray-300 rounded-lg overflow-hidden">
+      <iframe
+        src={convertToEmbedUrl(post.pdfUrl)}
+        title={post.title}
+        width="100%"
+        height="600px"
+        style={{ border: 'none' }}
+        allowFullScreen
+      >
+        <p>
+        Your browser does not support embedded PDFs. Use other browsers if possible or
+        <a href="https://wa.me/9779801996736">
+        contact us
+        </a>
+        </p>
+      </iframe>
+    </div>
+  </div>
+)}
+
 
       {/* Call to Action */}
       <div className="max-w-4xl mx-auto w-full">
