@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import './page.css'
 
 export default function PostCard({ post }) {
   return (
@@ -10,20 +11,23 @@ export default function PostCard({ post }) {
       <div className="relative">
         <img
           src={post.image}
-          alt="post cover"
+          alt={post.title}
           className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70 group-hover:opacity-80 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 group-hover:opacity-80 transition-opacity duration-300"></div>
+
         <div
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-teal-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg hover:bg-teal-600 transition-all"
-        >
-          Learn More
-        </div>
+className=" text-top absolute bottom-24 left-1/2 transform -translate-x-1/2 text-white text-5xl font-extrabold uppercase animate-pulse transition-all text-center"
+>
+{post.title.split(' ')[0]} {/* Displaying only the first word */}
+</div>
+
+
       </div>
 
       {/* Content Section */}
       <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-800 group-hover:text-teal-500 transition-colors line-clamp-2">
+        <h3 className="text-lg font-semibold dark:text-blue-100 text-black group-hover:text-teal-500 transition-colors line-clamp-2">
           {post.title}
         </h3>
         <p className="text-sm text-gray-500 italic mt-1">{post.category}</p>

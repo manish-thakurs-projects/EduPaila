@@ -13,10 +13,15 @@ import DOMPurify from 'dompurify';
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
   const [htmlFile, setHtmlFile] = useState(null);
-  const [pdfUrlInput, setPdfUrlInput] = useState(''); // For entering the PDF URL
+  const [pdfUrlInput, setPdfUrlInput] = useState('');
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    title: '',
+    category: 'uncategorized',
+    image: '',
+    content: '',
+  });
   const [publishError, setPublishError] = useState(null);
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -28,15 +33,19 @@ export default function UpdatePost() {
         const res = await fetch(`/api/post/getposts?postId=${postId}`);
         const data = await res.json();
         if (!res.ok) {
-          console.log(data.message);
           setPublishError(data.message);
           return;
         }
         setPublishError(null);
-        setFormData(data.posts[0]);
+        setFormData({
+          title: data.posts[0].title || '',
+          category: data.posts[0].category || 'uncategorized',
+          image: data.posts[0].image || '',
+          content: data.posts[0].content || '',
+        });
         setPdfUrlInput(data.posts[0].pdfUrl || '');
       } catch (error) {
-        console.log(error.message);
+        setPublishError('Error fetching post details');
       }
     };
     fetchPost();
@@ -67,12 +76,10 @@ export default function UpdatePost() {
         }
       );
       setImageUploadProgress(null);
-      setImageUploadError(null);
       setFormData({ ...formData, image: res.data.secure_url });
     } catch (error) {
       setImageUploadError('Image upload failed');
       setImageUploadProgress(null);
-      console.log(error);
     }
   };
 
@@ -90,35 +97,40 @@ export default function UpdatePost() {
     }
   };
 
-  // Handle form submission (sending JSON data)
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!currentUser) {
+      setPublishError('User not authenticated');
+      return;
+    }
+
     try {
       const dataToSend = {
-        title: formData.title || '',
-        content: formData.content || '',
-        category: formData.category || 'uncategorized',
-        image: formData.image || '',
+        title: formData.title,
+        content: formData.content,
+        category: formData.category,
+        image: formData.image,
         pdfUrl: pdfUrlInput || '',
       };
 
-      const res = await fetch(
-        `/api/post/updatepost/${formData._id}/${currentUser._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(dataToSend),
-        }
-      );
+      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        },
+        body: JSON.stringify(dataToSend),
+      });
 
       const data = await res.json();
+
       if (!res.ok) {
-        setPublishError(data.message);
+        setPublishError(data.message || 'Failed to update post');
         return;
       }
-      setPublishError(null);
+
       navigate(`/post/${data.slug}`);
     } catch (error) {
       setPublishError('Something went wrong');
@@ -137,18 +149,14 @@ export default function UpdatePost() {
             required
             id="title"
             className="flex-1"
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-            value={formData.title || ''}
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <Select
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
-            value={formData.category || 'uncategorized'}
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
           >
-             <option value="uncategorized">Select a category</option>
+            <option value="uncategorized">Select a category</option>
             <option value="Notes">Notes</option>
             <option value="Mcq">Mcq</option>
             <option value="Numericals">Numericals</option>
@@ -170,70 +178,41 @@ export default function UpdatePost() {
             disabled={imageUploadProgress}
           >
             {imageUploadProgress ? (
-              <div className="w-16 h-16">
-                <CircularProgressbar
-                  value={imageUploadProgress}
-                  text={`${imageUploadProgress || 0}%`}
-                />
-              </div>
+              <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress}%`} />
             ) : (
               <div className='flex'>
-                Upload
-
-              <FaUpload className='ml-3'/>
+                Upload <FaUpload className='ml-3'/>
               </div>
             )}
           </Button>
         </div>
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-        {formData.image && (
-          <img
-            src={formData.image}
-            alt="upload"
-            className="w-full h-72 object-cover"
-          />
-        )}
+        {formData.image && <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />}
 
-        {/* HTML File Upload Section */}
-        <div className="flex flex-col gap-4">
-          <FileInput
-            type="file"
-            accept=".html"
-            onChange={handleHtmlFileUpload}
-            label="Upload HTML File"
-          />
-          {htmlFile && <p>Uploaded: {htmlFile}</p>}
-        </div>
+        {/* HTML File Upload */}
+        <FileInput type="file" accept=".html" onChange={handleHtmlFileUpload} label="Upload HTML File" />
+        {htmlFile && <p>Uploaded: {htmlFile}</p>}
 
-        {/* PDF URL Input Section */}
-        <div className="flex flex-col gap-4">
-          <TextInput
-            type="text"
-            placeholder="Enter PDF URL (e.g., Google Drive or Cloudinary link)"
-            value={pdfUrlInput}
-            onChange={(e) => setPdfUrlInput(e.target.value)}
-          />
-        </div>
+        {/* PDF URL Input */}
+        <TextInput
+          type="text"
+          placeholder="Enter PDF URL"
+          value={pdfUrlInput}
+          onChange={(e) => setPdfUrlInput(e.target.value)}
+        />
 
-        {/* Rich Text Editor for Content */}
+        {/* Content Editor */}
         <ReactQuill
           theme="snow"
-          value={formData.content || ''}
+          value={formData.content}
           placeholder="Write something..."
           className="h-72 mb-12"
           required
-          onChange={(value) => {
-            setFormData({ ...formData, content: value });
-          }}
+          onChange={(value) => setFormData({ ...formData, content: value })}
         />
-        <Button type="submit" color='green' outline>
-          Update Post
-        </Button>
-        {publishError && (
-          <Alert className="mt-5" color="failure">
-            {publishError}
-          </Alert>
-        )}
+
+        <Button type="submit" color='green' outline>Update Post</Button>
+        {publishError && <Alert className="mt-5" color="failure">{publishError}</Alert>}
       </form>
     </div>
   );

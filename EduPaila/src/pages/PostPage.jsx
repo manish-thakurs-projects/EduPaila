@@ -5,6 +5,9 @@ import CallToAction from '../components/CallToAction';
 import CommentSection from '../components/CommentSection';
 import PostCard from '../components/PostCard';
 import SkeletonPost from '../components/SkeletonPost'; // Import the Skeleton Loader
+import '../components/page.css'
+
+
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -91,24 +94,25 @@ export default function PostPage() {
         style={{ width: `${scrollProgress}%` }}
       ></div>
 
-      {/* Post Title */}
-      <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-5xl capitalize">
-        {post && post.title}
-      </h1>
+      {/* Post Image with Title and Category over it */}
+      <div className="relative">
+        <img
+          src={post && post.image}
+          alt={post && post.title}
+          className="mt-10 max-h-[400px] w-full object-cover rounded-xl shadow-md"
+        />
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-opacity-50">
+  <h1 className="text-4xl p-3 text-white text-top mx-auto lg:text-8xl uppercase text-center">
+    {post && post.title}
+  </h1>
+  <Link to={`/search?category=${post && post.category}`} className="text-2xl text-top uppercase hover:underline" >
+    <button className="text-2xl text-top uppercase hover:underline">
+      {post && post.category}
+    </button>
+  </Link>
+</div>
 
-      {/* Post Category */}
-      <Link to={`/search?category=${post && post.category}`} className="self-center mt-5">
-        <Button color='blue' outline >
-          {post && post.category}
-        </Button>
-      </Link>
-
-      {/* Post Image */}
-      <img
-        src={post && post.image}
-        alt={post && post.title}
-        className="mt-10 p-3 max-h-[400px] w-full object-cover rounded-xl shadow-md"
-      />
+      </div>
 
       {/* Post Metadata */}
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
@@ -126,14 +130,14 @@ export default function PostPage() {
 
       {/* PDF Preview Section */}
       {post && post.pdfUrl && (
-        <div className="p-3 max-w-2xl mx-auto w-full mt-10 mb-10">
+        <div className="p-3 max-w-2xl mx-auto w-full mt-3 mb-10">
           <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
           <div className="aspect-w-16 aspect-h-9 border border-gray-300 rounded-lg overflow-hidden">
             <iframe
               src={convertToEmbedUrl(post.pdfUrl)}
               title={post.title}
               width="100%"
-              height="600px"
+              height="500px"
               style={{ border: 'none' }}
               allowFullScreen
             >
@@ -155,12 +159,22 @@ export default function PostPage() {
       <CommentSection postId={post._id} />
 
       {/* Recent Articles */}
-      <div className="flex flex-col justify-center items-center mb-5">
-        <h1 className="text-xl mt-5">Recent Uploads</h1>
-        <div className="flex flex-wrap gap-5 mt-5 justify-center">
-          {recentPosts && recentPosts.map((p) => <PostCard key={p._id} post={p} />)}
-        </div>
-      </div>
+
+
+
+      <div className="flex flex-col justify-center w-full items-center mb-5">
+  <h1 className="text-xl mt-5">Recent Uploads</h1>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 w-full px-4">
+    {recentPosts && recentPosts.map((p) => (
+      <PostCard key={p._id} post={p} />
+    ))}
+  </div>
+</div>
+
+ 
+
+
+
     </main>
   );
 }

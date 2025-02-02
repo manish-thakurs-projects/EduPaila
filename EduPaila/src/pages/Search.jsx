@@ -112,7 +112,7 @@ export default function Search() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}
-          className="p-4 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 block sm:hidden"
+          className="p-4 bg-gradient-to-br from-blue-600 to-purple-600 hidden rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 "
         >
           <HiSearch className="w-6 h-6 text-white" 
           />
@@ -142,7 +142,7 @@ export default function Search() {
             exit="closed"
             variants={searchBarVariants}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="fixed bottom-32 right-8 z-50 bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-2xl backdrop-blur-lg bg-opacity-90"
+            className="fixed bottom-32 right-8 z-50 bg-white dark:bg-gray-800 hidden p-4 rounded-2xl shadow-2xl backdrop-blur-lg bg-opacity-90"
           >
             <TextInput
               placeholder="Search posts..."
@@ -151,7 +151,7 @@ export default function Search() {
               value={sidebarData.searchTerm}
               onChange={handleChange}
               onKeyPress={(e) => e.key === 'Enter' && handleSubmit(e)}
-              className="w-64 px-4 py-3 rounded-xl border-0 ring-2 ring-gray-200 focus:ring-2 focus:ring-blue-500 transition-all"
+              className="w-64 px-4 py-3 rounded-xl border-0 ring-2 ring-gray-200 hidden focus:ring-2 focus:ring-blue-500 transition-all"
             />
           </motion.div>
         )}

@@ -6,14 +6,6 @@ export default function SkeletonPost() {
       {/* Scroll Progress Bar (Placeholder) */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
 
-      {/* Post Title */}
-      <div className="h-8 w-3/4 mx-auto mt-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-
-      {/* Post Category */}
-      <div className="flex justify-center mt-5">
-        <div className="h-6 w-20 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
-      </div>
-
       {/* Post Image */}
       <div className="mt-10 w-full h-[400px] bg-gray-200 dark:bg-gray-700 rounded-xl shadow-md animate-pulse"></div>
 

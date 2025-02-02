@@ -236,33 +236,25 @@ export default function DashProfile() {
           Delete Account
           </span> */}
 
-<h1 className='text-center animate-pulse capitalize '>
-  Shortcuts
-</h1>
-        {currentUser.isAdmin && (
-          <Link to={'/createpost'}>
-            <Button
-              type="button"
-              className="w-full"
-              color='blue'
-              outline
-            >
-              Create a post
-            </Button>
-          </Link>
-        )}
-    {currentUser.isAdmin && (
-          <Link to={'/signup'}>
-            <Button
-              type="button"
-              className="w-full"
-              color='blue'
-              outline
-            >
-              Create new user
-            </Button>
-          </Link>
-        )}
+
+{currentUser.isAdmin && (
+  <div className="text-center">
+    <h1 className="animate-pulse capitalize">Shortcuts</h1>
+    <Link to={'/createpost'}>
+      <Button type="button" className="w-full mt-5" color="blue" outline>
+        Create a post
+      </Button>
+    </Link>
+    <Link to={'/signup'}>
+      <Button type="button" className="w-full mt-5" color="blue" outline>
+        Create new user
+      </Button>
+    </Link>
+  </div>
+)}
+
+
+
 
       </form>
 
