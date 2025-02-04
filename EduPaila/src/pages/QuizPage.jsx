@@ -51,7 +51,7 @@ const QuizPage = () => {
   const handleSubmitQuiz = () => {
     let calculatedScore = 0;
     quiz.questions.forEach((question, index) => {
-      const correctAnswer = question.options.find(opt => opt.isCorrect).optionText;
+      const correctAnswer = question.options && question.options.find(opt => opt.isCorrect)?.optionText || 'No correct answer';
       if (userAnswers[index] === correctAnswer) {
         calculatedScore++;
       }
@@ -82,40 +82,34 @@ const QuizPage = () => {
   if (isSubmitted) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-3xl font-bold mb-6">'{quiz.title}' Results</h1>
+        <h1 className="text-3xl font-bold mb-6">Your Test Score For {quiz.title}</h1>
         <div className="dark:bg-slate-900 bg-slate-100 p-6 rounded-lg shadow-2xl max-w-md mx-auto">
           <div className="text-2xl font-semibold mb-8 flex">
-          <div className="w-1/2">
-  Your Score
-  <div
-    className={`${
-      (score / quiz.questions.length) * 100 < 40 ? 'text-red-500' : 'text-green-500'
-    }`}
-  >
-    {score}/{quiz.questions.length}
-  </div>
-</div>
-
-
+            <div className="w-1/2">
+              Your Score
+              <div
+                className={`${
+                  (score / quiz.questions.length) * 100 < 40 ? 'text-red-500' : 'text-green-500'
+                }`}
+              >
+                {score}/{quiz.questions.length}
+              </div>
+            </div>
 
             <div className="w-1/2">
-  <div>
-    percentage
-  </div>
-  <div 
-    className={`${
-      (score / quiz.questions.length) * 100 < 40 ? 'text-red-500' : 'text-green-500'
-    }`}
-  >
-    {((score / quiz.questions.length) * 100).toFixed(2)}%
-  </div>
-</div>
-
-            
+              <div>Percentage</div>
+              <div
+                className={`${
+                  (score / quiz.questions.length) * 100 < 40 ? 'text-red-500' : 'text-green-500'
+                }`}
+              >
+                {((score / quiz.questions.length) * 100).toFixed(2)}%
+              </div>
+            </div>
           </div>
           <div className="mb-6">
             {quiz.questions.map((question, index) => {
-              const correctAnswer = question.options.find(opt => opt.isCorrect).optionText;
+              const correctAnswer = question.options && question.options.find(opt => opt.isCorrect)?.optionText || 'No correct answer';
               return (
                 <div key={index} className="mb-4 text-left border-b pb-4">
                   <p className="font-medium">{question.questionText}</p>
@@ -130,36 +124,18 @@ const QuizPage = () => {
               );
             })}
           </div>
-          <div className='flex mt-12'>
-
-          <div className='w-1/2 flex justify-center items-center'>
-
-          <Button
-            onClick={() => window.location.reload()}
-            color='blue'
-            pill
-            outline
-            >
-            Retake Quiz
-          </Button>
+          <div className="flex mt-12">
+            <div className="w-1/2 flex justify-center items-center">
+              <Button onClick={() => window.location.reload()} color="blue" pill outline>
+                Retake Quiz
+              </Button>
             </div>
-            <div className='w-1/2 flex justify-center items-center'>
-
-          <Button
-           color='blue'
-           pill
-           outline
-           
-           >
-
-          <Link
-            to="/quizzes"
-            >
-            Back to Quizzes
-          </Link>
-            </Button>
-              </div>
-              </div>
+            <div className="w-1/2 flex justify-center items-center">
+              <Button color="blue" pill outline>
+                <Link to="/quizzes">Back to Quizzes</Link>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -188,10 +164,7 @@ const QuizPage = () => {
         </div>
 
         <div className="dark:bg-slate-900 bg-slate-100 p-6 rounded-lg shadow-2xl">
-          <h2 className="text-xl font-semibold mb-6">
-            {currentQuestion.questionText}
-          </h2>
-          
+          <h2 className="text-xl font-semibold mb-6">{currentQuestion.questionText}</h2>
           <div className="space-y-4">
             {currentQuestion.options.map((option, index) => (
               <button
@@ -212,23 +185,22 @@ const QuizPage = () => {
             {currentQuestionIndex > 0 && (
               <Button
                 onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
-                color='gray'
+                color="gray"
                 pill
                 outline
-
               >
                 Previous
               </Button>
             )}
-            
+
             <div className="flex-grow"></div>
-            
+
             {currentQuestionIndex < quiz.questions.length - 1 ? (
               <Button
                 onClick={handleNextQuestion}
                 disabled={!userAnswers[currentQuestionIndex]}
                 className="disabled:opacity-50 disabled:cursor-not-allowed"
-                color='blue'
+                color="blue"
                 pill
                 outline
               >
@@ -239,7 +211,7 @@ const QuizPage = () => {
                 onClick={handleSubmitQuiz}
                 disabled={!userAnswers[currentQuestionIndex]}
                 className="disabled:opacity-50 disabled:cursor-not-allowed"
-                color='green'
+                color="green"
                 pill
                 outline
               >

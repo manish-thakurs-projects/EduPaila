@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { MdDelete } from "react-icons/md";
 import { toast } from 'react-toastify';
 
 const CreateQuiz = () => {
@@ -200,7 +201,7 @@ const CreateQuiz = () => {
                     onClick={() => handleRemoveOption(questionIndex, optionIndex)}
                     className="text-red-600 hover:text-red-800 text-sm"
                   >
-                    Remove
+                    <MdDelete />
                   </button>
                 </div>
               ))}

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { FaCheck } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { toast } from 'react-toastify';
 
 const UpdateQuiz = () => {
@@ -117,13 +119,14 @@ const UpdateQuiz = () => {
   if (loading) return <div className="text-center py-8">Loading...</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Update Quiz</h1>
+    <div className="max-w-4xl mx-auto p-6 dark:bg-slate-900 rounded-lg shadow-2xl bg-slate-100 my-20 ">
+
+      <h1 className="text-3xl font-bold mb-6 dark:text-slate-300 text-gray-800">Update Quiz</h1>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Reuse the same form fields from CreateQuiz */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Title</label>
+          <label className="block text-sm font-medium dark:text-slate-300 text-gray-700">Title</label>
           <input
             type="text"
             value={formData.title}
@@ -134,7 +137,7 @@ const UpdateQuiz = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Description</label>
+          <label className="block text-sm font-medium dark:text-slate-300 text-gray-700">Description</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -144,11 +147,11 @@ const UpdateQuiz = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Category</label>
+          <label className="block text-sm font-medium dark:text-slate-300  text-gray-700">Category</label>
           <select
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:bg-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="uncategorized">Uncategorized</option>
             <option value="math">Mathematics</option>
@@ -159,9 +162,9 @@ const UpdateQuiz = () => {
         </div>
 
         {formData.questions.map((question, questionIndex) => (
-          <div key={questionIndex} className="border p-4 rounded-lg bg-gray-50">
+          <div key={questionIndex} className="border p-4 rounded-lg dark:bg-slate-900 bg-gray-50">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-medium text-gray-800">Question {questionIndex + 1}</h3>
+              <h3 className="text-lg font-medium dark:text-slate-300 text-gray-800">Question {questionIndex + 1}</h3>
               <button
                 type="button"
                 onClick={() => handleRemoveQuestion(questionIndex)}
@@ -205,14 +208,14 @@ const UpdateQuiz = () => {
                       }
                       className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                     />
-                    <span className="text-sm text-gray-700">Correct</span>
+                    <span className="text-sm text-gray-700"><FaCheck /></span>
                   </label>
                   <button
                     type="button"
                     onClick={() => handleRemoveOption(questionIndex, optionIndex)}
                     className="text-red-600 hover:text-red-800 text-sm"
                   >
-                    Remove
+                   <MdDelete />
                   </button>
                 </div>
               ))}
