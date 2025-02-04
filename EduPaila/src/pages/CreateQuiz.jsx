@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { MdDelete } from "react-icons/md";
 import { toast } from 'react-toastify';
+import { FaCheck } from "react-icons/fa";
+
 
 const CreateQuiz = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -194,7 +196,7 @@ const CreateQuiz = () => {
                       }
                       className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                     />
-                    <span className="text-sm text-gray-700">Correct</span>
+                    <span className="text-sm text-gray-700"><FaCheck /></span>
                   </label>
                   <button
                     type="button"
