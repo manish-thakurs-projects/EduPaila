@@ -11,7 +11,7 @@ export default function JoinUs() {
           <Logo />
           <h1 className="joinUs-heading">Affordable Education for Everyone</h1>
           <p className="joinUs-description">
-            Traditional education is often expensive and inaccessible, leaving countless learners behind. At EduPaila, we’re changing this by providing high-quality, expert-curated courses for just <strong>Rs. 345</strong> after a <strong>50% discount</strong>.
+            Traditional education is often expensive and inaccessible, leaving countless learners behind. At EduPaila, we’re changing this by providing high-quality, expert-curated courses for just <strong>Rs. 245</strong> after a <strong>50% discount</strong>.
           </p>
           <p className="joinUs-highlight">
             No hidden fees. No overpriced tuition. Just the education you deserve at a price you can afford.
