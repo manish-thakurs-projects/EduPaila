@@ -137,7 +137,7 @@ export default function PostPage() {
               src={convertToEmbedUrl(post.pdfUrl)}
               title={post.title}
               width="100%"
-              height="500px"
+              height="600px"
               style={{ border: 'none' }}
               allowFullScreen
             >

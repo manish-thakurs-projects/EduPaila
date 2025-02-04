@@ -1,16 +1,17 @@
-// index.js
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
+import quizRoutes from './routes/quiz.route.js';
 import commentRoutes from './routes/comment.route.js';
 import messageRoutes from './routes/message.route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import fs from 'fs'; 
+
 dotenv.config();
 
 mongoose
@@ -46,6 +47,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/quiz', quizRoutes);
 
 app.use(express.static(path.join(__dirname, 'EduPaila', 'dist')));
 
