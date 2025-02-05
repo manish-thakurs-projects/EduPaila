@@ -40,10 +40,10 @@ export default function App() {
         <Route path='/search' element={<Search />} />
         <Route path='/quizzes' element={<Mcqpage />} />
 
-          <Route path='/post/:postSlug' element={<PostPage />} />
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/post/:postSlug' element={<PostPage />} />
         <Route path='/quiz' element={<QuizPage />} />
         <Route path='/quiz/:slug' element={<QuizPage />} />
         <Route path='/video/:slug' element={<VideoPage/>} />
