@@ -17,6 +17,7 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -46,6 +47,7 @@ export default function Header() {
     urlParams.set('searchTerm', searchTerm);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+    setIsSearchDropdownOpen(false); // Close the dropdown after search
   };
 
   return (
@@ -69,10 +71,34 @@ export default function Header() {
       </form>
 
       <div className="flex gap-3 items-center md:order-2">
-        {/* Mobile Search Icon */}
-        <Link to="/search" className="sm:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
-          <AiOutlineSearch className="w-6 h-6 text-gray-600 dark:text-gray-300" />
-        </Link>
+        {/* Mobile Search Icon and Dropdown */}
+        <Dropdown
+          arrowIcon={false}
+          inline
+          label={
+            <button className="sm:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
+              <AiOutlineSearch className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+            </button>
+          }
+          className="w-full !rounded-xl !border !border-gray-200 dark:!border-gray-700 !bg-white dark:!bg-gray-800"
+          onOpen={() => setIsSearchDropdownOpen(true)}
+          onClose={() => setIsSearchDropdownOpen(false)}
+        >
+          <form onSubmit={handleSubmit} className="p-4">
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                <AiOutlineSearch className="w-5 h-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search..."
+                className="block w-full pl-12 pr-4 py-2.5 text-sm rounded-full border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-600 outline-none transition-all"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </form>
+        </Dropdown>
 
         {/* Theme Toggle */}
         <button
@@ -171,37 +197,35 @@ export default function Header() {
 
       {/* Desktop Navigation */}
       <Navbar.Collapse className="sm:flex space-x-4 mt-0">
-  <a 
-    href="/" 
-    className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
-    title="Home"
-  >
-    <FaHome className={`${path === '/' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
-  </a>
-  <a 
-    href="/about" 
-    className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/about' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
-    title="About"
-  >
-    <FaInfoCircle className={`${path === '/about' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
-  </a>
-  <a 
-    href="/quizzes" 
-    className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/quizzes' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
-    title="Quizzes"
-  >
-    <FaNoteSticky className={`${path === '/quizzes' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
-  </a>
-  <a 
-    href="/video" 
-    className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/video' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
-    title="Videos"
-  >
-    <FaVideo className={`${path === '/video' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
-  </a>
-</Navbar.Collapse>
-
-
+        <a 
+          href="/" 
+          className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
+          title="Home"
+        >
+          <FaHome className={`${path === '/' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
+        </a>
+        <a 
+          href="/about" 
+          className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/about' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
+          title="About"
+        >
+          <FaInfoCircle className={`${path === '/about' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
+        </a>
+        <a 
+          href="/quizzes" 
+          className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/quizzes' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
+          title="Quizzes"
+        >
+          <FaNoteSticky className={`${path === '/quizzes' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
+        </a>
+        <a 
+          href="/video" 
+          className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/video' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
+          title="Videos"
+        >
+          <FaVideo className={`${path === '/video' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
+        </a>
+      </Navbar.Collapse>
     </Navbar>
   );
 }
