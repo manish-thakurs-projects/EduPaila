@@ -76,7 +76,7 @@ export default function About() {
                 className="bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-600 px-4 dark:to-indigo-700 text-white py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2"
               >
                 <FaRocket className="animate-bounce" />
-                Launch Your Success Journey
+                Start your Journey
               </Link>
             </div>
           </div>
