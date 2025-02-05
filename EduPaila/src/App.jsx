@@ -14,6 +14,8 @@ import CreatePost from '../src/pages/CreatePost';
 import UpdatePost from '../src/pages/UpdatePost';
 import PostPage from '../src/pages/PostPage';
 import ScrollToTop from '../src/components/ScrollToTop';
+import CreateVideo from './pages/CreateVideo';
+import VideoPage from './pages/VideoPage';
 import Search from '../src/pages/Search';
 import Joinus from '../src/pages/JoinUs';
 import QuizPage from '../src/pages/QuizPage'; // Public Quiz Page
@@ -38,17 +40,19 @@ export default function App() {
         <Route path='/search' element={<Search />} />
         <Route path='/quizzes' element={<Mcqpage />} />
 
+          <Route path='/post/:postSlug' element={<PostPage />} />
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/post/:postSlug' element={<PostPage />} />
         <Route path='/quiz' element={<QuizPage />} />
         <Route path='/quiz/:slug' element={<QuizPage />} />
+        <Route path='/video/:slug' element={<VideoPage/>} />
         </Route>
 
         {/* Admin Only Routes */}
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path='/createpost' element={<CreatePost />} />
+          <Route path='/createvideo' element={<CreateVideo/>} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
           <Route path='/createquiz' element={<CreateQuiz />} />
           <Route path='/update-quiz/:quizId' element={<UpdateQuiz />} /> {/* Uses Quiz ID */}
