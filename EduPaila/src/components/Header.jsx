@@ -80,7 +80,7 @@ export default function Header() {
               <AiOutlineSearch className="w-6 h-6 text-gray-600 dark:text-gray-300" />
             </button>
           }
-          className="w-5/6 !rounded-xl !border !border-gray-200 dark:!border-gray-700 !bg-white dark:!bg-gray-800"
+          className="w-5/6 !rounded-2xl !border !border-gray-200 dark:!border-gray-700 !bg-white dark:!bg-gray-800"
           onOpen={() => setIsSearchDropdownOpen(true)}
           onClose={() => setIsSearchDropdownOpen(false)}
         >
