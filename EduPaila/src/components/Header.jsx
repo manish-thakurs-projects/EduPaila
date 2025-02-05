@@ -49,7 +49,7 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="border-b-2 px-4 sm:px-6 lg:px-8 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm top-0 z-50">
+    <Navbar className="border-b-2 px-4 sm:px-6 lg:px-8 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm top-0 sticky z-50">
       <Logo size="w-12 sm:w-14 hover:scale-105 transition-transform" />
 
       {/* Search Bar */}
