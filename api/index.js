@@ -10,7 +10,9 @@ import messageRoutes from './routes/message.route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
-import fs from 'fs'; 
+import fs from 'fs';
+import videoRoutes from './routes/video.route.js';
+
 
 dotenv.config();
 
@@ -46,6 +48,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
+app.use('/api/video', videoRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/quiz', quizRoutes);
 

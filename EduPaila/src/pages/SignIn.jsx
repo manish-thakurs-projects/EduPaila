@@ -79,7 +79,7 @@ export default function SignIn() {
                 {passwordVisible ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            <Button gradientDuoTone="purpleToPink" type="submit" disabled={loading}>
+            <Button color='blue' type="submit" outline pill disabled={loading}>
               {loading ? (
                 <>
                   <Spinner size="sm" />

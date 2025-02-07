@@ -6,12 +6,13 @@ import {
   HiOutlineUserGroup,
   HiAnnotation,
   HiChartPie,
-  HiClipboardList, // New icon for Quizzes
+  HiClipboardList,
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { FaVideo } from 'react-icons/fa';
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -79,6 +80,11 @@ export default function DashSidebar() {
               <Link to="/dashboard?tab=comments">
                 <Sidebar.Item active={tab === 'comments'} icon={HiAnnotation} as="div">
                   Comments
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=video">
+                <Sidebar.Item active={tab === 'video'} icon={FaVideo} as="div">
+                  video
                 </Sidebar.Item>
               </Link>
             </>

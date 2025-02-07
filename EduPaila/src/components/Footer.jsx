@@ -11,12 +11,10 @@ export default function FooterCom() {
     <Footer container className="border-t-8 border-blue-500 bg-gray-900 text-white py-10">
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Logo Section */}
           <div className="mb-6 md:mb-0">
             <Logo />
           </div>
 
-          {/* Footer Links */}
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 text-sm">
             <div>
               <Footer.Title title="About Us" className="text-lg font-semibold text-white" />
@@ -65,7 +63,6 @@ export default function FooterCom() {
           </div>
         </div>
 
-        {/* Footer Bottom */}
         <div className="mt-8 border-t border-gray-700 pt-6 text-center">
           <p className="text-sm text-gray-400">&copy; {currentYear} EduPaila. All rights reserved.</p>
           <div className="flex justify-center space-x-4 mt-4">

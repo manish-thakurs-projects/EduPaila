@@ -52,7 +52,6 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
 
   return (
     <div className="flex p-4 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
-      {/* Avatar */}
       <div className="flex-shrink-0 mr-3">
         <img
           className="w-12 h-12 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
@@ -61,9 +60,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
         />
       </div>
 
-      {/* Content */}
       <div className="flex-1 space-y-2">
-        {/* Header (Username + Timestamp) */}
         <div className="flex items-center gap-2">
           <span className="font-semibold text-gray-900 dark:text-white text-base">
             {user.username || 'Anonymous User'}
@@ -73,7 +70,6 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
           </span>
         </div>
 
-        {/* Comment Body */}
         {isEditing ? (
           <>
             <Textarea
@@ -95,9 +91,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
           <p className="text-gray-700 dark:text-gray-300 text-sm">{comment.content}</p>
         )}
 
-        {/* Actions */}
         <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-          {/* Like Button */}
           <button
             type="button"
             onClick={() => onLike(comment._id)}
@@ -109,7 +103,6 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
             <span>{comment.numberOfLikes > 0 && comment.numberOfLikes}</span>
           </button>
 
-          {/* Edit/Delete Buttons */}
           {currentUser &&
             (currentUser._id === comment.userId || currentUser.isAdmin) && (
               <>

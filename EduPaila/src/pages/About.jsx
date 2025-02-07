@@ -18,7 +18,6 @@ export default function About() {
     <div className="min-h-screen py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
        
-        {/* Hero Section */}
         <div className="relative pt-12 md:pt-24">
           <div className="absolute inset-x-0 top-0 hidden md:block">
             <div className="bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-gray-800 dark:to-gray-700 h-64 w-full opacity-10 transform skew-y-6" />
@@ -31,7 +30,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* Content Section */}
         <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden">
           <div className="px-8 py-12 md:px-16 md:py-20">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-8 text-center animate__animated animate__fadeInDown">

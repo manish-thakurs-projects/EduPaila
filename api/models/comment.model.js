@@ -14,6 +14,10 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    videoId: {
+      type: String,
+      required: true, 
+    },
     likes: {
       type: Array,
       default: [],

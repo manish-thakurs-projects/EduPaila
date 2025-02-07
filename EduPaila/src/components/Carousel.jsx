@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Carousel.css'; // Import the CSS file for styling
+import './Carousel.css';
 
 const images = [
   '/assets/ioe.png',
@@ -14,9 +14,9 @@ export default function Carousel() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Change image every 3 seconds
+    }, 3000);
 
-    return () => clearInterval(interval); // Cleanup interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (

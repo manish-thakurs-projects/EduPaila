@@ -18,7 +18,6 @@ export default function CreatePost() {
 
   const navigate = useNavigate();
 
-  // Handle image upload to Cloudinary
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -50,7 +49,6 @@ export default function CreatePost() {
     }
   };
 
-  // Handle HTML file upload and sanitize content
   const handleHtmlFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -64,7 +62,6 @@ export default function CreatePost() {
     }
   };
 
-  // Handle form submission (using JSON now, since we’re only sending text data)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -73,7 +70,7 @@ export default function CreatePost() {
         content: formData.content || '',
         category: formData.category || 'uncategorized',
         image: formData.image || '',
-        pdfUrl: formData.pdfUrl || '', // Use the PDF URL provided via text input
+        pdfUrl: formData.pdfUrl || '',
       };
 
       const res = await fetch('/api/post/create', {
@@ -101,7 +98,6 @@ export default function CreatePost() {
     <div className="p-3 max-w-3xl mx-auto min-h-screen mb-12">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a Course</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        {/* Image Upload Section */}
         STEP 1 : IMAGE
         <div className="flex gap-6 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput
@@ -143,7 +139,6 @@ export default function CreatePost() {
         )}
        STEP 2 : URL FOR DRIVE
 
-        {/* PDF URL Input Section */}
         <div className="flex flex-col gap-4">
           <TextInput
             type="text"
@@ -155,7 +150,6 @@ export default function CreatePost() {
           />
         </div>
 
-        {/* HTML File Upload Section */}
         <div className="flex flex-col gap-4">
           OR INSERT HTML
           <FileInput
@@ -167,7 +161,6 @@ export default function CreatePost() {
           {htmlFile && <p>Uploaded: {htmlFile}</p>}
         </div>
 
-        {/* Title and Category Section */}
           STEP 3 : TITLE & CATEGORY
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
@@ -193,7 +186,6 @@ export default function CreatePost() {
           </Select>
         </div>
 
-        {/* Rich Text Editor for Content */}
         FOR TEXT FILE
         <ReactQuill
           theme="snow"

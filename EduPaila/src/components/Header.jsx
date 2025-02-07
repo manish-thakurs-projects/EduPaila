@@ -47,14 +47,13 @@ export default function Header() {
     urlParams.set('searchTerm', searchTerm);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
-    setIsSearchDropdownOpen(false); // Close the dropdown after search
+    setIsSearchDropdownOpen(false);
   };
 
   return (
     <Navbar className="border-b-2 px-4 sm:px-6 lg:px-8 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm top-0 sticky z-50">
       <Logo size="w-12 sm:w-14 hover:scale-105 transition-transform" />
 
-      {/* Search Bar */}
       <form onSubmit={handleSubmit} className="hidden sm:flex items-center w-full max-w-2xl mx-4">
         <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
@@ -71,7 +70,6 @@ export default function Header() {
       </form>
 
       <div className="flex gap-3 items-center md:order-2">
-        {/* Mobile Search Icon and Dropdown */}
         <Dropdown
           arrowIcon={false}
           inline
@@ -100,7 +98,6 @@ export default function Header() {
           </form>
         </Dropdown>
 
-        {/* Theme Toggle */}
         <button
           onClick={() => dispatch(toggleTheme())}
           className="p-3.5 dark:bg-gray-800 bg-slate-400 hover:bg-slate-300 focus:outline-none rounded-full transition-all hover:scale-105"
@@ -112,7 +109,6 @@ export default function Header() {
           )}
         </button>
 
-        {/* User Authentication */}
         {currentUser ? (
           <Dropdown
             arrowIcon={false}
@@ -155,7 +151,6 @@ export default function Header() {
               Sign Out
             </Dropdown.Item>
 
-            {/* Mobile Navigation */}
             <div className="sm:hidden space-y-2 p-2">
               <Navbar.Link 
                 active={path === '/'} 
@@ -181,6 +176,14 @@ export default function Header() {
               >
                 Quizzes
               </Navbar.Link>
+              <Navbar.Link 
+                active={path === '/video'} 
+                as={Link} 
+                to="/video" 
+                className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Video
+              </Navbar.Link>
             </div>
           </Dropdown>
         ) : (
@@ -194,8 +197,6 @@ export default function Header() {
           </Link>
         )}
       </div>
-
-      {/* Desktop Navigation */}
       <Navbar.Collapse className="sm:flex space-x-4 mt-0">
         <a 
           href="/" 

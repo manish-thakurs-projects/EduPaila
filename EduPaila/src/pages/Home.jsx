@@ -44,7 +44,7 @@ export default function Home() {
   };
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden ">
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center px-3 bg-black/40
        dark:bg-black/20">
