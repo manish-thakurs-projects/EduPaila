@@ -6,7 +6,7 @@ import SignUp from '../src/pages/SignUp';
 import Dashboard from '../src/pages/Dashboard';
 import Mcqpage from '../src/pages/Mcq';
 import QuizPage from '../src/pages/QuizPage';
-import Video from '../src/pages/video';
+import Video from '../src/pages/Video';
 import VideoPage from '../src/pages/VideoPage';
 import Search from '../src/pages/Search';
 import JoinUs from '../src/pages/JoinUs';
