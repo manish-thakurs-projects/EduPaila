@@ -44,10 +44,10 @@ export default function App() {
         <Route path="/joinus" element={<JoinUs />} />
         <Route path="/quizzes" element={<Mcqpage />} />
         <Route path="/video" element={<Video />} />
-        <Route path="/video/:videoId" element={<VideoPage />} />
 
         {/* Protected User Routes */}
         <Route element={<PrivateRoute />}>
+        <Route path="/video/:videoId" element={<VideoPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
           <Route path="/quiz" element={<QuizPage />} />
