@@ -50,7 +50,7 @@ export default function App() {
         <Route path="/video/:videoId" element={<VideoPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
-          <Route path="/quiz/:quizId" element={<QuizPage />} />
+          <Route path="/quiz/:slug" element={<QuizPage />} />
         </Route>
 
         {/* Admin-Only Routes */}
