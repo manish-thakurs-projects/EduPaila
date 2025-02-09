@@ -179,7 +179,7 @@ const VideoPage = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-slate-900 rounded-xl w-full max-w-md p-6">
+          <div className="bg-white dark:bg-slate-900 rounded-xl w-4/5 max-w-md p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Share</h2>
               <button
@@ -210,7 +210,7 @@ const VideoPage = () => {
       )}
        {isReportOpen && (
               <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-                <div ref={reportPopupRef} className="bg-slate-200 dark:bg-slate-900 rounded-lg p-6 max-w-sm w-full">
+                <div ref={reportPopupRef} className="bg-slate-200 dark:bg-slate-900 rounded-lg p-6 max-w-sm w-4/5">
                   <h3 className="text-lg font-semibold">Report Issue</h3>
                   <p className='text-red-400 p-5'>
                   Please be respectful when reporting issues. Abusive language will not be tolerated. Kindly note that your report may be recorded for quality and security purposes. Thank you for your cooperation.
