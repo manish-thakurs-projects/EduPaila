@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logoimg from "../../public/assets/logo.png";
+import Logoimg from "../assets/logo.png";
 
 const Logo = ({ size = "w-24" }) => {
   return (
