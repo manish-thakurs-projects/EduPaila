@@ -61,6 +61,7 @@ const McqPage = () => {
           ))}
         </select>
       </div>
+      <h1 className="text-2xl text-center font-bold mb-8">All Quizzes</h1>
 
       {loading ? (
         <div className="flex justify-center mt-8">

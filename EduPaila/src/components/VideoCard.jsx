@@ -37,6 +37,22 @@ const VideoCard = ({ video }) => {
     };
   }, []);
 
+  const formatViews = (views) => {
+    const numViews = Number(views) || 0;
+    if (numViews >= 1e9) {
+      const formatted = numViews / 1e9;
+      return formatted.toFixed(1).replace(/\.0$/, '') + 'b';
+    } else if (numViews >= 1e6) {
+      const formatted = numViews / 1e6;
+      return formatted.toFixed(1).replace(/\.0$/, '') + 'm';
+    } else if (numViews >= 1e3) {
+      const formatted = numViews / 1e3;
+      return formatted.toFixed(1).replace(/\.0$/, '') + 'k';
+    } else {
+      return numViews.toString();
+    }
+  };
+
   const handleVideoClick = async () => {
     if (!video || !video._id) {
       console.error("Error: video._id is missing or undefined");
@@ -126,12 +142,12 @@ const VideoCard = ({ video }) => {
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center space-x-4 text-gray-500">
-              <div className="flex items-center space-x-1">
-                <span>{videoData.views || 0}</span>
-                <span>views</span>
-                <span><LuDot /></span>
-                <span>{moment(videoData.createdAt).fromNow()}</span>
-              </div>
+            <div className="flex items-center space-x-1">
+              <span>{formatViews(videoData.views)}</span>
+              <span>views</span>
+              <span><LuDot /></span>
+              <span>{moment(videoData.createdAt).fromNow()}</span>
+             </div>
             </div>
           </div>
         </div>

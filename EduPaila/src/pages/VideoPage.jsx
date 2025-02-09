@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import "./video.css"
 import { FaThumbsUp, FaShare, FaLink, FaWhatsapp, FaTimes, FaFlag } from 'react-icons/fa';
 import { Button } from 'flowbite-react';
 
@@ -11,6 +12,7 @@ const VideoPage = () => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
     const [reportMessage, setReportMessage] = useState('');
+    const [animateLike, setAnimateLike] = useState(false);
     const [isReportOpen, setIsReportOpen] = useState(false);
     const reportPopupRef = useRef(null);
   
@@ -41,6 +43,9 @@ const VideoPage = () => {
     try {
       const response = await axios.put(`/api/video/like/${videoId}`);
       setVideo((prev) => ({ ...prev, likes: response.data.likes }));
+      // Trigger animation
+      setAnimateLike(true);
+      setTimeout(() => setAnimateLike(false), 600);
     } catch (error) {
       console.error('Error liking video:', error);
     }
@@ -104,6 +109,23 @@ const VideoPage = () => {
     }
   };
 
+  
+  const formatViews = (views) => {
+    const numViews = Number(views) || 0;
+    if (numViews >= 1e9) {
+      const formatted = numViews / 1e9;
+      return formatted.toFixed(1).replace(/\.0$/, '') + 'b';
+    } else if (numViews >= 1e6) {
+      const formatted = numViews / 1e6;
+      return formatted.toFixed(1).replace(/\.0$/, '') + 'm';
+    } else if (numViews >= 1e3) {
+      const formatted = numViews / 1e3;
+      return formatted.toFixed(1).replace(/\.0$/, '') + 'k';
+    } else {
+      return numViews.toString();
+    }
+  };
+
   if (!video)
     return (
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-pulse">
@@ -131,17 +153,19 @@ const VideoPage = () => {
 
       <div className="flex flex-wrap items-center gap-4 mb-4 border-b pb-4">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600">{video.views || 0} views</span>
+          <span className="text-sm text-gray-600">{formatViews(video.views)} views</span>
           <span className="text-sm text-gray-600">{formatTimeAgo(video.createdAt)}</span>
         </div>
         <div className="flex items-center gap-2 ml-auto">
-          <button
-            onClick={handleLike}
-            className="flex items-center gap-2 px-4 focus:outline-none py-2 dark:bg-slate-900 bg-gray-300 hover:bg-gray-200 rounded-full"
-          >
-            <FaThumbsUp className="text-gray-600" />
-            <span className="text-sm font-medium">{video.likes?.length || 0}</span>
-          </button>
+        <button
+      onClick={handleLike}
+      className="flex items-center gap-2 px-4 focus:outline-none py-2 dark:bg-slate-900 bg-gray-300 hover:bg-gray-200 rounded-full"
+    >
+      <FaThumbsUp className={`text-gray-600 transition-colors ${
+        animateLike ? 'text-blue-500 animate-celebrate' : ''
+      }`} />
+      <span className="text-sm font-medium">{video.likes?.length || 0}</span>
+    </button>
           <button
             onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 px-4 py-2 focus:outline-none dark:bg-slate-900 bg-gray-300 hover:bg-gray-200 rounded-full"
