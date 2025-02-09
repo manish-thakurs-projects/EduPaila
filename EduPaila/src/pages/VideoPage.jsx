@@ -127,7 +127,7 @@ const VideoPage = () => {
         />
       </div>
 
-      <h1 className="text-2xl font-bold mt-4 mb-2">{video.title}</h1>
+      <h1 className="text-xl font-bold mt-4 mb-2">{video.title}</h1>
 
       <div className="flex flex-wrap items-center gap-4 mb-4 border-b pb-4">
         <div className="flex items-center gap-2">
@@ -164,7 +164,7 @@ const VideoPage = () => {
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs text-gray-600">#{video.category}</span>
         </div>
-        <p className={`text-sm text-gray-600 ${!isDescriptionExpanded ? 'line-clamp-3' : ''}`}>
+        <p className={`text-sm text-gray-300 ${!isDescriptionExpanded ? 'line-clamp-3' : ''}`}>
           {video.description}
         </p>
         {video.description?.length > 200 && (

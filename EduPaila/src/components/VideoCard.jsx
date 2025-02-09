@@ -96,7 +96,7 @@ const VideoCard = ({ video }) => {
 
         <div className="p-4 space-y-3">
           <div className="flex justify-between">
-            <div className="w-5/12 overflow-hidden">
+            <div className="w-full">
               <h3 className="font-semibold text-gray-900 dark:text-slate-100 line-clamp-2 mb-1 leading-tight">
                 {videoData.title}
               </h3>
