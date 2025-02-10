@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 export default function ThemeProvider({ children }) {
   const { theme } = useSelector((state) => state.theme);
@@ -12,7 +12,8 @@ export default function ThemeProvider({ children }) {
         dark:text-[rgb(200,200,210)] 
         dark:border-[rgb(70,70,100)] 
         border-[rgb(210,210,220)] 
-        border">
+        border"
+      >
         {children}
       </div>
     </div>

@@ -1,13 +1,11 @@
-import { Button } from 'flowbite-react';
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import CallToAction from '../components/CallToAction';
-import CommentSection from '../components/CommentSection';
-import PostCard from '../components/PostCard';
-import SkeletonPost from '../components/SkeletonPost';
-import '../components/page.css'
-
-
+import { Button } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import CallToAction from "../components/CallToAction";
+import CommentSection from "../components/CommentSection";
+import PostCard from "../components/PostCard";
+import SkeletonPost from "../components/SkeletonPost";
+import "../components/page.css";
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -34,9 +32,9 @@ export default function PostPage() {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', updateScrollProgress);
+    window.addEventListener("scroll", updateScrollProgress);
     return () => {
-      window.removeEventListener('scroll', updateScrollProgress);
+      window.removeEventListener("scroll", updateScrollProgress);
     };
   }, []);
 
@@ -100,16 +98,18 @@ export default function PostPage() {
           className="mt-10 max-h-[400px] w-full object-cover rounded-xl shadow-md"
         />
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-opacity-50">
-  <h1 className="text-4xl p-3 text-white text-top mx-auto lg:text-8xl uppercase text-center">
-    {post && post.title}
-  </h1>
-  <Link to={`/search?category=${post && post.category}`} className="text-2xl text-top uppercase hover:underline" >
-    <button className="text-2xl text-top uppercase hover:underline">
-      {post && post.category}
-    </button>
-  </Link>
-</div>
-
+          <h1 className="text-4xl p-3 text-white text-top mx-auto lg:text-8xl uppercase text-center">
+            {post && post.title}
+          </h1>
+          <Link
+            to={`/search?category=${post && post.category}`}
+            className="text-2xl text-top uppercase hover:underline"
+          >
+            <button className="text-2xl text-top uppercase hover:underline">
+              {post && post.category}
+            </button>
+          </Link>
+        </div>
       </div>
 
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
@@ -133,11 +133,12 @@ export default function PostPage() {
               title={post.title}
               width="100%"
               height="600px"
-              style={{ border: 'none' }}
+              style={{ border: "none" }}
               allowFullScreen
             >
               <p>
-                Your browser does not support embedded PDFs. Use other browsers if possible or
+                Your browser does not support embedded PDFs. Use other browsers
+                if possible or
                 <a href="https://wa.me/9779801996736"> contact us</a>
               </p>
             </iframe>
@@ -152,13 +153,12 @@ export default function PostPage() {
       <CommentSection postId={post._id} />
 
       <div className="flex flex-col justify-center w-full items-center mb-5">
-  <h1 className="text-xl mt-5">Recent Uploads</h1>
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 w-full px-4">
-    {recentPosts && recentPosts.map((p) => (
-      <PostCard key={p._id} post={p} />
-    ))}
-  </div>
-</div>
+        <h1 className="text-xl mt-5">Recent Uploads</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 w-full px-4">
+          {recentPosts &&
+            recentPosts.map((p) => <PostCard key={p._id} post={p} />)}
+        </div>
+      </div>
     </main>
   );
 }

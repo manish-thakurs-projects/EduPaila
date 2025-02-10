@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import QuizCard from '../components/QuizCard';
-import Spinner from '../components/Spinner';
+import React, { useEffect, useState } from "react";
+import QuizCard from "../components/QuizCard";
+import Spinner from "../components/Spinner";
 
 const McqPage = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [category, setCategory] = useState('');
+  const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -22,10 +22,11 @@ const McqPage = () => {
         const response = await fetch(`/api/quiz/getquizzes?${params}`);
         const data = await response.json();
 
-        if (!response.ok) throw new Error(data.message || 'Failed to fetch quizzes');
-        
+        if (!response.ok)
+          throw new Error(data.message || "Failed to fetch quizzes");
+
         setQuizzes(data.quizzes);
-        setError('');
+        setError("");
       } catch (err) {
         setError(err.message);
       } finally {

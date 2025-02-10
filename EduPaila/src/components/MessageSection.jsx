@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function MessageSection() {
-  return (
-    <div>MessageSection</div>
-  )
+  return <div>MessageSection</div>;
 }

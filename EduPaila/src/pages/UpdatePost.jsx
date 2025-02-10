@@ -1,26 +1,26 @@
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { useEffect, useState } from 'react';
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useEffect, useState } from "react";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import { FaUpload } from "react-icons/fa6";
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import DOMPurify from 'dompurify';
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import DOMPurify from "dompurify";
 
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
   const [htmlFile, setHtmlFile] = useState(null);
-  const [pdfUrlInput, setPdfUrlInput] = useState('');
+  const [pdfUrlInput, setPdfUrlInput] = useState("");
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({
-    title: '',
-    category: 'uncategorized',
-    image: '',
-    content: '',
+    title: "",
+    category: "uncategorized",
+    image: "",
+    content: "",
   });
   const [publishError, setPublishError] = useState(null);
   const { postId } = useParams();
@@ -38,14 +38,14 @@ export default function UpdatePost() {
         }
         setPublishError(null);
         setFormData({
-          title: data.posts[0].title || '',
-          category: data.posts[0].category || 'uncategorized',
-          image: data.posts[0].image || '',
-          content: data.posts[0].content || '',
+          title: data.posts[0].title || "",
+          category: data.posts[0].category || "uncategorized",
+          image: data.posts[0].image || "",
+          content: data.posts[0].content || "",
         });
-        setPdfUrlInput(data.posts[0].pdfUrl || '');
+        setPdfUrlInput(data.posts[0].pdfUrl || "");
       } catch (error) {
-        setPublishError('Error fetching post details');
+        setPublishError("Error fetching post details");
       }
     };
     fetchPost();
@@ -54,16 +54,16 @@ export default function UpdatePost() {
   const handleUploadImage = async () => {
     try {
       if (!file) {
-        setImageUploadError('Please select an image');
+        setImageUploadError("Please select an image");
         return;
       }
       setImageUploadError(null);
       const imageFormData = new FormData();
-      imageFormData.append('file', file);
-      imageFormData.append('upload_preset', 'edupaila'); 
-      imageFormData.append('cloud_name', 'de1hbyhq1');
+      imageFormData.append("file", file);
+      imageFormData.append("upload_preset", "edupaila");
+      imageFormData.append("cloud_name", "de1hbyhq1");
       const res = await axios.post(
-        'https://api.cloudinary.com/v1_1/de1hbyhq1/image/upload',
+        "https://api.cloudinary.com/v1_1/de1hbyhq1/image/upload",
         imageFormData,
         {
           onUploadProgress: (progressEvent) => {
@@ -77,7 +77,7 @@ export default function UpdatePost() {
       setImageUploadProgress(null);
       setFormData({ ...formData, image: res.data.secure_url });
     } catch (error) {
-      setImageUploadError('Image upload failed');
+      setImageUploadError("Image upload failed");
       setImageUploadProgress(null);
     }
   };
@@ -99,7 +99,7 @@ export default function UpdatePost() {
     e.preventDefault();
 
     if (!currentUser) {
-      setPublishError('User not authenticated');
+      setPublishError("User not authenticated");
       return;
     }
 
@@ -109,28 +109,31 @@ export default function UpdatePost() {
         content: formData.content,
         category: formData.category,
         image: formData.image,
-        pdfUrl: pdfUrlInput || '',
+        pdfUrl: pdfUrlInput || "",
       };
 
-      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-        },
-        body: JSON.stringify(dataToSend),
-      });
+      const res = await fetch(
+        `/api/post/updatepost/${postId}/${currentUser._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify(dataToSend),
+        }
+      );
 
       const data = await res.json();
 
       if (!res.ok) {
-        setPublishError(data.message || 'Failed to update post');
+        setPublishError(data.message || "Failed to update post");
         return;
       }
 
       navigate(`/post/${data.slug}`);
     } catch (error) {
-      setPublishError('Something went wrong');
+      setPublishError("Something went wrong");
     }
   };
 
@@ -146,11 +149,15 @@ export default function UpdatePost() {
             id="title"
             className="flex-1"
             value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
           />
           <Select
             value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
           >
             <option value="uncategorized">Select a category</option>
             <option value="Notes">Notes</option>
@@ -167,24 +174,38 @@ export default function UpdatePost() {
           />
           <Button
             type="button"
-            color='green'
+            color="green"
             outline
             onClick={handleUploadImage}
             disabled={imageUploadProgress}
           >
             {imageUploadProgress ? (
-              <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress}%`} />
+              <CircularProgressbar
+                value={imageUploadProgress}
+                text={`${imageUploadProgress}%`}
+              />
             ) : (
-              <div className='flex'>
-                Upload <FaUpload className='ml-3'/>
+              <div className="flex">
+                Upload <FaUpload className="ml-3" />
               </div>
             )}
           </Button>
         </div>
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-        {formData.image && <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />}
+        {formData.image && (
+          <img
+            src={formData.image}
+            alt="upload"
+            className="w-full h-72 object-cover"
+          />
+        )}
 
-        <FileInput type="file" accept=".html" onChange={handleHtmlFileUpload} label="Upload HTML File" />
+        <FileInput
+          type="file"
+          accept=".html"
+          onChange={handleHtmlFileUpload}
+          label="Upload HTML File"
+        />
         {htmlFile && <p>Uploaded: {htmlFile}</p>}
 
         <TextInput
@@ -203,8 +224,14 @@ export default function UpdatePost() {
           onChange={(value) => setFormData({ ...formData, content: value })}
         />
 
-        <Button type="submit" color='green' outline>Update Post</Button>
-        {publishError && <Alert className="mt-5" color="failure">{publishError}</Alert>}
+        <Button type="submit" color="green" outline>
+          Update Post
+        </Button>
+        {publishError && (
+          <Alert className="mt-5" color="failure">
+            {publishError}
+          </Alert>
+        )}
       </form>
     </div>
   );

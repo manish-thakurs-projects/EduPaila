@@ -10,7 +10,9 @@ export const createMessage = async (req, res, next) => {
       return next(errorHandler(400, "Message content cannot be empty"));
     }
     if (content.length > 500) {
-      return next(errorHandler(400, "Message content cannot exceed 500 characters"));
+      return next(
+        errorHandler(400, "Message content cannot exceed 500 characters")
+      );
     }
 
     const newMessage = new Message({
@@ -73,14 +75,18 @@ export const editMessage = async (req, res, next) => {
       return next(errorHandler(400, "Message content cannot be empty"));
     }
     if (content.length > 500) {
-      return next(errorHandler(400, "Message content cannot exceed 500 characters"));
+      return next(
+        errorHandler(400, "Message content cannot exceed 500 characters")
+      );
     }
 
     const message = await Message.findById(messageId);
     if (!message) return next(errorHandler(404, "Message not found"));
 
     if (message.userId.toString() !== userId) {
-      return next(errorHandler(403, "You are not allowed to edit this message"));
+      return next(
+        errorHandler(403, "You are not allowed to edit this message")
+      );
     }
 
     message.content = content;
@@ -101,7 +107,9 @@ export const deleteMessage = async (req, res, next) => {
     if (!message) return next(errorHandler(404, "Message not found"));
 
     if (message.userId.toString() !== userId) {
-      return next(errorHandler(403, "You are not allowed to delete this message"));
+      return next(
+        errorHandler(403, "You are not allowed to delete this message")
+      );
     }
 
     await Message.findByIdAndDelete(messageId);

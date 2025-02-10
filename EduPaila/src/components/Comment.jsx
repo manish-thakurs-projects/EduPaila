@@ -1,8 +1,8 @@
-import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { FaThumbsUp, FaEdit, FaTrash } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { Button, Textarea } from 'flowbite-react';
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { FaThumbsUp, FaEdit, FaTrash } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { Button, Textarea } from "flowbite-react";
 
 export default function Comment({ comment, onLike, onEdit, onDelete }) {
   const [user, setUser] = useState({});
@@ -33,9 +33,9 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
   const handleSave = async () => {
     try {
       const res = await fetch(`/api/comment/editComment/${comment._id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           content: editedContent,
@@ -55,15 +55,15 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
       <div className="flex-shrink-0 mr-3">
         <img
           className="w-12 h-12 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
-          src={user.profilePicture || '/default-avatar.png'}
-          alt={user.username || 'Anonymous User'}
+          src={user.profilePicture || "/default-avatar.png"}
+          alt={user.username || "Anonymous User"}
         />
       </div>
 
       <div className="flex-1 space-y-2">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-gray-900 dark:text-white text-base">
-            {user.username || 'Anonymous User'}
+            {user.username || "Anonymous User"}
           </span>
           <span className="text-gray-500 dark:text-gray-400 text-xs">
             {moment(comment.createdAt).fromNow()}
@@ -82,13 +82,20 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
               <Button size="sm" color="teal" onClick={handleSave}>
                 Save
               </Button>
-              <Button size="sm" color="gray" outline onClick={() => setIsEditing(false)}>
+              <Button
+                size="sm"
+                color="gray"
+                outline
+                onClick={() => setIsEditing(false)}
+              >
                 Cancel
               </Button>
             </div>
           </>
         ) : (
-          <p className="text-gray-700 dark:text-gray-300 text-sm">{comment.content}</p>
+          <p className="text-gray-700 dark:text-gray-300 text-sm">
+            {comment.content}
+          </p>
         )}
 
         <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
@@ -96,7 +103,9 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
             type="button"
             onClick={() => onLike(comment._id)}
             className={`flex items-center gap-1 hover:text-teal-600 ${
-              currentUser && comment.likes.includes(currentUser._id) && 'text-teal-600'
+              currentUser &&
+              comment.likes.includes(currentUser._id) &&
+              "text-teal-600"
             }`}
           >
             <FaThumbsUp className="text-sm" />

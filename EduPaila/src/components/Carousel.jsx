@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import './Carousel.css';
-import ioeimg from '../assets/ioe.png'
-import nebimg from '../assets/neb.png'
+import React, { useState, useEffect } from "react";
+import "./Carousel.css";
+import ioeimg from "../assets/ioe.png";
+import nebimg from "../assets/neb.png";
 
-
-const images = [ioeimg,nebimg];
+const images = [ioeimg, nebimg];
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);

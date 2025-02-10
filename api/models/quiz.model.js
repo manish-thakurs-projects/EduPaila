@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const quizSchema = new mongoose.Schema(
   {
@@ -13,7 +13,7 @@ const quizSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      default: '',
+      default: "",
     },
     questions: [
       {
@@ -37,7 +37,7 @@ const quizSchema = new mongoose.Schema(
     ],
     category: {
       type: String,
-      default: 'uncategorized',
+      default: "uncategorized",
     },
     slug: {
       type: String,
@@ -48,5 +48,5 @@ const quizSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Quiz = mongoose.model('Quiz', quizSchema);
+const Quiz = mongoose.model("Quiz", quizSchema);
 export default Quiz;

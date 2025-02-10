@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import './page.css'
+import { Link } from "react-router-dom";
+import "./page.css";
 
 export default function PostCard({ post }) {
   return (
@@ -15,13 +15,9 @@ export default function PostCard({ post }) {
         />
         <div className="absolute inset-0 group-hover:opacity-80 transition-opacity duration-300"></div>
 
-        <div
-className=" text-top absolute bottom-24 left-1/2 transform -translate-x-1/2 text-white text-5xl font-extrabold uppercase animate-pulse transition-all text-center"
->
-{post.title.split(' ')[0]}
-</div>
-
-
+        <div className=" text-top absolute bottom-24 left-1/2 transform -translate-x-1/2 text-white text-5xl font-extrabold uppercase animate-pulse transition-all text-center">
+          {post.title.split(" ")[0]}
+        </div>
       </div>
 
       <div className="p-4">

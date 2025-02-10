@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 .signIn-wrapper {
@@ -100,9 +100,9 @@
 }
 
 @media screen and (max-width: 768px) {
-.signIn-container {
-  padding: 70px 0 70px 0px;
-}
+  .signIn-container {
+    padding: 70px 0 70px 0px;
+  }
   .signIn-wrapper {
     flex-direction: column;
   }

@@ -1,14 +1,15 @@
 @keyframes celebrate {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(1.2);
-      opacity: 0.8;
-    }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  .animate-celebrate {
-    animation: celebrate 0.6s ease-out;
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
   }
+}
+
+.animate-celebrate {
+  animation: celebrate 0.6s ease-out;
+}

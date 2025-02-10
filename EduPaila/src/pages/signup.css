@@ -1,163 +1,163 @@
 .signup-container {
-    min-height: 100vh;
-    margin-top: 20px;
+  min-height: 100vh;
+  margin-top: 20px;
 }
 
 .signup-content {
-    display: flex;
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-    gap: 20px;
-    align-items: center;
+  display: flex;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  gap: 20px;
+  align-items: center;
 }
 
 .admin {
-    opacity: 0.3;
-    padding-left: 10px;
+  opacity: 0.3;
+  padding-left: 10px;
 }
 
 .signup-left,
 .signup-right {
-    flex: 1;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  flex: 1;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .intro-text {
-    margin-top: 20px;
-    font-size: 1rem;
-    text-align: center;
-    color: #8a0000;
-    background: #ffc9c973;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 20px;
-    border-radius: 20px;
+  margin-top: 20px;
+  font-size: 1rem;
+  text-align: center;
+  color: #8a0000;
+  background: #ffc9c973;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 20px;
+  border-radius: 20px;
 }
 .signup-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 500px;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .signup-footer {
-    display: flex;
-    gap: 10px;
-    font-size: 1rem;
-    margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  font-size: 1rem;
+  margin-top: 20px;
 }
 
 .footer-text {
-    color: #555;
+  color: #555;
 }
 
 .signup-link {
-    color: #3b82f6;
+  color: #3b82f6;
 }
 
 .error-alert {
-    margin-top: 40px;
-    background-color: #fd5e5e;
-    color: white;
+  margin-top: 40px;
+  background-color: #fd5e5e;
+  color: white;
 }
 
 @media (max-width: 968px) {
-    .signup-content {
-        flex-direction: column;
-        padding: 15px;
-    }
+  .signup-content {
+    flex-direction: column;
+    padding: 15px;
+  }
 
-    .signup-left,
-    .signup-right {
-        max-width: 100%;
-        flex: 1;
-    }
+  .signup-left,
+  .signup-right {
+    max-width: 100%;
+    flex: 1;
+  }
 
-    .signup-form {
-        max-width: 100%;
-        padding: 15px;
-    }
+  .signup-form {
+    max-width: 100%;
+    padding: 15px;
+  }
 
-    .logo {
-        font-size: 1.5rem;
-    }
+  .logo {
+    font-size: 1.5rem;
+  }
 
-    .highlighted-logo {
-        font-size: 1.2rem;
-    }
+  .highlighted-logo {
+    font-size: 1.2rem;
+  }
 
-    .intro-text {
-        font-size: 1rem;
-    }
+  .intro-text {
+    font-size: 1rem;
+  }
 
-    .signup-footer {
-        font-size: 0.9rem;
-    }
+  .signup-footer {
+    font-size: 0.9rem;
+  }
 
-    .signup-form input,
-    .signup-form button {
-        font-size: 1.2rem;
-        padding: 14px; 
-    }
+  .signup-form input,
+  .signup-form button {
+    font-size: 1.2rem;
+    padding: 14px;
+  }
 
-    button {
-        margin-top: 10px;
-        padding-top: 0px;
-    }
+  button {
+    margin-top: 10px;
+    padding-top: 0px;
+  }
 }
 
 @media (max-width: 768px) {
-    .logo {
-        font-size: 1.4rem;
-    }
+  .logo {
+    font-size: 1.4rem;
+  }
 
-    .highlighted-logo {
-        font-size: 1.1rem;
-    }
+  .highlighted-logo {
+    font-size: 1.1rem;
+  }
 
-    .signup-form input,
-    .signup-form button {
-        font-size: 1.3rem;
-        padding: 16px; 
-    }
+  .signup-form input,
+  .signup-form button {
+    font-size: 1.3rem;
+    padding: 16px;
+  }
 }
 
 @media (max-width: 480px) {
-    .logo {
-        font-size: 1.3rem;
-    }
+  .logo {
+    font-size: 1.3rem;
+  }
 
-    .highlighted-logo {
-        font-size: 1rem;
-    }
+  .highlighted-logo {
+    font-size: 1rem;
+  }
 
-    .signup-form {
-        padding: 12px;
-        max-width: 100%;
-    }
+  .signup-form {
+    padding: 12px;
+    max-width: 100%;
+  }
 
-    .signup-footer {
-        font-size: 0.85rem;
-        gap: 5px;
-    }
+  .signup-footer {
+    font-size: 0.85rem;
+    gap: 5px;
+  }
 
-    .signup-form input,
-    .signup-form button {
-        font-size: 1.4rem;
-        padding: 18px;
-    }
+  .signup-form input,
+  .signup-form button {
+    font-size: 1.4rem;
+    padding: 18px;
+  }
 
-    button {
-        margin-top: 12px;
-    }
+  button {
+    margin-top: 12px;
+  }
 }

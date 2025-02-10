@@ -1,12 +1,12 @@
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { FaUpload } from "react-icons/fa6";
-import { useState } from 'react';
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { useNavigate } from 'react-router-dom';
-import DOMPurify from 'dompurify';
+import { useState } from "react";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 export default function CreatePost() {
   const [file, setFile] = useState(null);
@@ -21,29 +21,29 @@ export default function CreatePost() {
   const handleUploadImage = async () => {
     try {
       if (!file) {
-        setImageUploadError('Please select an image');
+        setImageUploadError("Please select an image");
         return;
       }
       setImageUploadError(null);
       setImageUploadProgress(0);
 
       const imageFormData = new FormData();
-      imageFormData.append('file', file);
-      imageFormData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET);
+      imageFormData.append("file", file);
+      imageFormData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
       const res = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
-        method: 'POST',
+        method: "POST",
         body: imageFormData,
       });
 
       if (!res.ok) {
-        throw new Error('Image upload failed');
+        throw new Error("Image upload failed");
       }
 
       const data = await res.json();
       setFormData({ ...formData, image: data.secure_url });
       setImageUploadProgress(null);
     } catch (error) {
-      setImageUploadError('Image upload failed');
+      setImageUploadError("Image upload failed");
       setImageUploadProgress(null);
       console.error(error);
     }
@@ -66,18 +66,18 @@ export default function CreatePost() {
     e.preventDefault();
     try {
       const dataToSend = {
-        title: formData.title || '',
-        content: formData.content || '',
-        category: formData.category || 'uncategorized',
-        image: formData.image || '',
-        pdfUrl: formData.pdfUrl || '',
+        title: formData.title || "",
+        content: formData.content || "",
+        category: formData.category || "uncategorized",
+        image: formData.image || "",
+        pdfUrl: formData.pdfUrl || "",
       };
 
-      const res = await fetch('/api/post/create', {
-        method: 'POST',
+      const res = await fetch("/api/post/create", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify(dataToSend),
       });
@@ -90,13 +90,15 @@ export default function CreatePost() {
       setPublishError(null);
       navigate(`/post/${data.slug}`);
     } catch (error) {
-      setPublishError('Something went wrong');
+      setPublishError("Something went wrong");
     }
   };
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen mb-12">
-      <h1 className="text-center text-3xl my-7 font-semibold">Create a Course</h1>
+      <h1 className="text-center text-3xl my-7 font-semibold">
+        Create a Course
+      </h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         STEP 1 : IMAGE
         <div className="flex gap-6 items-center justify-between border-4 border-teal-500 border-dotted p-3">
@@ -106,9 +108,9 @@ export default function CreatePost() {
             onChange={(e) => setFile(e.target.files[0])}
             className="w-full"
           />
-             <Button
+          <Button
             type="button"
-            color='green'
+            color="green"
             outline
             onClick={handleUploadImage}
             disabled={imageUploadProgress}
@@ -121,10 +123,9 @@ export default function CreatePost() {
                 />
               </div>
             ) : (
-              <div className='flex'>
+              <div className="flex">
                 Upload
-
-              <FaUpload className='ml-3'/>
+                <FaUpload className="ml-3" />
               </div>
             )}
           </Button>
@@ -137,19 +138,17 @@ export default function CreatePost() {
             className="w-full h-72 object-cover"
           />
         )}
-       STEP 2 : URL FOR DRIVE
-
+        STEP 2 : URL FOR DRIVE
         <div className="flex flex-col gap-4">
           <TextInput
             type="text"
             placeholder="Enter PDF URL (e.g., Google Drive or Cloudinary link)"
-            value={formData.pdfUrl || ''}
+            value={formData.pdfUrl || ""}
             onChange={(e) =>
               setFormData({ ...formData, pdfUrl: e.target.value })
             }
           />
         </div>
-
         <div className="flex flex-col gap-4">
           OR INSERT HTML
           <FileInput
@@ -160,8 +159,7 @@ export default function CreatePost() {
           />
           {htmlFile && <p>Uploaded: {htmlFile}</p>}
         </div>
-
-          STEP 3 : TITLE & CATEGORY
+        STEP 3 : TITLE & CATEGORY
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -174,7 +172,7 @@ export default function CreatePost() {
             }
           />
           <Select
-            value={formData.category || 'uncategorized'}
+            value={formData.category || "uncategorized"}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
@@ -185,11 +183,10 @@ export default function CreatePost() {
             <option value="Numericals">Numericals</option>
           </Select>
         </div>
-
         FOR TEXT FILE
         <ReactQuill
           theme="snow"
-          value={formData.content || ''}
+          value={formData.content || ""}
           placeholder="Write something..."
           className="h-72 mb-12"
           required

@@ -1,15 +1,15 @@
-import { Button, Select, TextInput } from 'flowbite-react';
-import { useEffect, useState, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import PostCard from '../components/PostCard';
-import { HiFilter, HiX, HiSearch } from 'react-icons/hi';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Button, Select, TextInput } from "flowbite-react";
+import { useEffect, useState, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import PostCard from "../components/PostCard";
+import { HiFilter, HiX, HiSearch } from "react-icons/hi";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Search() {
   const [sidebarData, setSidebarData] = useState({
-    searchTerm: '',
-    sort: 'desc',
-    category: 'uncategorized',
+    searchTerm: "",
+    sort: "desc",
+    category: "uncategorized",
   });
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,16 +23,16 @@ export default function Search() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    const sortFromUrl = urlParams.get('sort');
-    const categoryFromUrl = urlParams.get('category');
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    const sortFromUrl = urlParams.get("sort");
+    const categoryFromUrl = urlParams.get("category");
 
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,
-        searchTerm: searchTermFromUrl || '',
-        sort: sortFromUrl || 'desc',
-        category: categoryFromUrl || 'uncategorized',
+        searchTerm: searchTermFromUrl || "",
+        sort: sortFromUrl || "desc",
+        category: categoryFromUrl || "uncategorized",
       });
     }
 
@@ -68,9 +68,9 @@ export default function Search() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
-    urlParams.set('searchTerm', sidebarData.searchTerm);
-    urlParams.set('sort', sidebarData.sort);
-    urlParams.set('category', sidebarData.category);
+    urlParams.set("searchTerm", sidebarData.searchTerm);
+    urlParams.set("sort", sidebarData.sort);
+    urlParams.set("category", sidebarData.category);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
@@ -78,7 +78,7 @@ export default function Search() {
   const handleShowMore = async () => {
     const startIndex = posts.length;
     const urlParams = new URLSearchParams(location.search);
-    urlParams.set('startIndex', startIndex);
+    urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
     const res = await fetch(`/api/post/getposts?${searchQuery}`);
 
@@ -91,12 +91,12 @@ export default function Search() {
 
   const sidebarVariants = {
     open: { x: 0, opacity: 1 },
-    closed: { x: '-100%', opacity: 0 }
+    closed: { x: "-100%", opacity: 0 },
   };
 
   const searchBarVariants = {
     open: { y: 0, opacity: 1, scale: 1 },
-    closed: { y: 20, opacity: 0, scale: 0.95 }
+    closed: { y: 20, opacity: 0, scale: 0.95 },
   };
 
   return (
@@ -108,8 +108,7 @@ export default function Search() {
           onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}
           className="p-4 bg-gradient-to-br from-blue-600 to-purple-600 hidden rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 "
         >
-          <HiSearch className="w-6 h-6 text-white" 
-          />
+          <HiSearch className="w-6 h-6 text-white" />
         </motion.button>
 
         <motion.button
@@ -134,7 +133,7 @@ export default function Search() {
             animate="open"
             exit="closed"
             variants={searchBarVariants}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="fixed bottom-32 right-8 z-50 bg-white dark:bg-gray-800 hidden p-4 rounded-2xl shadow-2xl backdrop-blur-lg bg-opacity-90"
           >
             <TextInput
@@ -143,7 +142,7 @@ export default function Search() {
               type="text"
               value={sidebarData.searchTerm}
               onChange={handleChange}
-              onKeyPress={(e) => e.key === 'Enter' && handleSubmit(e)}
+              onKeyPress={(e) => e.key === "Enter" && handleSubmit(e)}
               className="w-64 px-4 py-3 rounded-xl border-0 ring-2 ring-gray-200 hidden focus:ring-2 focus:ring-blue-500 transition-all"
             />
           </motion.div>
@@ -157,7 +156,7 @@ export default function Search() {
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
             className="fixed inset-y-0 left-0 z-40 w-80 bg-white dark:bg-gray-800 shadow-2xl backdrop-blur-lg bg-opacity-95"
           >
             <div className="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -232,18 +231,15 @@ export default function Search() {
       </AnimatePresence>
 
       <div className="p-6">
-        <div className='flex justify-center align-center'
-        >
-
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold mb-12 bg-gradient-to-r from-gray-800 to-blue-800 dark:from-gray-100 dark:to-blue-200 bg-clip-text text-transparent px-6"
+        <div className="flex justify-center align-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl font-bold mb-12 bg-gradient-to-r from-gray-800 to-blue-800 dark:from-gray-100 dark:to-blue-200 bg-clip-text text-transparent px-6"
           >
-          {posts.length} Resources Found
-        </motion.h1>
-
-          </div>
+            {posts.length} Resources Found
+          </motion.h1>
+        </div>
         <div className="px-6">
           {!loading && posts.length === 0 && (
             <div className="text-center py-12">

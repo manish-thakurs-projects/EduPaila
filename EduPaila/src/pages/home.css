@@ -1,24 +1,30 @@
 @keyframes fireFlicker {
-    0% {
-      text-shadow: 0px 0px 5px #ff4500, 0px 0px 10px #ff6347, 0px 0px 15px #ff0000;
-    }
-    50% {
-      text-shadow: 0px 0px 10px #ff0000, 0px 0px 15px #ff4500, 0px 0px 20px #ff6347;
-    }
-    100% {
-      text-shadow: 0px 0px 5px #ff6347, 0px 0px 10px #ff4500, 0px 0px 15px #ff0000;
-    }
+  0% {
+    text-shadow: 0px 0px 5px #ff4500, 0px 0px 10px #ff6347, 0px 0px 15px #ff0000;
   }
-  
-  @keyframes fireGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  50% {
+    text-shadow: 0px 0px 10px #ff0000, 0px 0px 15px #ff4500,
+      0px 0px 20px #ff6347;
   }
-  
-  .fire-text {
-    animation: fireFlicker 1.5s infinite alternate ease-in-out;
-    background-size: 200% 200%;
-    animation: fireGradient 3s infinite linear;
+  100% {
+    text-shadow: 0px 0px 5px #ff6347, 0px 0px 10px #ff4500, 0px 0px 15px #ff0000;
   }
-  
+}
+
+@keyframes fireGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.fire-text {
+  animation: fireFlicker 1.5s infinite alternate ease-in-out;
+  background-size: 200% 200%;
+  animation: fireGradient 3s infinite linear;
+}

@@ -1,7 +1,7 @@
-import './joinUs.css';
-import { Button } from 'flowbite-react';
-import Logo from '../components/logo';
-import { FaWhatsapp } from 'react-icons/fa';
+import "./joinUs.css";
+import { Button } from "flowbite-react";
+import Logo from "../components/logo";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function JoinUs() {
   return (
@@ -11,10 +11,14 @@ export default function JoinUs() {
           <Logo />
           <h1 className="joinUs-heading">Affordable Education for Everyone</h1>
           <p className="joinUs-description">
-            Traditional education is often expensive and inaccessible, leaving countless learners behind. At EduPaila, we’re changing this by providing high-quality, expert-curated courses for just <strong>Rs. 345</strong> after a <strong>50% discount</strong>.
+            Traditional education is often expensive and inaccessible, leaving
+            countless learners behind. At EduPaila, we’re changing this by
+            providing high-quality, expert-curated courses for just{" "}
+            <strong>Rs. 345</strong> after a <strong>50% discount</strong>.
           </p>
           <p className="joinUs-highlight">
-            No hidden fees. No overpriced tuition. Just the education you deserve at a price you can afford.
+            No hidden fees. No overpriced tuition. Just the education you
+            deserve at a price you can afford.
           </p>
           <p className="joinUs-tagline">
             Prefer to chat with us? Message us on WhatsApp now!
@@ -23,9 +27,9 @@ export default function JoinUs() {
             href="https://wa.me/9779801996736"
             target="_blank"
             rel="noopener noreferrer"
-            className='wa-btn'
+            className="wa-btn"
           >
-            <Button color='green' className="joinUs-btn">
+            <Button color="green" className="joinUs-btn">
               <FaWhatsapp className="mr-2" size={20} />
               Message Us on WhatsApp
             </Button>
@@ -38,14 +42,12 @@ export default function JoinUs() {
             method="POST"
             className="joinUs-form"
           >
-            <input 
-              type="hidden" 
-              name="access_key" 
-              value="2d69e1be-9ae1-48d3-a2c5-57634909b076" 
+            <input
+              type="hidden"
+              name="access_key"
+              value="2d69e1be-9ae1-48d3-a2c5-57634909b076"
             />
-            <h2 className="form-heading">
-Or Fill This Form
-            </h2>
+            <h2 className="form-heading">Or Fill This Form</h2>
             <div className="form-group">
               <label htmlFor="name">Your Name</label>
               <input
@@ -59,14 +61,13 @@ Or Fill This Form
             <div className="form-group">
               <label htmlFor="email">Your Phone Number</label>
               <input
-  type="tel"
-  id="email"
-  name="email"
-  placeholder="Enter your phone number"
-  pattern="^[+]?[0-9]{10,15}$"
-  required
-/>
-
+                type="tel"
+                id="email"
+                name="email"
+                placeholder="Enter your phone number"
+                pattern="^[+]?[0-9]{10,15}$"
+                required
+              />
             </div>
             <div className="form-group">
               <label htmlFor="message">Message</label>
@@ -79,8 +80,7 @@ Or Fill This Form
                 required
               ></textarea>
             </div>
-            <Button type="submit" color='blue'
-             className="form-btn">
+            <Button type="submit" color="blue" className="form-btn">
               Submit
             </Button>
           </form>

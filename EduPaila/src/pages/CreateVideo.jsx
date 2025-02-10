@@ -1,38 +1,39 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Button } from 'flowbite-react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Button } from "flowbite-react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const CreateVideo = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    youtubeUrl: '',
-    category: '',
+    title: "",
+    description: "",
+    youtubeUrl: "",
+    category: "",
   });
-  const [thumbnail, setThumbnail] = useState('');
-  const [urlError, setUrlError] = useState('');
+  const [thumbnail, setThumbnail] = useState("");
+  const [urlError, setUrlError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const extractVideoIdFromUrl = (url) => {
-    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const regex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = url.match(regex);
     return match ? match[1] : null;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'youtubeUrl') {
+    if (name === "youtubeUrl") {
       const videoId = extractVideoIdFromUrl(value);
       if (videoId) {
         setThumbnail(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
-        setUrlError('');
+        setUrlError("");
       } else {
-        setThumbnail('');
-        setUrlError('Please enter a valid YouTube URL.');
+        setThumbnail("");
+        setUrlError("Please enter a valid YouTube URL.");
       }
     }
     setFormData({ ...formData, [name]: value });
@@ -46,10 +47,10 @@ const CreateVideo = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axios.post('/api/video/create', formData);
-      navigate('/video');
+      await axios.post("/api/video/create", formData);
+      navigate("/video");
     } catch (error) {
-      console.error('Error creating video:', error);
+      console.error("Error creating video:", error);
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +103,11 @@ const CreateVideo = () => {
         {thumbnail && (
           <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">Thumbnail Preview:</h3>
-            <img src={thumbnail} alt="Video Thumbnail" className="w-full h-48 object-cover rounded" />
+            <img
+              src={thumbnail}
+              alt="Video Thumbnail"
+              className="w-full h-48 object-cover rounded"
+            />
           </div>
         )}
 
@@ -127,12 +132,12 @@ const CreateVideo = () => {
         <Button
           type="submit"
           disabled={isLoading}
-          color='green'
+          color="green"
           pill
           outline
-          className='w-full'
+          className="w-full"
         >
-          {isLoading ? 'Creating...' : 'Create Video'}
+          {isLoading ? "Creating..." : "Create Video"}
         </Button>
       </form>
     </div>

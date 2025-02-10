@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Button } from 'flowbite-react';
-import ReactQuill from 'react-quill';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { Button } from "flowbite-react";
+import ReactQuill from "react-quill";
 
 const UpdateVideo = () => {
   const { videoId } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    youtubeUrl: '',
-    category: '',
+    title: "",
+    description: "",
+    youtubeUrl: "",
+    category: "",
   });
-  const [thumbnail, setThumbnail] = useState('');
-  const [urlError, setUrlError] = useState('');
+  const [thumbnail, setThumbnail] = useState("");
+  const [urlError, setUrlError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -28,37 +28,37 @@ const UpdateVideo = () => {
       setFormData(videoData);
       if (videoData.youtubeUrl) {
         const videoId = extractVideoIdFromUrl(videoData.youtubeUrl);
-        if (videoId) setThumbnail(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
+        if (videoId)
+          setThumbnail(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
       }
     } catch (error) {
-      console.error('Error fetching video:', error);
+      console.error("Error fetching video:", error);
     }
   };
   const handleDescriptionChange = (value) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      description: value
+      description: value,
     }));
   };
-  
-
 
   const extractVideoIdFromUrl = (url) => {
-    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const regex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = url.match(regex);
     return match ? match[1] : null;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'youtubeUrl') {
+    if (name === "youtubeUrl") {
       const videoId = extractVideoIdFromUrl(value);
       if (videoId) {
         setThumbnail(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
-        setUrlError('');
+        setUrlError("");
       } else {
-        setThumbnail('');
-        setUrlError('Please enter a valid YouTube URL.');
+        setThumbnail("");
+        setUrlError("Please enter a valid YouTube URL.");
       }
     }
     setFormData({ ...formData, [name]: value });
@@ -69,9 +69,9 @@ const UpdateVideo = () => {
     setIsLoading(true);
     try {
       await axios.put(`/api/video/update/${videoId}`, formData);
-      navigate('/video');
+      navigate("/video");
     } catch (error) {
-      console.error('Error updating video:', error);
+      console.error("Error updating video:", error);
     } finally {
       setIsLoading(false);
     }
@@ -121,7 +121,11 @@ const UpdateVideo = () => {
         {thumbnail && (
           <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">Thumbnail Preview:</h3>
-            <img src={thumbnail} alt="Video Thumbnail" className="w-full h-48 object-cover rounded" />
+            <img
+              src={thumbnail}
+              alt="Video Thumbnail"
+              className="w-full h-48 object-cover rounded"
+            />
           </div>
         )}
         <label htmlFor="category" className="block text-sm font-medium mb-1">
@@ -143,13 +147,13 @@ const UpdateVideo = () => {
         </select>
         <Button
           type="submit"
-          color='blue'
+          color="blue"
           pill
           outline
-          className='w-full'
+          className="w-full"
           disabled={isLoading}
         >
-          {isLoading ? 'Updating...' : 'Update Video'}
+          {isLoading ? "Updating..." : "Update Video"}
         </Button>
       </form>
     </div>

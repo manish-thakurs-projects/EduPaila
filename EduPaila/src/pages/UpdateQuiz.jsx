@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import { FaCheck } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const UpdateQuiz = () => {
   const { quizId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    category: 'uncategorized',
+    title: "",
+    description: "",
+    category: "uncategorized",
     questions: [],
   });
 
@@ -27,7 +27,7 @@ const UpdateQuiz = () => {
           setFormData(res.data.quizzes[0]);
         }
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch quiz');
+        setError(err.response?.data?.message || "Failed to fetch quiz");
       } finally {
         setLoading(false);
       }
@@ -41,10 +41,10 @@ const UpdateQuiz = () => {
       questions: [
         ...formData.questions,
         {
-          questionText: '',
+          questionText: "",
           options: [
-            { optionText: '', isCorrect: false },
-            { optionText: '', isCorrect: false },
+            { optionText: "", isCorrect: false },
+            { optionText: "", isCorrect: false },
           ],
         },
       ],
@@ -61,7 +61,7 @@ const UpdateQuiz = () => {
   const handleAddOption = (questionIndex) => {
     const updatedQuestions = [...formData.questions];
     updatedQuestions[questionIndex].options.push({
-      optionText: '',
+      optionText: "",
       isCorrect: false,
     });
     setFormData({ ...formData, questions: updatedQuestions });
@@ -90,7 +90,7 @@ const UpdateQuiz = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const res = await axios.put(
@@ -98,14 +98,14 @@ const UpdateQuiz = () => {
         formData,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${currentUser.accessToken}`,
           },
         }
       );
 
       if (res.status === 200) {
-        toast.success('Quiz updated successfully!');
+        toast.success("Quiz updated successfully!");
         navigate(`/quiz/${res.data.slug}`);
       }
     } catch (err) {
@@ -120,36 +120,49 @@ const UpdateQuiz = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 dark:bg-slate-900 rounded-lg shadow-2xl bg-slate-100 my-20 ">
+      <h1 className="text-3xl font-bold mb-6 dark:text-slate-300 text-gray-800">
+        Update Quiz
+      </h1>
 
-      <h1 className="text-3xl font-bold mb-6 dark:text-slate-300 text-gray-800">Update Quiz</h1>
-      
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium dark:text-slate-300 text-gray-700">Title</label>
+          <label className="block text-sm font-medium dark:text-slate-300 text-gray-700">
+            Title
+          </label>
           <input
             type="text"
             value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium dark:text-slate-300 text-gray-700">Description</label>
+          <label className="block text-sm font-medium dark:text-slate-300 text-gray-700">
+            Description
+          </label>
           <textarea
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             rows="3"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium dark:text-slate-300  text-gray-700">Category</label>
+          <label className="block text-sm font-medium dark:text-slate-300  text-gray-700">
+            Category
+          </label>
           <select
             value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
             className="mt-1 block w-full rounded-md border-gray-300 dark:bg-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="uncategorized">Uncategorized</option>
@@ -161,9 +174,14 @@ const UpdateQuiz = () => {
         </div>
 
         {formData.questions.map((question, questionIndex) => (
-          <div key={questionIndex} className="border p-4 rounded-lg dark:bg-slate-900 bg-gray-50">
+          <div
+            key={questionIndex}
+            className="border p-4 rounded-lg dark:bg-slate-900 bg-gray-50"
+          >
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-medium dark:text-slate-300 text-gray-800">Question {questionIndex + 1}</h3>
+              <h3 className="text-lg font-medium dark:text-slate-300 text-gray-800">
+                Question {questionIndex + 1}
+              </h3>
               <button
                 type="button"
                 onClick={() => handleRemoveQuestion(questionIndex)}
@@ -174,11 +192,15 @@ const UpdateQuiz = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Question Text</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Question Text
+              </label>
               <input
                 type="text"
                 value={question.questionText}
-                onChange={(e) => handleQuestionChange(questionIndex, e.target.value)}
+                onChange={(e) =>
+                  handleQuestionChange(questionIndex, e.target.value)
+                }
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
@@ -191,7 +213,12 @@ const UpdateQuiz = () => {
                     type="text"
                     value={option.optionText}
                     onChange={(e) =>
-                      handleOptionChange(questionIndex, optionIndex, 'optionText', e.target.value)
+                      handleOptionChange(
+                        questionIndex,
+                        optionIndex,
+                        "optionText",
+                        e.target.value
+                      )
                     }
                     className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Option text"
@@ -203,18 +230,27 @@ const UpdateQuiz = () => {
                       name={`correct-answer-${questionIndex}`}
                       checked={option.isCorrect}
                       onChange={(e) =>
-                        handleOptionChange(questionIndex, optionIndex, 'isCorrect', e.target.checked)
+                        handleOptionChange(
+                          questionIndex,
+                          optionIndex,
+                          "isCorrect",
+                          e.target.checked
+                        )
                       }
                       className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                     />
-                    <span className="text-sm text-gray-700"><FaCheck /></span>
+                    <span className="text-sm text-gray-700">
+                      <FaCheck />
+                    </span>
                   </label>
                   <button
                     type="button"
-                    onClick={() => handleRemoveOption(questionIndex, optionIndex)}
+                    onClick={() =>
+                      handleRemoveOption(questionIndex, optionIndex)
+                    }
                     className="text-red-600 hover:text-red-800 text-sm"
                   >
-                   <MdDelete />
+                    <MdDelete />
                   </button>
                 </div>
               ))}
@@ -243,7 +279,7 @@ const UpdateQuiz = () => {
             disabled={loading}
             className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
           >
-            {loading ? 'Updating...' : 'Update Quiz'}
+            {loading ? "Updating..." : "Update Quiz"}
           </button>
         </div>
 

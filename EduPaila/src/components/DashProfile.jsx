@@ -1,6 +1,6 @@
-import { Alert, Button, Modal, ModalBody, TextInput } from 'flowbite-react';
-import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { Alert, Button, Modal, ModalBody, TextInput } from "flowbite-react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   updateStart,
   updateSuccess,
@@ -9,10 +9,10 @@ import {
   deleteUserSuccess,
   deleteUserFailure,
   signoutSuccess,
-} from '../redux/user/userSlice';
-import { useDispatch } from 'react-redux';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+} from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 export default function DashProfile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -45,14 +45,17 @@ export default function DashProfile() {
   const uploadImage = async () => {
     setImageFileUploading(true);
     setImageFileUploadError(null);
-    
+
     const formData = new FormData();
-    formData.append('file', imageFile);
-    formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET_PROFILE);
+    formData.append("file", imageFile);
+    formData.append(
+      "upload_preset",
+      import.meta.env.VITE_UPLOAD_PRESET_PROFILE
+    );
 
     try {
-      const response = await fetch( import.meta.env.VITE_CLOUDINARY_API_URL, {
-        method: 'POST',
+      const response = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
+        method: "POST",
         body: formData,
       });
       const data = await response.json();
@@ -61,11 +64,11 @@ export default function DashProfile() {
         setFormData({ ...formData, profilePicture: data.secure_url });
         setImageFileUploading(false);
       } else {
-        setImageFileUploadError('Could not upload image');
+        setImageFileUploadError("Could not upload image");
         setImageFileUploading(false);
       }
     } catch (error) {
-      setImageFileUploadError('Could not upload image');
+      setImageFileUploadError("Could not upload image");
       setImageFileUploading(false);
     }
   };
@@ -79,19 +82,19 @@ export default function DashProfile() {
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
     if (Object.keys(formData).length === 0) {
-      setUpdateUserError('No changes made');
+      setUpdateUserError("No changes made");
       return;
     }
     if (imageFileUploading) {
-      setUpdateUserError('Please wait for image to upload');
+      setUpdateUserError("Please wait for image to upload");
       return;
     }
     try {
       dispatch(updateStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -114,7 +117,7 @@ export default function DashProfile() {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       const data = await res.json();
       if (!res.ok) {
@@ -129,8 +132,8 @@ export default function DashProfile() {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch('/api/user/signout', {
-        method: 'POST',
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
       });
       const data = await res.json();
       if (!res.ok) {
@@ -165,9 +168,9 @@ export default function DashProfile() {
               strokeWidth={5}
               styles={{
                 root: {
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
                   top: 0,
                   left: 0,
                 },
@@ -185,7 +188,7 @@ export default function DashProfile() {
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
-              'opacity-60'
+              "opacity-60"
             }`}
           />
         </div>
@@ -212,71 +215,56 @@ export default function DashProfile() {
           placeholder="New password"
           onChange={handleChange}
         />
-        <div className='flex justify-center items-center gap-4'>
-        <Button
-          type="submit"
-          outline
-          color='green'
-          disabled={loading || imageFileUploading}
-         className="cursor-pointer w-1/2"
+        <div className="flex justify-center items-center gap-4">
+          <Button
+            type="submit"
+            outline
+            color="green"
+            disabled={loading || imageFileUploading}
+            className="cursor-pointer w-1/2"
           >
-          {loading ? 'Loading...' : 'Update'}
-        </Button>
-        <Button
-         type="button"
-         color='red'
-         outline
-         onClick={handleSignout} 
-         className="cursor-pointer w-1/2"
-         >
-        Sign Out
-        </Button>
-          </div>
+            {loading ? "Loading..." : "Update"}
+          </Button>
+          <Button
+            type="button"
+            color="red"
+            outline
+            onClick={handleSignout}
+            className="cursor-pointer w-1/2"
+          >
+            Sign Out
+          </Button>
+        </div>
         {/* <span onClick={() => setShowModal(true)} className="cursor-pointer">
           Delete Account
           </span> */}
 
-
-{currentUser.isAdmin && (
-  <div className="text-center">
-    <h1 className="animate-pulse capitalize">Shortcuts</h1>
-    <Link to={'/createpost'}>
-      <Button type="button" className="w-full mt-5" color="blue" outline>
-        Create a post
-      </Button>
-    </Link>
-    <Link to={'/signup'}>
-      <Button type="button" className="w-full mt-5" color="blue" outline>
-        Create new user
-      </Button>
-    </Link>
-  </div>
-)}
-
-
-
-
+        {currentUser.isAdmin && (
+          <div className="text-center">
+            <h1 className="animate-pulse capitalize">Shortcuts</h1>
+            <Link to={"/createpost"}>
+              <Button
+                type="button"
+                className="w-full mt-5"
+                color="blue"
+                outline
+              >
+                Create a post
+              </Button>
+            </Link>
+            <Link to={"/signup"}>
+              <Button
+                type="button"
+                className="w-full mt-5"
+                color="blue"
+                outline
+              >
+                Create new user
+              </Button>
+            </Link>
+          </div>
+        )}
       </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
@@ -293,7 +281,12 @@ export default function DashProfile() {
           {error}
         </Alert>
       )}
-      <Modal show={showModal} onClose={() => setShowModal(false)} popup size="md">
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size="md"
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">

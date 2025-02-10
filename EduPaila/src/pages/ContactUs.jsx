@@ -1,8 +1,8 @@
-import { Button } from 'flowbite-react';
-import React from 'react';
+import { Button } from "flowbite-react";
+import React from "react";
 import { IoMdMail } from "react-icons/io";
 import { FaPhoneAlt } from "react-icons/fa";
-import Logo from '../components/logo';
+import Logo from "../components/logo";
 
 const ContactUs = () => {
   return (
@@ -24,27 +24,32 @@ const ContactUs = () => {
             </h2>
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-              <FaPhoneAlt className='text-blue-500 text-2xl' />
+                <FaPhoneAlt className="text-blue-500 text-2xl" />
                 <div>
-                  <p className="text-gray-800 dark:text-slate-300 font-medium">Phone</p>
-                  <p className="text-gray-600 dark:text-slate-300">+977 9801996736</p>
+                  <p className="text-gray-800 dark:text-slate-300 font-medium">
+                    Phone
+                  </p>
+                  <p className="text-gray-600 dark:text-slate-300">
+                    +977 9801996736
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4">
-              <IoMdMail className='text-blue-500 text-2xl' />
+                <IoMdMail className="text-blue-500 text-2xl" />
                 <div>
-                  <p className="text-gray-800 dark:text-slate-300 font-medium">Email</p>
-                  <p className="text-gray-600 dark:text-slate-300">edupaila.np@gmail.com</p>
+                  <p className="text-gray-800 dark:text-slate-300 font-medium">
+                    Email
+                  </p>
+                  <p className="text-gray-600 dark:text-slate-300">
+                    edupaila.np@gmail.com
+                  </p>
                 </div>
               </div>
             </div>
             <div className="flex justify-center items-center  min-h-[200px] sm:min-h-[300px] md:min-h-[400px] animate-pulse">
-  <Logo size="w-40" />
-</div>
-
-
-
+              <Logo size="w-40" />
+            </div>
           </div>
 
           <div className="bg-white dark:bg-slate-900 p-8 flex flex-col justify-center items-center rounded-lg shadow-lg">
@@ -56,10 +61,17 @@ const ContactUs = () => {
               method="POST"
               className="joinUs-form space-y-4"
             >
-              <input type="hidden" name="access_key" value="2d69e1be-9ae1-48d3-a2c5-57634909b076" />
-              
+              <input
+                type="hidden"
+                name="access_key"
+                value="2d69e1be-9ae1-48d3-a2c5-57634909b076"
+              />
+
               <div>
-                <label htmlFor="name" className="block dark:text-slate-300 text-gray-700 font-medium">
+                <label
+                  htmlFor="name"
+                  className="block dark:text-slate-300 text-gray-700 font-medium"
+                >
                   Name
                 </label>
                 <input
@@ -73,7 +85,10 @@ const ContactUs = () => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block dark:text-slate-300 text-gray-700 font-medium">
+                <label
+                  htmlFor="email"
+                  className="block dark:text-slate-300 text-gray-700 font-medium"
+                >
                   Email
                 </label>
                 <input
@@ -87,7 +102,10 @@ const ContactUs = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block dark:text-slate-300 text-gray-700 font-medium">
+                <label
+                  htmlFor="message"
+                  className="block dark:text-slate-300 text-gray-700 font-medium"
+                >
                   Message
                 </label>
                 <textarea
@@ -103,9 +121,9 @@ const ContactUs = () => {
               <Button
                 type="submit"
                 pill
-                color='green'
+                color="green"
                 outline
-                className='w-full'
+                className="w-full"
               >
                 Send Message
               </Button>

@@ -6,7 +6,7 @@ const Video = () => {
   const [videos, setVideos] = useState([]);
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(""); 
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     fetchVideos();
@@ -16,7 +16,7 @@ const Video = () => {
     try {
       const response = await axios.get("/api/video/getvideos");
       setVideos(response.data);
-      setFilteredVideos(response.data); 
+      setFilteredVideos(response.data);
     } catch (error) {
       console.error("Error fetching videos:", error);
     }
@@ -73,7 +73,9 @@ const Video = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredVideos.length > 0 ? (
-          filteredVideos.map((video) => <VideoCard key={video._id} video={video} />)
+          filteredVideos.map((video) => (
+            <VideoCard key={video._id} video={video} />
+          ))
         ) : (
           <p>No videos found.</p>
         )}
