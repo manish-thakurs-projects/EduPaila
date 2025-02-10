@@ -63,7 +63,7 @@ const VideoPage = () => {
   };
   
 
-
+  const cleanDescription = video?.description ? video.description.replace(/<p><br><\/p>/g, "").trim() : '';
 
   const getYouTubeId = (url) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -185,21 +185,44 @@ const VideoPage = () => {
       </div>
 
       <div className="bg-gray-300 dark:bg-slate-900 p-4 rounded-lg">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs text-gray-600">#{video.category}</span>
-        </div>
-        <p className={`text-sm text-gray-300 ${!isDescriptionExpanded ? 'line-clamp-3' : ''}`}>
-          {video.description}
-        </p>
-        {video.description?.length > 200 && (
-          <button
-            onClick={toggleDescription}
-            className="text-sm font-medium text-blue-600 mt-2 hover:text-blue-700"
-          >
-            {isDescriptionExpanded ? 'Show less' : 'Show more'}
-          </button>
-        )}
-      </div>
+  <div className="flex items-center gap-2 mb-2">
+    <span className="text-xs text-gray-600">#{video.category}</span>
+  </div>
+  
+  <p
+    className={`text-sm text-gray-300 ${!isDescriptionExpanded ? 'line-clamp-3' : ''}`}
+    dangerouslySetInnerHTML={{ __html: cleanDescription || "No description available at the moment." }}
+  />
+  
+  {video.description?.length > 200 && (
+    <button
+      onClick={toggleDescription}
+      className="text-sm font-medium text-blue-600 mt-2 outline-none focus:outline-none hover:text-blue-700"
+    >
+      {isDescriptionExpanded ? 'Show less' : 'Show more'}
+    </button>
+  )}
+  
+  {/* Add custom link styles */}
+  <style jsx>{`
+    p a {
+      color:rgb(0, 10, 22);
+      text-decoration: none;
+      background: gray;
+      border-radius: 30px;
+      padding-left: 10px;
+      margin-top: 20px;
+      padding-right: 10px;
+    }
+
+    p a:hover {
+      color: darkblue; /* Darker blue on hover */
+      text-decoration: underline; /* Add underline on hover */
+    }
+  `}</style>
+</div>
+
+
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

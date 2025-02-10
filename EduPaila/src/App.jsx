@@ -11,6 +11,9 @@ import VideoPage from '../src/pages/VideoPage';
 import Search from '../src/pages/Search';
 import JoinUs from '../src/pages/JoinUs';
 import PostPage from '../src/pages/PostPage';
+import OurStory from './pages/OurStory';
+import ContactUs from './pages/ContactUs';
+
 
 import CreatePost from '../src/pages/CreatePost';
 import UpdatePost from '../src/pages/UpdatePost';
@@ -18,6 +21,10 @@ import CreateVideo from '../src/pages/CreateVideo';
 import CreateQuiz from '../src/pages/CreateQuiz';
 import UpdateQuiz from '../src/pages/UpdateQuiz';
 import DashQuizzes from '../src/components/DashQuizzes';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms'
+import Disclaimer from './pages/Disclaimer'
+
 
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
@@ -38,12 +45,21 @@ export default function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/aboutus" element={<About />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/search" element={<Search />} />
         <Route path="/joinus" element={<JoinUs />} />
         <Route path="/quizzes" element={<Mcqpage />} />
+        <Route path="/ourstory" element={<OurStory />} />
         <Route path="/video" element={<Video />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+        <Route path="/termsofservice" element={<Terms />} />
+        <Route path="/disclaimer" element={<Disclaimer />} />
+
+
+
+
 
         {/* Protected User Routes */}
         <Route element={<PrivateRoute />}>

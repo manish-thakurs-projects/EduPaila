@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from 'flowbite-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const CreateVideo = () => {
   const navigate = useNavigate();
@@ -36,6 +38,10 @@ const CreateVideo = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleDescriptionChange = (value) => {
+    setFormData({ ...formData, description: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -68,17 +74,16 @@ const CreateVideo = () => {
           required
         />
 
-        {/* Description Field */}
+        {/* Description Field with React Quill */}
         <label htmlFor="description" className="block text-sm font-medium mb-1">
           Description
         </label>
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Enter the video description"
+        <ReactQuill
+          theme="snow"
           value={formData.description}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
+          onChange={handleDescriptionChange}
+          className="mb-4 bg-white dark:bg-gray-800 rounded"
+          placeholder="Enter the video description"
         />
 
         {/* YouTube URL Field */}

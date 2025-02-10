@@ -161,9 +161,9 @@ export default function Header() {
                 Home
               </Navbar.Link>
               <Navbar.Link 
-                active={path === '/about'} 
+                active={path === '/aboutus'} 
                 as={Link} 
-                to="/about" 
+                to="/aboutus" 
                 className="block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 About
@@ -206,7 +206,7 @@ export default function Header() {
           <FaHome className={`${path === '/' ? 'text-white' : 'text-gray-700 dark:text-white'}`} />
         </a>
         <a 
-          href="/about" 
+          href="/aboutus" 
           className={`w-8 h-8 rounded-full flex justify-center items-center transition-all hover:scale-150 ${path === '/about' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 hover:bg-gray-300'}`}
           title="About"
         >

@@ -138,7 +138,7 @@ const VideoCard = ({ video }) => {
             </div>
           </div>
 
-          <span className="text-xs">{videoData.category}</span>
+          <span className="text-xs text-gray-600">#{videoData.category}</span>
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center space-x-4 text-gray-500">

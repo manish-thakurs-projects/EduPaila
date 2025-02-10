@@ -1,5 +1,5 @@
 import './SignIn.css';
-import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { Alert, Button, Label, Spinner, TextInput, Checkbox } from 'flowbite-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/logo';
@@ -10,6 +10,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 export default function SignIn() {
   const [formData, setFormData] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,6 +23,9 @@ export default function SignIn() {
     e.preventDefault();
     if (!formData.email || !formData.password) {
       return dispatch(signInFailure('Please fill all the fields'));
+    }
+    if (!agreeToTerms) {
+      return dispatch(signInFailure('You must agree to the Terms and Conditions'));
     }
     try {
       dispatch(signInStart());
@@ -79,6 +83,17 @@ export default function SignIn() {
                 {passwordVisible ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
+            
+            {/* Terms and Conditions Checkbox */}
+
+            <div className="form-group terms-group flex-row items-center space-x-2">
+  <Checkbox id="terms" checked={agreeToTerms} onChange={() => setAgreeToTerms(!agreeToTerms)} />
+  <Label htmlFor="terms" className="text-gray-700 dark:text-gray-300">
+    I agree to the <Link to="/termsofservice" className="text-blue-500 hover:underline">Terms and Conditions</Link>
+  </Label>
+</div>
+
+            
             <Button color='blue' type="submit" outline pill disabled={loading}>
               {loading ? (
                 <>

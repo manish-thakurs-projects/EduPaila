@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from 'flowbite-react';
+import ReactQuill from 'react-quill';
 
 const UpdateVideo = () => {
   const { videoId } = useParams();
@@ -33,6 +34,14 @@ const UpdateVideo = () => {
       console.error('Error fetching video:', error);
     }
   };
+  const handleDescriptionChange = (value) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      description: value
+    }));
+  };
+  
+
 
   const extractVideoIdFromUrl = (url) => {
     const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -91,13 +100,12 @@ const UpdateVideo = () => {
         <label htmlFor="description" className="block text-sm font-medium mb-1">
           Description
         </label>
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Enter the video description"
+        <ReactQuill
+          theme="snow"
           value={formData.description}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
+          onChange={handleDescriptionChange}
+          className="mb-4 bg-white dark:bg-slate-900 rounded"
+          placeholder="Enter the video description"
         />
 
         {/* YouTube URL Field */}

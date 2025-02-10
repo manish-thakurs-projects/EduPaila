@@ -19,14 +19,14 @@ export default function FooterCom() {
             <div>
               <Footer.Title title="About Us" className="text-lg font-semibold text-white" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="/ourstory" target="_blank" rel="noopener noreferrer">
                   Our Story
                 </Footer.Link>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
-                  Careers
-                </Footer.Link>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="/contactus" target="_blank" rel="noopener noreferrer">
                   Contact Us
+                </Footer.Link>
+                <Footer.Link href="/aboutus" target="_blank" rel="noopener noreferrer">
+                  About Us 
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
@@ -34,13 +34,13 @@ export default function FooterCom() {
             <div>
               <Footer.Title title="Resources" className="text-lg font-semibold text-white" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="/" target="_blank" rel="noopener noreferrer">
                   Blog
                 </Footer.Link>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="/contactus" target="_blank" rel="noopener noreferrer">
                   Help Center
                 </Footer.Link>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="/video" target="_blank" rel="noopener noreferrer">
                   Tutorials
                 </Footer.Link>
               </Footer.LinkGroup>
@@ -49,13 +49,13 @@ export default function FooterCom() {
             <div>
               <Footer.Title title="Legal" className="text-lg font-semibold text-white" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="privacypolicy" target="_blank" rel="noopener noreferrer">
                   Privacy Policy
                 </Footer.Link>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="/termsofservice" target="_blank" rel="noopener noreferrer">
                   Terms of Service
                 </Footer.Link>
-                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
+                <Footer.Link href="/disclaimer" target="_blank" rel="noopener noreferrer">
                   Disclaimer
                 </Footer.Link>
               </Footer.LinkGroup>
