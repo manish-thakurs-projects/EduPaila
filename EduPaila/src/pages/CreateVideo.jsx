@@ -59,7 +59,6 @@ const CreateVideo = () => {
     <div className="p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Create a New Video</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title Field */}
         <label htmlFor="title" className="block text-sm font-medium mb-1">
           Title
         </label>
@@ -74,7 +73,6 @@ const CreateVideo = () => {
           required
         />
 
-        {/* Description Field with React Quill */}
         <label htmlFor="description" className="block text-sm font-medium mb-1">
           Description
         </label>
@@ -86,7 +84,6 @@ const CreateVideo = () => {
           placeholder="Enter the video description"
         />
 
-        {/* YouTube URL Field */}
         <label htmlFor="youtubeUrl" className="block text-sm font-medium mb-1">
           YouTube URL
         </label>
@@ -102,7 +99,6 @@ const CreateVideo = () => {
         />
         {urlError && <p className="text-red-500 text-sm mt-1">{urlError}</p>}
 
-        {/* Thumbnail Preview */}
         {thumbnail && (
           <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">Thumbnail Preview:</h3>
@@ -110,7 +106,6 @@ const CreateVideo = () => {
           </div>
         )}
 
-        {/* Category Dropdown */}
         <label htmlFor="category" className="block text-sm font-medium mb-1">
           Category
         </label>
@@ -129,7 +124,6 @@ const CreateVideo = () => {
           <option value="computer">Computer</option>
         </select>
 
-        {/* Submit Button */}
         <Button
           type="submit"
           disabled={isLoading}

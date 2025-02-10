@@ -84,7 +84,6 @@ export default function SignIn() {
               </button>
             </div>
             
-            {/* Terms and Conditions Checkbox */}
 
             <div className="form-group terms-group flex-row items-center space-x-2">
   <Checkbox id="terms" checked={agreeToTerms} onChange={() => setAgreeToTerms(!agreeToTerms)} />

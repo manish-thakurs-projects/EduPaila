@@ -81,7 +81,6 @@ const UpdateVideo = () => {
     <div className="p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Update Video</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title Field */}
         <label htmlFor="title" className="block text-sm font-medium mb-1">
           Title
         </label>
@@ -95,8 +94,6 @@ const UpdateVideo = () => {
           className="w-full p-2 border rounded"
           required
         />
-
-        {/* Description Field */}
         <label htmlFor="description" className="block text-sm font-medium mb-1">
           Description
         </label>
@@ -107,8 +104,6 @@ const UpdateVideo = () => {
           className="mb-4 bg-white dark:bg-slate-900 rounded"
           placeholder="Enter the video description"
         />
-
-        {/* YouTube URL Field */}
         <label htmlFor="youtubeUrl" className="block text-sm font-medium mb-1">
           YouTube URL
         </label>
@@ -123,16 +118,12 @@ const UpdateVideo = () => {
           required
         />
         {urlError && <p className="text-red-500 text-sm mt-1">{urlError}</p>}
-
-        {/* Thumbnail Preview */}
         {thumbnail && (
           <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">Thumbnail Preview:</h3>
             <img src={thumbnail} alt="Video Thumbnail" className="w-full h-48 object-cover rounded" />
           </div>
         )}
-
-        {/* Category Dropdown */}
         <label htmlFor="category" className="block text-sm font-medium mb-1">
           Category
         </label>
@@ -150,8 +141,6 @@ const UpdateVideo = () => {
           <option value="english">English</option>
           <option value="computer">Computer</option>
         </select>
-
-        {/* Submit Button */}
         <Button
           type="submit"
           color='blue'

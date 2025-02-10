@@ -4,7 +4,6 @@ const Terms = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-slate-300">
       <div className="container mx-auto px-4 py-16">
-        {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white">Terms and Conditions</h1>
           <p className="mt-4 text-lg text-gray-600 dark:text-slate-400">
@@ -12,7 +11,6 @@ const Terms = () => {
           </p>
         </div>
 
-        {/* Terms Content */}
         <div className="space-y-8">
           <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">1. Acceptance of Terms</h2>

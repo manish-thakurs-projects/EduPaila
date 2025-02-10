@@ -5,7 +5,6 @@ import { Line } from 'react-chartjs-2';
 import { motion } from 'framer-motion';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Registering necessary chart components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const OurStory = () => {
@@ -16,7 +15,7 @@ const OurStory = () => {
     datasets: [
       {
         label: 'Cost of Education',
-        data: [500, 600, 700, 800, 1000, 1300, 1600], // Sample data points for the cost of education
+        data: [500, 600, 700, 800, 1000, 1300, 1600],
         borderColor: '#4b8b3b',
         backgroundColor: 'rgba(75, 139, 59, 0.2)',
         fill: true,
@@ -35,7 +34,7 @@ const OurStory = () => {
   };
 
   const handleNavigateToResources = () => {
-    navigate('/joinus'); // Navigate to resources page when button clicked
+    navigate('/joinus'); 
   };
 
   return (
@@ -62,7 +61,6 @@ const OurStory = () => {
         </p>
       </motion.div>
 
-      {/* Graph Section */}
       <motion.div
         className="mb-8"
         initial={{ opacity: 0 }}

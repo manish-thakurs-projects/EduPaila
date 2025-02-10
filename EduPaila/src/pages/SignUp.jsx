@@ -12,7 +12,6 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    // Stop loading when the user starts typing
     setLoading(false);
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
@@ -56,7 +55,6 @@ export default function SignUp() {
           </p>
         </div>
 
-        {/* right */}
         <div className='signup-right'>
           <form className='signup-form' onSubmit={handleSubmit}>
             <div className='form-group'>

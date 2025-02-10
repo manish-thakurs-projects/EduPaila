@@ -43,7 +43,6 @@ const VideoPage = () => {
     try {
       const response = await axios.put(`/api/video/like/${videoId}`);
       setVideo((prev) => ({ ...prev, likes: response.data.likes }));
-      // Trigger animation
       setAnimateLike(true);
       setTimeout(() => setAnimateLike(false), 600);
     } catch (error) {
@@ -203,7 +202,6 @@ const VideoPage = () => {
     </button>
   )}
   
-  {/* Add custom link styles */}
   <style jsx>{`
     p a {
       color:rgb(0, 10, 22);

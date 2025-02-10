@@ -23,12 +23,10 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Sidebar */}
       <div className="md:w-56">
         <DashSidebar />
       </div>
 
-      {/* Content based on selected tab */}
       {tab === 'profile' && <DashProfile />}
       {tab === 'posts' && <DashPosts />}
       {tab === 'users' && <DashUsers />}

@@ -44,7 +44,6 @@ export const updateQuiz = async (req, res, next) => {
       return next(errorHandler(403, 'You are not allowed to update this quiz'));
     }
 
-    // Regenerate slug if title changes
     if (req.body.title && req.body.title !== quiz.title) {
       req.body.slug = req.body.title
         .split(' ')

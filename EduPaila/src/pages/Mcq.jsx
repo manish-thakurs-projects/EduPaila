@@ -1,7 +1,6 @@
-// pages/McqPage.jsx
 import React, { useEffect, useState } from 'react';
 import QuizCard from '../components/QuizCard';
-import Spinner from '../components/Spinner'; // Or your preferred loading spinner
+import Spinner from '../components/Spinner';
 
 const McqPage = () => {
   const [quizzes, setQuizzes] = useState([]);

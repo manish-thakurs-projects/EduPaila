@@ -124,7 +124,6 @@ const UpdateQuiz = () => {
       <h1 className="text-3xl font-bold mb-6 dark:text-slate-300 text-gray-800">Update Quiz</h1>
       
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Reuse the same form fields from CreateQuiz */}
         <div>
           <label className="block text-sm font-medium dark:text-slate-300 text-gray-700">Title</label>
           <input

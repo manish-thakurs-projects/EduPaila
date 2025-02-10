@@ -8,7 +8,6 @@ const ContactUs = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 py-12">
-        {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-slate-300 sm:text-5xl">
             Get in Touch
@@ -18,9 +17,7 @@ const ContactUs = () => {
           </p>
         </div>
 
-        {/* Contact Information Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Left Side - Contact Details */}
           <div className="dark:bg-slate-900 bg-slate-300 p-8 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold dark:text-white text-gray-800 mb-6">
               Contact Information
@@ -50,7 +47,6 @@ const ContactUs = () => {
 
           </div>
 
-          {/* Right Side - Contact Form */}
           <div className="bg-white dark:bg-slate-900 p-8 flex flex-col justify-center items-center rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold dark:text-slate-300 text-gray-800 mb-6">
               Send Us a Message

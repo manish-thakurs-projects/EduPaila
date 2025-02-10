@@ -6,7 +6,6 @@ import { HiFilter, HiX, HiSearch } from 'react-icons/hi';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Search() {
-  // State declarations
   const [sidebarData, setSidebarData] = useState({
     searchTerm: '',
     sort: 'desc',
@@ -15,14 +14,13 @@ export default function Search() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Added missing state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const searchBarRef = useRef(null);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Rest of your useEffect and other logic remains the same
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
@@ -59,7 +57,6 @@ export default function Search() {
     fetchPosts();
   }, [location.search]);
 
-  // Event handlers remain the same
   const handleChange = (e) => {
     const { id, value } = e.target;
     setSidebarData((prev) => ({
@@ -92,7 +89,6 @@ export default function Search() {
     }
   };
 
-  // Animation configurations
   const sidebarVariants = {
     open: { x: 0, opacity: 1 },
     closed: { x: '-100%', opacity: 0 }
@@ -103,10 +99,8 @@ export default function Search() {
     closed: { y: 20, opacity: 0, scale: 0.95 }
   };
 
-  // The rest of your JSX remains the same
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
-      {/* Floating Action Buttons */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -132,7 +126,6 @@ export default function Search() {
         </motion.button>
       </div>
 
-      {/* Animated Search Bar */}
       <AnimatePresence>
         {isSearchBarOpen && (
           <motion.div
@@ -157,7 +150,6 @@ export default function Search() {
         )}
       </AnimatePresence>
 
-      {/* Animated Filter Sidebar */}
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -239,7 +231,6 @@ export default function Search() {
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
       <div className="p-6">
         <div className='flex justify-center align-center'
         >

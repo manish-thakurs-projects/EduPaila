@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import CommentSection from '../components/CommentSection';
 import PostCard from '../components/PostCard';
-import SkeletonPost from '../components/SkeletonPost'; // Import the Skeleton Loader
+import SkeletonPost from '../components/SkeletonPost';
 import '../components/page.css'
 
 
@@ -77,7 +77,7 @@ export default function PostPage() {
     fetchRecentPosts();
   }, []);
 
-  if (loading) return <SkeletonPost />; // Replace Spinner with Skeleton
+  if (loading) return <SkeletonPost />;
 
   if (error)
     return (
@@ -88,13 +88,11 @@ export default function PostPage() {
 
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
-      {/* Scroll Progress Bar */}
       <div
         className="fixed top-0 left-0 w-full h-1 bg-blue-500"
         style={{ width: `${scrollProgress}%` }}
       ></div>
 
-      {/* Post Image with Title and Category over it */}
       <div className="relative">
         <img
           src={post && post.image}
@@ -114,7 +112,6 @@ export default function PostPage() {
 
       </div>
 
-      {/* Post Metadata */}
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
         <span className="italic">
@@ -122,13 +119,11 @@ export default function PostPage() {
         </span>
       </div>
 
-      {/* Post Content */}
       <div
         className="p-3 max-w-2xl mx-auto w-full post-content"
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
 
-      {/* PDF Preview Section */}
       {post && post.pdfUrl && (
         <div className="p-3 max-w-2xl mx-auto w-full mt-3 mb-10">
           <h2 className="text-xl font-semibold mb-3">Attached PDF</h2>
@@ -150,17 +145,11 @@ export default function PostPage() {
         </div>
       )}
 
-      {/* Call to Action */}
       <div className="max-w-4xl mx-auto w-full mt-10 mb-9">
         <CallToAction />
       </div>
 
-      {/* Comment Section */}
       <CommentSection postId={post._id} />
-
-      {/* Recent Articles */}
-
-
 
       <div className="flex flex-col justify-center w-full items-center mb-5">
   <h1 className="text-xl mt-5">Recent Uploads</h1>
@@ -170,11 +159,6 @@ export default function PostPage() {
     ))}
   </div>
 </div>
-
- 
-
-
-
     </main>
   );
 }

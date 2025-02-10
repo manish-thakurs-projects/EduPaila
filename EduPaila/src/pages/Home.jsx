@@ -29,7 +29,6 @@ export default function Home() {
     fetchPosts();
   }, []);
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -45,7 +44,6 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden ">
-      {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center px-3 bg-black/40
        dark:bg-black/20">
         <div className="max-w-6xl mx-auto text-center text-white space-y-8">
@@ -77,7 +75,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Posts Section */}
       <section className="max-w-7xl mx-auto px-3 py-8">
         <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-red-600 fire-text">
@@ -139,7 +136,6 @@ export default function Home() {
         )}
       </section>
 
-      {/* Value Proposition Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-3 grid md:grid-cols-3 gap-8">
           <div className="text-center p-6 rounded-xl">

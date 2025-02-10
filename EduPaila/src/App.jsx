@@ -13,8 +13,6 @@ import JoinUs from '../src/pages/JoinUs';
 import PostPage from '../src/pages/PostPage';
 import OurStory from './pages/OurStory';
 import ContactUs from './pages/ContactUs';
-
-
 import CreatePost from '../src/pages/CreatePost';
 import UpdatePost from '../src/pages/UpdatePost';
 import CreateVideo from '../src/pages/CreateVideo';
@@ -24,15 +22,11 @@ import DashQuizzes from '../src/components/DashQuizzes';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms'
 import Disclaimer from './pages/Disclaimer'
-
-
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import ScrollToTop from '../src/components/ScrollToTop';
 import PrivateRoute from '../src/components/PrivateRoute';
 import OnlyAdminPrivateRoute from '../src/components/OnlyAdminPrivateRoute';
-
-
 import UpdateVideo from '../src/pages/UpdateVideo';
 
 
@@ -43,7 +37,6 @@ export default function App() {
       <ScrollToTop />
       <Header />
       <Routes>
-        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/aboutus" element={<About />} />
         <Route path="/signin" element={<SignIn />} />
@@ -56,20 +49,12 @@ export default function App() {
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
         <Route path="/termsofservice" element={<Terms />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
-
-
-
-
-
-        {/* Protected User Routes */}
         <Route element={<PrivateRoute />}>
         <Route path="/video/:videoId" element={<VideoPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
           <Route path="/quiz/:slug" element={<QuizPage />} />
         </Route>
-
-        {/* Admin-Only Routes */}
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/createpost" element={<CreatePost />} />

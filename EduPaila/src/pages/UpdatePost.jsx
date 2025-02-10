@@ -51,7 +51,6 @@ export default function UpdatePost() {
     fetchPost();
   }, [postId]);
 
-  // Handle image upload to Cloudinary
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -61,8 +60,8 @@ export default function UpdatePost() {
       setImageUploadError(null);
       const imageFormData = new FormData();
       imageFormData.append('file', file);
-      imageFormData.append('upload_preset', 'edupaila'); // Replace with your preset
-      imageFormData.append('cloud_name', 'de1hbyhq1'); // Replace with your cloud name
+      imageFormData.append('upload_preset', 'edupaila'); 
+      imageFormData.append('cloud_name', 'de1hbyhq1');
       const res = await axios.post(
         'https://api.cloudinary.com/v1_1/de1hbyhq1/image/upload',
         imageFormData,
@@ -83,7 +82,6 @@ export default function UpdatePost() {
     }
   };
 
-  // Handle HTML file upload and sanitize content
   const handleHtmlFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -97,7 +95,6 @@ export default function UpdatePost() {
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -141,7 +138,6 @@ export default function UpdatePost() {
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Update Post</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        {/* Title and Category Section */}
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -163,7 +159,6 @@ export default function UpdatePost() {
           </Select>
         </div>
 
-        {/* Image Upload Section */}
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput
             type="file"
@@ -189,11 +184,9 @@ export default function UpdatePost() {
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
         {formData.image && <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />}
 
-        {/* HTML File Upload */}
         <FileInput type="file" accept=".html" onChange={handleHtmlFileUpload} label="Upload HTML File" />
         {htmlFile && <p>Uploaded: {htmlFile}</p>}
 
-        {/* PDF URL Input */}
         <TextInput
           type="text"
           placeholder="Enter PDF URL"
@@ -201,7 +194,6 @@ export default function UpdatePost() {
           onChange={(e) => setPdfUrlInput(e.target.value)}
         />
 
-        {/* Content Editor */}
         <ReactQuill
           theme="snow"
           value={formData.content}
